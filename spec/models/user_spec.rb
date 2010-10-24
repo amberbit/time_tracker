@@ -6,7 +6,7 @@ describe User do
   end
 
   it "should not be saved when invalid attributes were provided" do
-    [:email, :password, :password_confirmation, :pivotal_tracker_api_key].each do |field|
+    [:email, :password, :pivotal_tracker_api_key].each do |field|
       lambda {
         puts "testing #{field}"
         User.create! user_attributes(field => nil) 

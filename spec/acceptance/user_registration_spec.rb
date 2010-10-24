@@ -12,11 +12,10 @@ feature "User Registration", %q{
 
     fill_in 'Email', with: 'john.doe@example.org'
     fill_in 'Password', with: 'foobar'
-    fill_in 'Password confirmation', with: 'foobar'
     fill_in 'Pivotal Tracker API key', with: '12345678901234567890123456789012'
     click_button 'Sign up'
 
-    page.should have_content("Welcome to Time Tracker!")
+    page.should have_content("You have signed up successfully")
     User.count.should eql(1)
   end
 

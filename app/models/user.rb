@@ -9,5 +9,4 @@ class User
 
   field :pivotal_tracker_api_key
   validates_presence_of :pivotal_tracker_api_key
-  validates_confirmation_of :password
 end
