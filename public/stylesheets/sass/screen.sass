@@ -8,7 +8,9 @@ body
   :background -webkit-gradient(linear, 0% 0%, 0% 100%, from($bluetext), to($body_bg_gradient_end))
   :background-color $body_bg_gradient_end
   :background-repeat no-repeat
+
 header, footer, #content
+  :display block
   :width 940px
   :padding 10px
   :margin 0 auto
@@ -26,8 +28,6 @@ header
  
 footer
   @include round-corners(0, 0, 5px, 5px)
-
-
 
 #content
   :min-height 500px
