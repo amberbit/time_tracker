@@ -1,0 +1,33 @@
+@import utils
+
+$bluetext = #045FB4
+$body_bg_gradient_end = #0A0A2A
+body
+  :min-height 100%
+  :background -moz-linear-gradient(100% 100% 90deg, $bluetext, $body_bg_gradient_end)
+  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from($bluetext), to($body_bg_gradient_end))
+  :background-color $body_bg_gradient_end
+  :background-repeat no-repeat
+header, footer, #content
+  :width 940px
+  :padding 10px
+  :margin 0 auto
+  :background-color white
+
+header
+  :margin-top 10px
+  @include round-corners(5px, 5px, 0, 0)
+  h1
+    :font-size 32px
+    :font-weight bold
+    :color $bluetext
+    :letter-spacing -1px
+    :text-shadow 1px 1px 5px #aaa
+ 
+footer
+  @include round-corners(0, 0, 5px, 5px)
+
+
+
+#content
+  :min-height 500px

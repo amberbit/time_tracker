@@ -1,0 +1,29 @@
+@mixin round-corners-no-ie($topleft, $topright, $bottomright, $bottomleft)
+  :-webkit-border-radius $topleft $topright $bottomright $bottomleft 
+  :-moz-border-radius $topleft $topright $bottomright $bottomleft 
+  :-o-border-radius $topleft $topright $bottomright $bottomleft 
+  :-khtml-border-radius $topleft $topright $bottomright $bottomleft 
+  :border-radius $topleft $topright $bottomright $bottomleft 
+
+@mixin round-corners($topleft, $topright, $bottomright, $bottomleft)
+  @include round-corners-no-ie($topleft, $topright, $bottomright, $bottomleft)
+  :behavior url(/stylesheets/PIE.htc)
+  :position relative
+
+@mixin box-shadow($color, $right, $top, $blur)
+  :-webkit-box-shadow $color $right $top $blur
+  :-moz-box-shadow $color $right $top $blur
+  :-o-box-shadow $color $right $top $blur
+  :-khtml-box-shadow $color $right $top $blur
+  :box-shadow $color $right $top $blur
+  :zoom 1
+  :filter progid:DXImageTransform.Microsoft.Shadow(color='#969696', Direction=135, Strength=3)
+
+@mixin opacity($value)
+  :-moz-opacity $value
+  :-webkit-opacity $value
+  :-o-opacity $value
+  :opacity $value
+  :filter alpha(opacity=100*$value)
+
+

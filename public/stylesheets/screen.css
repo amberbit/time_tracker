@@ -1,0 +1,40 @@
+body {
+  min-height: 100%;
+  background: -moz-linear-gradient(100% 100% 90deg, #045fb4, #0a0a2a);
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#045fb4), to(#0a0a2a));
+  background-color: #0a0a2a;
+  background-repeat: no-repeat; }
+
+header, footer, #content {
+  width: 940px;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: white; }
+
+header {
+  margin-top: 10px;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -o-border-radius: 5px 5px 0 0;
+  -khtml-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+  behavior: url(/stylesheets/PIE.htc);
+  position: relative; }
+  header h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #045fb4;
+    letter-spacing: -1px;
+    text-shadow: 1px 1px 5px #aaaaaa; }
+
+footer {
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  -o-border-radius: 0 0 5px 5px;
+  -khtml-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+  behavior: url(/stylesheets/PIE.htc);
+  position: relative; }
+
+#content {
+  min-height: 500px; }

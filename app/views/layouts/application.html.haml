@@ -1,0 +1,16 @@
+!!! 5
+%html
+  %head
+    %title TimeTracker
+    = stylesheet_link_tag "reset.css", "screen.css"
+    = javascript_include_tag :defaults 
+    = csrf_meta_tag 
+  %body
+    %header
+      %h1 TimeTracker
+      %p.notice= notice
+      %p.alert= alert
+    %section#content  
+      = yield 
+    %footer
+      Copyright 2010 &copy; Wojciech Piekutowski, Hubert Łępicki
