@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.1'
 gem 'mongoid', '2.0.0.beta.19'
 gem 'bson_ext', '1.1.1'
+gem 'haml', '3.0.22'
 gem 'devise', '1.1.3'
 gem 'pivotal-tracker', '0.2.2'
 

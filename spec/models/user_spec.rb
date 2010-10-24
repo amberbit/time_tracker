@@ -1,5 +1,16 @@
 require 'spec_helper'
 
 describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "should be saved when valid attributes were provided" do
+    User.create! user_attributes
+  end
+
+  it "should not be saved when invalid attributes were provided" do
+    [:email, :password, :password_confirmation, :pivotal_tracker_api_key].each do |field|
+      lambda {
+        puts "testing #{field}"
+        User.create! user_attributes(field => nil) 
+      }.should raise_error
+    end
+  end
 end
