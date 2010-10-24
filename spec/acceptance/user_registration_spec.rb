@@ -24,10 +24,11 @@ feature "User Registration", %q{
     click_link 'sign up'
 
     fill_in 'Email', with: 'john.doe@example.org'
-    fill_in 'Pivotal Tracker API key', with: '12345678901234567890123456789012'
+    fill_in 'Password', with: 'foobar'
+ 
     click_button 'Sign up'
 
-    page.should have_content("Password can't be blank")
+    page.should have_content("Pivotal tracker api key can't be blank")
     User.count.should eql(0)
   end
 end
