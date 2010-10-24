@@ -8,7 +8,7 @@ feature "User Registration", %q{
 
   scenario "successful" do
     visit homepage
-    click_link 'sign up'
+    click_link 'Sign up'
 
     fill_in 'Email', with: 'john.doe@example.org'
     fill_in 'Password', with: 'foobar'
@@ -21,7 +21,7 @@ feature "User Registration", %q{
 
   scenario "unsuccessful" do
     visit homepage
-    click_link 'sign up'
+    click_link 'Sign up'
 
     fill_in 'Email', with: 'john.doe@example.org'
     fill_in 'Password', with: 'foobar'

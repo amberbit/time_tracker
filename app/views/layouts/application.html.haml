@@ -10,6 +10,11 @@
       %h1 TimeTracker
       %p.notice= notice
       %p.alert= alert
+      %nav
+        %ul
+          %li= link_to "Home", new_user_registration_path
+          %li= link_to "Sign up", new_user_registration_path
+          %li= link_to "Sign in", new_user_session_path
     %section#content  
       = yield 
     %footer

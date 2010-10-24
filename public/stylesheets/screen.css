@@ -1,7 +1,7 @@
 body {
   min-height: 100%;
-  background: -moz-linear-gradient(100% 100% 90deg, #045fb4, #0a0a2a);
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#045fb4), to(#0a0a2a));
+  background: -moz-linear-gradient(100% 100% 90deg, #0a0a2a, #084b8a);
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, to(#0a0a2a), from(#084b8a));
   background-color: #0a0a2a;
   background-repeat: no-repeat; }
 
@@ -10,9 +10,14 @@ header, footer, #content {
   width: 940px;
   padding: 10px;
   margin: 0 auto;
-  background-color: white; }
+  background-color: white;
+  border-style: solid;
+  border-color: #0a0a2a; }
 
 header {
+  background-image: url(/images/small_clock.png);
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
   margin-top: 10px;
   -webkit-border-radius: 5px 5px 0 0;
   -moz-border-radius: 5px 5px 0 0;
@@ -20,13 +25,60 @@ header {
   -khtml-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
   behavior: url(/stylesheets/PIE.htc);
-  position: relative; }
+  position: relative;
+  height: 32px; }
   header h1 {
     font-size: 32px;
     font-weight: bold;
-    color: #045fb4;
+    color: #0a0a2a;
     letter-spacing: -1px;
-    text-shadow: 1px 1px 5px #aaaaaa; }
+    text-shadow: 1px 1px 5px #aaaaaa;
+    margin-left: 50px; }
+  header nav {
+    display: block;
+    text-align: right;
+    margin-top: -42px;
+    margin-left: 500px;
+    margin-right: 50px; }
+    header nav ul {
+      display: block;
+      list-style-type: none;
+      margin: 0;
+      padding: 0; }
+      header nav ul li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        border-width: 0 1px 1px 1px;
+        border-style: solid;
+        border-color: #084b8a;
+        height: 30px;
+        line-height: 30px;
+        margin: 0 3px 0px 3px;
+        padding: 0 10px;
+        -webkit-border-radius: 0 0 5px 5px;
+        -moz-border-radius: 0 0 5px 5px;
+        -o-border-radius: 0 0 5px 5px;
+        -khtml-border-radius: 0 0 5px 5px;
+        border-radius: 0 0 5px 5px;
+        behavior: url(/stylesheets/PIE.htc);
+        position: relative;
+        background: -moz-linear-gradient(100% 100% 90deg, #084b8a, #0a0a2a);
+        background: -webkit-gradient(linear, 0% 0%, 0% 100%, to(#084b8a), from(#0a0a2a));
+        -webkit-box-shadow: #aaaaaa 2px 1px 3px;
+        -moz-box-shadow: #aaaaaa 2px 1px 3px;
+        -o-box-shadow: #aaaaaa 2px 1px 3px;
+        -khtml-box-shadow: #aaaaaa 2px 1px 3px;
+        box-shadow: #aaaaaa 2px 1px 3px;
+        zoom: 1;
+        filter: progid:DXImageTransform.Microsoft.Shadow(color='#969696', Direction=135, Strength=3); }
+        header nav ul li a, header nav ul li a:visited {
+          color: white;
+          font-weight: bold;
+          text-decoration: none; }
+        header nav ul li a:hover {
+          text-shadow: 0 0 5px white; }
 
 footer {
   -webkit-border-radius: 0 0 5px 5px;
@@ -35,7 +87,20 @@ footer {
   -khtml-border-radius: 0 0 5px 5px;
   border-radius: 0 0 5px 5px;
   behavior: url(/stylesheets/PIE.htc);
-  position: relative; }
+  position: relative;
+  margin-bottom: 10px; }
+
+header {
+  border-width: 1px 1px 0 1px; }
+
+footer {
+  border-width: 0 1px 1px 1px; }
+
+#content {
+  border-width: 0 1px 0 1px;
+  background-image: url(/images/semi_transparent_clock.png);
+  background-repeat: no-repeat;
+  background-position: 550px 0; }
 
 #content {
   min-height: 500px; }

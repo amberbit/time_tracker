@@ -1,12 +1,11 @@
 @import utils
 
-$bluetext = #045FB4
-$body_bg_gradient_end = #0A0A2A
+$blue = #084B8A
+$dark_blue = #0A0A2A
 body
   :min-height 100%
-  :background -moz-linear-gradient(100% 100% 90deg, $bluetext, $body_bg_gradient_end)
-  :background -webkit-gradient(linear, 0% 0%, 0% 100%, from($bluetext), to($body_bg_gradient_end))
-  :background-color $body_bg_gradient_end
+  @include vertical-gradient($blue, $dark_blue)
+  :background-color $dark_blue
   :background-repeat no-repeat
 
 header, footer, #content
@@ -15,19 +14,76 @@ header, footer, #content
   :padding 10px
   :margin 0 auto
   :background-color white
+  :border
+    :style solid
+    :color $dark_blue
 
 header
+  :background
+    :image url(/images/small_clock.png)
+    :position 5px 5px
+    :repeat no-repeat
   :margin-top 10px
   @include round-corners(5px, 5px, 0, 0)
+  :height 32px
   h1
     :font-size 32px
     :font-weight bold
-    :color $bluetext
+    :color $dark_blue
     :letter-spacing -1px
     :text-shadow 1px 1px 5px #aaa
- 
+    :margin-left 50px
+  nav
+    :display block
+    :text-align right
+    :margin-top -42px
+    :margin-left 500px
+    :margin-right 50px
+    ul
+      :display block
+      :list-style-type none
+      :margin 0
+      :padding 0
+      li
+        :list-style-type none
+        :margin 0
+        :padding 0
+        :display inline-block
+        :border
+          :width 0 1px 1px 1px
+          :style solid 
+          :color $blue
+        :height 30px
+        :line-height 30px
+        :margin 0 3px 0px 3px
+        :padding 0 10px
+        @include round-corners(0, 0, 5px, 5px) 
+        @include vertical-gradient($dark_blue, $blue)
+        @include box-shadow(#aaa, 2px, 1px, 3px)
+        a, a:visited
+          :color white
+          :font-weight bold
+          :text-decoration none
+        a:hover
+          :text-shadow 0 0 5px #fff
+
 footer
   @include round-corners(0, 0, 5px, 5px)
+  :margin-bottom 10px
+
+header
+  :border
+    :width 1px 1px 0 1px
+footer
+  :border
+    :width 0 1px 1px 1px
+#content
+  :border
+    :width 0 1px 0 1px
+  :background
+    :image url(/images/semi_transparent_clock.png)
+    :repeat no-repeat
+    :position 550px 0
 
 #content
   :min-height 500px
