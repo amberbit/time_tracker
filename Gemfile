@@ -35,5 +35,6 @@ group :development, :test do
   gem 'rspec-rails', '2.0.1'
   gem 'steak', '>= 1.0.0.rc.1'
   gem 'capybara'
+  gem 'fakeweb', '1.3.0'
 end
 

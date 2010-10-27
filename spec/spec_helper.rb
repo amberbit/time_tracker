@@ -39,6 +39,28 @@ def user_attributes(attrs = {})
     :email => "example@amberbit.com",
     :password => "asdf1234",
     :password_confirmation => "asdf1234",
-    :pivotal_tracker_api_key => '12345678901234567890123456789012'
+    :pivotal_tracker_api_token => '12345678901234567890123456789012'
   }.merge(attrs)
 end
+
+def project_attributes(attrs = {})
+  { :pivotal_tracker_project_id => Project.count + 1,
+    :name => "To conquer the world!"  }.merge(attrs)
+end
+
+def task_attributes(attrs = {})
+  { :name => "To ressurect an unicorn",
+    :pivotal_tracker_story_id => Task.count + 1,
+    :project => Project.first || Project.create!(project_attributes) }
+end
+
+
+def fake_pivotal_api
+    FakeWeb.register_uri(:get, "http://www.pivotaltracker.com/services/v3/projects",
+                         :body => File.read(File.join(Rails.root, "spec", "fixtures", "projects.xml")))
+    FakeWeb.register_uri(:get, "http://www.pivotaltracker.com/services/v3/projects/1/stories",
+                         :body => File.read(File.join(Rails.root, "spec", "fixtures", "stories1.xml")))
+    FakeWeb.register_uri(:get, "http://www.pivotaltracker.com/services/v3/projects/2/stories",
+                         :body => File.read(File.join(Rails.root, "spec", "fixtures", "stories2.xml")))
+end
+

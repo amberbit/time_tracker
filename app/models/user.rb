@@ -7,6 +7,7 @@ class User
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  field :pivotal_tracker_api_key
-  validates_presence_of :pivotal_tracker_api_key
+  field :pivotal_tracker_api_token
+  validates_presence_of :pivotal_tracker_api_token
+  references_many :tasks
 end

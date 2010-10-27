@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stories type="array" count="2" total="2">
+  <story>
+    <id type="integer">3</id>
+    <project_id type="integer">2</project_id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/3</url>
+    <estimate type="integer">1</estimate>
+    <current_state>accepted</current_state>
+    <description></description>
+    <name>Prepare servers</name>
+    <requested_by>John</requested_by>
+    <owned_by>Jane Doe</owned_by>
+    <created_at type="datetime">2008/12/10 00:00:00 UTC</created_at>
+    <accepted_at type="datetime">2008/12/10 00:00:00 UTC</accepted_at>
+    <labels>label 1,label 2,label 3</labels>
+  </story>
+  <story>
+    <id type="integer">2</id>
+    <project_id type="integer">1</project_id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/1</url>
+    <estimate type="integer">1</estimate>
+    <current_state>unscheduled</current_state>
+    <description></description>
+    <name>Work out more</name>
+    <requested_by>Gregory House</requested_by>
+    <owned_by>Lisa Cuddy</owned_by>
+    <created_at type="datetime">2008/12/10 00:00:00 UTC</created_at>
+    <accepted_at type="datetime">2008/12/10 00:00:00 UTC</accepted_at>
+    <labels>label 1,label 2,label 3</labels>
+  </story>
+</stories>
+
