@@ -8,7 +8,6 @@ describe User do
   it "should not be saved when invalid attributes were provided" do
     [:email, :password, :pivotal_tracker_api_token].each do |field|
       lambda {
-        puts "testing #{field}"
         User.create! user_attributes(field => nil) 
       }.should raise_error
     end

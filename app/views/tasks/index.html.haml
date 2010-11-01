@@ -1,5 +1,7 @@
 = select_tag :project_id, options_for_select([["Select Project", tasks_path]] + current_user.projects.collect{|p| [p.name, project_tasks_path(p)]}, @project ? project_tasks_path(@project) : tasks_path), class: "jump_to_url"
 
+= link_to "Refresh list of tasks", download_tasks_path
+
 %ul
 - @tasks.each do |task|
   %li

@@ -3,7 +3,11 @@ TimeTracker::Application.routes.draw do
 
   devise_for :users
 
-  resources :tasks
+  resources :tasks do
+    collection do
+      get :download
+    end
+  end
 
   resources :projects do
     resources :tasks do

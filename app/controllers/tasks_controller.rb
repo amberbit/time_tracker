@@ -3,12 +3,16 @@ class TasksController < AuthenticatedController
   before_filter :find_task, :only => [:start_work, :stop_work]
 
   def index
-    Task.download_for_user(current_user)
     if @project
       @tasks = current_user.tasks.find(:all, conditions: {project_id: @project.id})
     else
       @tasks = current_user.tasks
     end
+  end
+
+  def download
+    Task.download_for_user(current_user)
+    redirect_to :back
   end
 
   def start_work

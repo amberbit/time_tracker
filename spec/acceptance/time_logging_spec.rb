@@ -11,6 +11,7 @@ feature "Time logging", %q{
     fake_pivotal_api
     sign_in_as "user@amberbit.com"
     visit tasks_list
+    click_link "Refresh list of tasks"
 
     click_link "Start work"
     TimeLogEntry.count.should eql(1)
