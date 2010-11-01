@@ -114,6 +114,7 @@ GEM
     steak (1.0.0.rc.1)
       rspec
     thor (0.14.3)
+    timecop (0.3.5)
     treetop (1.4.8)
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
@@ -137,3 +138,4 @@ DEPENDENCIES
   rails (= 3.0.1)
   rspec-rails (= 2.0.1)
   steak (>= 1.0.0.rc.1)
+  timecop

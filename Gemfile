@@ -36,5 +36,6 @@ group :development, :test do
   gem 'steak', '>= 1.0.0.rc.1'
   gem 'capybara'
   gem 'fakeweb', '1.3.0', require: false
+  gem 'timecop'
 end
 

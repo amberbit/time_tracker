@@ -11,6 +11,7 @@ class Task
   
   referenced_in :project
   referenced_in :user
+  references_many :time_log_entries, :dependent => :nullify
 
   validates_presence_of :name, :pivotal_tracker_story_id, :project
 
