@@ -29,3 +29,16 @@
 @mixin vertical-gradient($from, $to)
   :background -moz-linear-gradient(100% 100% 90deg, $to, $from)
   :background -webkit-gradient(linear, 0% 0%, 0% 100%, to($to), from($from))
+
+@mixin icon($file)
+  :display block
+  :width 16px
+  :height 16px
+  span
+    :display none
+  :background
+    :repeat no-repeat
+    :position center center
+    :image url($file)
+  
+

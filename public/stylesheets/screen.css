@@ -32,8 +32,12 @@ header {
     font-weight: bold;
     color: #0a0a2a;
     letter-spacing: -1px;
-    text-shadow: 1px 1px 5px #aaaaaa;
-    margin-left: 50px; }
+    text-shadow: 1px 1px 5px #aaaaaa; }
+    header h1 a, header h1 a:visited, header h1 a:hover {
+      color: #0a0a2a;
+      text-decoration: none;
+      display: inline-block;
+      padding-left: 50px; }
   header nav {
     display: block;
     text-align: right;
@@ -97,10 +101,67 @@ footer {
   border-width: 0 1px 1px 1px; }
 
 #content {
+  font-size: 12px;
+  min-height: 500px;
   border-width: 0 1px 0 1px;
   background-image: url(/images/semi_transparent_clock.png);
   background-repeat: no-repeat;
   background-position: 550px 0; }
+  #content ul.tasks {
+    margin: 0; }
+    #content ul.tasks li {
+      padding: 5px;
+      display: block;
+      margin: 2px 0;
+      background-color: transparent;
+      -webkit-border-radius: 5px 5px 5px 5px;
+      -moz-border-radius: 5px 5px 5px 5px;
+      -o-border-radius: 5px 5px 5px 5px;
+      -khtml-border-radius: 5px 5px 5px 5px;
+      border-radius: 5px 5px 5px 5px;
+      behavior: url(/stylesheets/PIE.htc);
+      position: relative;
+      border: 1px solid #084b8a; }
+      #content ul.tasks li:hover {
+        background-color: #084b8a;
+        color: white; }
+      #content ul.tasks li a, #content ul.tasks li a:visited, #content ul.tasks li a:hover {
+        float: right; }
 
-#content {
-  min-height: 500px; }
+.icon-start {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("/images/icons/control_play_blue.png"); }
+  .icon-start span {
+    display: none; }
+
+.icon-stop {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("/images/icons/control_pause_blue.png"); }
+  .icon-stop span {
+    display: none; }
+
+.notice, .alert {
+  display: block;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  border-style: solid;
+  border-width: 2px; }
+
+.notice {
+  border-color: #008b00;
+  color: #008b00;
+  background-color: #efffef; }
+
+.alert {
+  border-color: #d70000;
+  color: #d70000;
+  background-color: #ffefef; }

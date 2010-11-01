@@ -2,11 +2,11 @@
 
 = link_to "Refresh list of tasks", download_tasks_path
 
-%ul
-- @tasks.each do |task|
-  %li
-    = task.name
-    - if current_user.current_time_log_entry(task.project) && current_user.current_time_log_entry(task.project).task_id == task.id
-      = link_to "Stop work", [:stop_work, task.project, task]
-    - else
-      = link_to "Start work", [:start_work, task.project, task]
+%ul.tasks
+  - @tasks.each do |task|
+    %li
+      %span= task.name
+      - if current_user.current_time_log_entry(task.project) && current_user.current_time_log_entry(task.project).task_id == task.id
+        = link_to([:stop_work, task.project, task], class: "icon-stop") { content_tag(:span, "Start work") }
+      - else
+        = link_to([:start_work, task.project, task], class: "icon-start") { content_tag(:span, "Stop work") }

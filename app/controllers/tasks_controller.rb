@@ -11,7 +11,11 @@ class TasksController < AuthenticatedController
   end
 
   def download
-    Task.download_for_user(current_user)
+    begin
+      Task.download_for_user(current_user)
+    rescue Exception => e
+      flash[:alert] = "Could not download new tasks! One kitten just died"
+    end
     redirect_to :back
   end
 

@@ -1,13 +1,13 @@
 .right
-  = link_to t("time_log_entries.new"), new_project_time_log_entry_path(@project)
+  = link_to t("time_log_entries.new"), new_project_time_log_entry_path(@project) if @project
 .worked-time
-  = TimeFormatter::format @project.worked_time(@from, @to, params[:user_id])
-- form_tag project_time_log_entries_path(@project), {method: :get, class: "simple-filtering"} do
+  = TimeFormatter::format @project.worked_time(@from, @to, params[:user_id]) if @project
+
+- form_tag @project ? project_time_log_entries_path(@project) : time_log_entries_path, {method: :get, class: "simple-filtering"} do
   = label_tag :from, t("from")
-  = text_field_tag :from, params[:from] || @project.created_at.to_date, class: "date-picker", size: 10
+  = text_field_tag :from, params[:from] || @project ? @project.created_at.to_date : 1.year.ago, class: "date-picker", size: 10
   = label_tag :to, t("to")
   = text_field_tag :to, params[:to] || Time.zone.now.to_date, class: "date-picker", size: 10
-  = label_tag :user_id, t("user")
  
   = submit_tag t("submit")
 
@@ -16,7 +16,7 @@
   .time-log-entry
     .entry-date
       = localize entry.created_at, :format => :short
-      = link_to t("edit"), edit_project_time_log_entry_path(@project, entry) if current_user == entry.user
+      = link_to t("edit"), edit_project_time_log_entry_path(@project, entry) if @project && current_user == entry.user
 
     .entry-duration
       = TimeFormatter::format(entry.number_of_seconds)

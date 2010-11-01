@@ -38,7 +38,6 @@ class Task
       http.use_ssl = true 
       headers = {'X-TrackerToken' => some_user.pivotal_tracker_api_token}
       stories_response = http.get("/services/v3/projects/#{pivotal_project[:id]}/stories", headers)
-
       stories = Hpricot(stories_response.body).search("story").collect do
         |s| {id: s.search("id")[0].inner_text.to_i, name: s.search("name")[0].inner_text, 
              current_state: s.search("current_state")[0].inner_text}

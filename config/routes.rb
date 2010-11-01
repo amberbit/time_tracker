@@ -19,6 +19,8 @@ TimeTracker::Application.routes.draw do
     resources :time_log_entries
   end
 
+  resources :time_log_entries
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

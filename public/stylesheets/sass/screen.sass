@@ -2,6 +2,8 @@
 
 $blue = #084B8A
 $dark_blue = #0A0A2A
+$green = #008b00 
+$red = #d70000
 body
   :min-height 100%
   @include vertical-gradient($blue, $dark_blue)
@@ -32,7 +34,11 @@ header
     :color $dark_blue
     :letter-spacing -1px
     :text-shadow 1px 1px 5px #aaa
-    :margin-left 50px
+    a, a:visited, a:hover
+      :color $dark_blue
+      :text-decoration none
+      :display inline-block
+      :padding-left 50px
   nav
     :display block
     :text-align right
@@ -77,13 +83,55 @@ header
 footer
   :border
     :width 0 1px 1px 1px
+
 #content
+  :font-size 12px
+  :min-height 500px
   :border
     :width 0 1px 0 1px
   :background
     :image url(/images/semi_transparent_clock.png)
     :repeat no-repeat
     :position 550px 0
+  ul.tasks
+    :margin 0
+    li
+      :padding 5px
+      :display block
+      :margin 2px 0
+      :background-color transparent
+      @include round-corners(5px, 5px, 5px, 5px)
+      :border 1px solid $blue
+      &:hover
+        :background-color $blue
+        :color white
+      a, a:visited, a:hover
+        :float right
 
-#content
-  :min-height 500px
+.icon-start
+  @include icon("/images/icons/control_play_blue.png")
+
+.icon-stop
+  @include icon("/images/icons/control_pause_blue.png")
+
+
+.notice, .alert
+  :display block
+  :padding 10px
+  :font-size 20px
+  :font-weight bold
+  :border
+    :style solid
+    :width 2px
+
+.notice
+  :border
+    :color $green
+  :color $green
+  :background-color #efffef
+
+.alert
+  :border
+    :color $red
+  :color $red
+  :background-color #ffefef

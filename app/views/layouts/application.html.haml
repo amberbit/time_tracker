@@ -7,18 +7,21 @@
     = csrf_meta_tag 
   %body
     %header
-      %h1 TimeTracker
+      %h1= link_to "TimeTracker", root_path
       %nav
         %ul
           %li= link_to "Home", new_user_registration_path
           - if current_user
+            %li= link_to "My profile", edit_user_registration_path
             %li= link_to "Sign out", destroy_user_session_path
           - else
             %li= link_to "Sign up", new_user_registration_path
             %li= link_to "Sign in", new_user_session_path
-      %p.notice= notice
-      %p.alert= alert
     %section#content  
+      - unless notice.blank?
+        %p.notice= notice
+      - unless alert.blank?
+        %p.alert= alert
       = yield 
     %footer
       Copyright 2010 &copy; Wojciech Piekutowski, Hubert Łępicki
