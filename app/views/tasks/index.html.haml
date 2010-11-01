@@ -4,9 +4,15 @@
 
 %ul.tasks
   - @tasks.each do |task|
-    %li
-      %span= task.name
-      - if current_user.current_time_log_entry(task.project) && current_user.current_time_log_entry(task.project).task_id == task.id
+    %li{:class => "#{'current' if is_current_task?(task)}"}
+      %span.task_name
+        = link_to "##{task.pivotal_tracker_story_id}", "http://www.pivotaltracker.com/story/show/#{task.pivotal_tracker_story_id}", target: "_blank"
+        = task.name
+      - if is_current_task?(task)
         = link_to([:stop_work, task.project, task], class: "icon-stop", title: "Stop work") { content_tag(:span, "Stop work") }
       - else
         = link_to([:start_work, task.project, task], class: "icon-start", title: "Start work") { content_tag(:span, "Start work") }
+      %span.iteration{title: "Iteration #{task.iteration_number}"} 
+        = task.iteration_number
+      %span.project{title: "Project: #{task.project.name}", :style => "background-color: #{color_from_number(task.project.pivotal_tracker_project_id)}"}
+        = link_to task.project.name, [task.project, :tasks]

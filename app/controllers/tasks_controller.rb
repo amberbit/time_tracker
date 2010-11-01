@@ -4,9 +4,9 @@ class TasksController < AuthenticatedController
 
   def index
     if @project
-      @tasks = current_user.tasks.find(:all, conditions: {project_id: @project.id})
+      @tasks = current_user.tasks.find(:all, conditions: {project_id: @project.id}).asc(:project_id).desc(:iteration_number)
     else
-      @tasks = current_user.tasks
+      @tasks = current_user.tasks.asc(:project_id).desc(:iteration_number)
     end
   end
 

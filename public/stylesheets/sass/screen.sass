@@ -4,6 +4,8 @@ $blue = #084B8A
 $dark_blue = #0A0A2A
 $green = #008b00 
 $red = #d70000
+$highlighted = #fffaaf
+
 body
   :min-height 100%
   @include vertical-gradient($blue, $dark_blue)
@@ -84,6 +86,9 @@ footer
   :border
     :width 0 1px 1px 1px
 
+a, a:visited, a:hover
+  :color $blue
+
 #content
   :font-size 12px
   :min-height 500px
@@ -105,8 +110,41 @@ footer
       &:hover
         :background-color $blue
         :color white
-      a, a:visited, a:hover
+        a, a:visited, a:hover
+          :color white
+        span.iteration, span.project
+          @include box-shadow(#222, 2px, 1px, 3px)
+      .icon-start, .icon-stop
         :float right
+      span.task_name
+        :width 750px
+        :display inline-block
+      span.iteration, span.project
+        :display block
+        :font-size 10px
+        :line-height 10px
+        :height 10px
+        :float right
+        :margin -5px 5px 0 0 
+        :padding 2px 5px 2px 5px
+        :color white
+        @include round-corners(0, 0, 2px, 2px) 
+        @include box-shadow(#666, 2px, 1px, 3px)
+      span.iteration
+        @include vertical-gradient($dark_blue, $blue)
+      span.project
+        a, a:visited, a:hover
+          :color $blue
+          :text-decoration none
+
+    li.current
+      :background-color $highlighted
+      :font-weight bold
+      :color $blue
+      &:hover
+        :color $blue
+        a, a:visited, a:hover
+          :color $blue
 
 .icon-start
   @include icon("/images/icons/control_play_blue.png")

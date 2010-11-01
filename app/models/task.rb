@@ -8,6 +8,7 @@ class Task
 
   field :name
   field :pivotal_tracker_story_id, :type => Integer
+  field :iteration_number, :type => Integer
   
   referenced_in :project
   referenced_in :user
@@ -37,19 +38,27 @@ class Task
       http = Net::HTTP.new("www.pivotaltracker.com", 443)
       http.use_ssl = true 
       headers = {'X-TrackerToken' => some_user.pivotal_tracker_api_token}
-      stories_response = http.get("/services/v3/projects/#{pivotal_project[:id]}/stories", headers)
-      stories = Hpricot(stories_response.body).search("story").collect do
-        |s| {id: s.search("id")[0].inner_text.to_i, name: s.search("name")[0].inner_text, 
-             current_state: s.search("current_state")[0].inner_text}
+      stories_response = http.get("/services/v3/projects/#{pivotal_project[:id]}/iterations", headers)
+
+      iterations = Hpricot(stories_response.body).search("iteration").collect do
+        |s| s.search("number")[0].inner_text.to_i 
       end
 
-      stories.each do |pivotal_story|
-        unless pivotal_story[:current_state] == "unscheduled"
-          task = Task.find_or_initialize_by(:project_id => our_project.id,
-                                            :pivotal_tracker_story_id => pivotal_story[:id],
-                                            :user_id => some_user.id)
-          task.name = pivotal_story[:name]
-          task.save!
+      iterations.each do |iteration|
+        stories = Hpricot(stories_response.body).search("/iterations/iteration:eq(#{iterations.index(iteration)})/stories/story").collect do
+          |s| {id: s.search("id")[0].inner_text.to_i, name: s.search("name")[0].inner_text, 
+               current_state: s.search("current_state")[0].inner_text}
+        end
+
+        stories.each do |pivotal_story|
+          unless pivotal_story[:current_state] == "unscheduled"
+            task = Task.find_or_initialize_by(:project_id => our_project.id,
+                                              :pivotal_tracker_story_id => pivotal_story[:id],
+                                              :user_id => some_user.id)
+            task.name = pivotal_story[:name]
+            task.iteration_number = iteration
+            task.save!
+          end
         end
       end
     end

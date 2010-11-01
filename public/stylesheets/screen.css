@@ -100,6 +100,9 @@ header {
 footer {
   border-width: 0 1px 1px 1px; }
 
+a, a:visited, a:hover {
+  color: #084b8a; }
+
 #content {
   font-size: 12px;
   min-height: 500px;
@@ -125,8 +128,58 @@ footer {
       #content ul.tasks li:hover {
         background-color: #084b8a;
         color: white; }
-      #content ul.tasks li a, #content ul.tasks li a:visited, #content ul.tasks li a:hover {
+        #content ul.tasks li:hover a, #content ul.tasks li:hover a:visited, #content ul.tasks li:hover a:hover {
+          color: white; }
+        #content ul.tasks li:hover span.iteration, #content ul.tasks li:hover span.project {
+          -webkit-box-shadow: #222222 2px 1px 3px;
+          -moz-box-shadow: #222222 2px 1px 3px;
+          -o-box-shadow: #222222 2px 1px 3px;
+          -khtml-box-shadow: #222222 2px 1px 3px;
+          box-shadow: #222222 2px 1px 3px;
+          zoom: 1;
+          filter: progid:DXImageTransform.Microsoft.Shadow(color='#969696', Direction=135, Strength=3); }
+      #content ul.tasks li .icon-start, #content ul.tasks li .icon-stop {
         float: right; }
+      #content ul.tasks li span.task_name {
+        width: 750px;
+        display: inline-block; }
+      #content ul.tasks li span.iteration, #content ul.tasks li span.project {
+        display: block;
+        font-size: 10px;
+        line-height: 10px;
+        height: 10px;
+        float: right;
+        margin: -5px 5px 0 0;
+        padding: 2px 5px 2px 5px;
+        color: white;
+        -webkit-border-radius: 0 0 2px 2px;
+        -moz-border-radius: 0 0 2px 2px;
+        -o-border-radius: 0 0 2px 2px;
+        -khtml-border-radius: 0 0 2px 2px;
+        border-radius: 0 0 2px 2px;
+        behavior: url(/stylesheets/PIE.htc);
+        position: relative;
+        -webkit-box-shadow: #666666 2px 1px 3px;
+        -moz-box-shadow: #666666 2px 1px 3px;
+        -o-box-shadow: #666666 2px 1px 3px;
+        -khtml-box-shadow: #666666 2px 1px 3px;
+        box-shadow: #666666 2px 1px 3px;
+        zoom: 1;
+        filter: progid:DXImageTransform.Microsoft.Shadow(color='#969696', Direction=135, Strength=3); }
+      #content ul.tasks li span.iteration {
+        background: -moz-linear-gradient(100% 100% 90deg, #084b8a, #0a0a2a);
+        background: -webkit-gradient(linear, 0% 0%, 0% 100%, to(#084b8a), from(#0a0a2a)); }
+      #content ul.tasks li span.project a, #content ul.tasks li span.project a:visited, #content ul.tasks li span.project a:hover {
+        color: #084b8a;
+        text-decoration: none; }
+    #content ul.tasks li.current {
+      background-color: #fffaaf;
+      font-weight: bold;
+      color: #084b8a; }
+      #content ul.tasks li.current:hover {
+        color: #084b8a; }
+        #content ul.tasks li.current:hover a, #content ul.tasks li.current:hover a:visited, #content ul.tasks li.current:hover a:hover {
+          color: #084b8a; }
 
 .icon-start {
   display: block;
