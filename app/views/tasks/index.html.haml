@@ -7,6 +7,6 @@
     %li
       %span= task.name
       - if current_user.current_time_log_entry(task.project) && current_user.current_time_log_entry(task.project).task_id == task.id
-        = link_to([:stop_work, task.project, task], class: "icon-stop") { content_tag(:span, "Start work") }
+        = link_to([:stop_work, task.project, task], class: "icon-stop", title: "Stop work") { content_tag(:span, "Stop work") }
       - else
-        = link_to([:start_work, task.project, task], class: "icon-start") { content_tag(:span, "Stop work") }
+        = link_to([:start_work, task.project, task], class: "icon-start", title: "Start work") { content_tag(:span, "Start work") }
