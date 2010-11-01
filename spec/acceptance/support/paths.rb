@@ -4,6 +4,10 @@ module NavigationHelpers
   def homepage
     "/"
   end
+
+  def tasks_list
+    "/tasks"
+  end
 end
 
 RSpec.configuration.include NavigationHelpers, :type => :acceptance

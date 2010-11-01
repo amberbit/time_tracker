@@ -2,6 +2,7 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'fakeweb'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -56,11 +57,11 @@ end
 
 
 def fake_pivotal_api
-    FakeWeb.register_uri(:get, "http://www.pivotaltracker.com/services/v3/projects",
+    FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects",
                          :body => File.read(File.join(Rails.root, "spec", "fixtures", "projects.xml")))
-    FakeWeb.register_uri(:get, "http://www.pivotaltracker.com/services/v3/projects/1/stories",
+    FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects/1/stories",
                          :body => File.read(File.join(Rails.root, "spec", "fixtures", "stories1.xml")))
-    FakeWeb.register_uri(:get, "http://www.pivotaltracker.com/services/v3/projects/2/stories",
+    FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects/2/stories",
                          :body => File.read(File.join(Rails.root, "spec", "fixtures", "stories2.xml")))
 end
 

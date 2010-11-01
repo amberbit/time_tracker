@@ -9,5 +9,6 @@ class User
 
   field :pivotal_tracker_api_token
   validates_presence_of :pivotal_tracker_api_token
+  references_many :projects, :store_as => :array
   references_many :tasks
 end
