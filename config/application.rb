@@ -4,6 +4,11 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 
+["time_formatter"].each do |item|
+  require File.join(File.dirname(__FILE__), "..", "lib", item)
+end
+
+
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env) if defined?(Bundler)

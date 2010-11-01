@@ -6,7 +6,13 @@ TimeTracker::Application.routes.draw do
   resources :tasks
 
   resources :projects do
-    resources :tasks
+    resources :tasks do
+      member do
+        get :start_work
+        get :stop_work
+      end
+    end
+    resources :time_log_entries
   end
 
   # The priority is based upon order of creation:
@@ -56,7 +62,7 @@ TimeTracker::Application.routes.draw do
   #     resources :products
   #   end
 
-  root :to => "welcome#index"
+  root :to => "tasks#index"
 
   # See how all your routes lay out with "rake routes"
 

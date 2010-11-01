@@ -139,3 +139,4 @@ DEPENDENCIES
   rspec-rails (= 2.0.1)
   steak (>= 1.0.0.rc.1)
   timecop
+  will_paginate

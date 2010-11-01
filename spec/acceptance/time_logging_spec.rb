@@ -9,9 +9,7 @@ feature "Time logging", %q{
   
   scenario "Logging time for User Story" do
     fake_pivotal_api
-
     sign_in_as "user@amberbit.com"
-    
     visit tasks_list
 
     click_link "Start work"

@@ -6,6 +6,7 @@ gem 'bson_ext', '1.1.1'
 gem 'haml', '3.0.22'
 gem 'devise', '1.1.3'
 gem 'hpricot'
+gem 'will_paginate'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

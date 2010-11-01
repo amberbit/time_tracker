@@ -105,7 +105,6 @@ describe TimeLogEntry do
     end
     entry.close
     TimeLogEntry.count.should eql(2)
-    puts entry.inspect
     @project.worked_time.should eql(120) 
   end
 
