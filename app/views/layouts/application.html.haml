@@ -8,13 +8,16 @@
   %body
     %header
       %h1 TimeTracker
-      %p.notice= notice
-      %p.alert= alert
       %nav
         %ul
           %li= link_to "Home", new_user_registration_path
-          %li= link_to "Sign up", new_user_registration_path
-          %li= link_to "Sign in", new_user_session_path
+          - if current_user
+            %li= link_to "Sign out", destroy_user_session_path
+          - else
+            %li= link_to "Sign up", new_user_registration_path
+            %li= link_to "Sign in", new_user_session_path
+      %p.notice= notice
+      %p.alert= alert
     %section#content  
       = yield 
     %footer
