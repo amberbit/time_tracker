@@ -10,8 +10,9 @@
       %h1= link_to "TimeTracker", root_path
       %nav
         %ul
-          %li= link_to "Home", new_user_registration_path
           - if current_user
+            %li= link_to "Tasks", root_path
+            %li= link_to "Logged time", time_log_entries_path
             %li= link_to "My profile", edit_user_registration_path
             %li= link_to "Sign out", destroy_user_session_path
           - else

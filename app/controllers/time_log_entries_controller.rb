@@ -3,24 +3,16 @@ class TimeLogEntriesController < AuthenticatedController
   before_filter :find_time_log_entry, :only => [:edit, :update]
 
   def index
-    @from = @project ? @project.created_at : 1.year.ago
-    @to = Time.zone.now
-
     query = {sort: ["created_at", "desc"], page: params[:page], 
              per_page: 20, conditions: {user_id: current_user.id}}
 
     query[:conditions][:project_id] = @project.id if @project
 
-    if params[:from] && params[:to]
-      @from = query[:conditions][:created_at.gte] = Time.parse(params[:from])
-      @to = query[:conditions][:created_at.lte] = Time.parse(params[:to]).tomorrow
-    end
-
     @time_log_entries = TimeLogEntry.paginate(query)
   end
 
   def new
-    @time_log_entry = TimeLogEntry.new
+    @time_log_entry = TimeLogEntry.new params[:time_log_entry]
   end
 
   def edit; end
@@ -37,7 +29,7 @@ class TimeLogEntriesController < AuthenticatedController
   end
 
   def update
-    Can.edit?(current_user, @time_log_entry) do
+    if @time_log_entry.user == current_user
       @time_log_entry.project = @project
    
       if @time_log_entry.update_attributes(params[:time_log_entry])
@@ -59,6 +51,6 @@ class TimeLogEntriesController < AuthenticatedController
   end
 
   def find_time_log_entry
-    @time_log_entry = TimeLogEntry.find(params[:id])
+    @time_log_entry = current_user.time_log_entries.find(params[:id])
   end
 end

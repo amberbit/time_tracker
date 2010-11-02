@@ -180,6 +180,26 @@ a, a:visited, a:hover {
         color: #084b8a; }
         #content ul.tasks li.current:hover a, #content ul.tasks li.current:hover a:visited, #content ul.tasks li.current:hover a:hover {
           color: #084b8a; }
+  #content .time-log-entry {
+    padding: 5px;
+    display: block;
+    margin: 2px 0;
+    background-color: transparent;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -o-border-radius: 5px 5px 5px 5px;
+    -khtml-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    behavior: url(/stylesheets/PIE.htc);
+    position: relative;
+    border: 1px solid #084b8a; }
+    #content .time-log-entry:hover {
+      background-color: #084b8a;
+      color: white; }
+      #content .time-log-entry:hover a, #content .time-log-entry:hover a:visited, #content .time-log-entry:hover a:hover {
+        color: white; }
+    #content .time-log-entry .entry-duration {
+      font-size: 16px; }
 
 .icon-start {
   display: block;

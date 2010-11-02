@@ -1,27 +1,29 @@
+%h2= "Time log entries #{"for project " + @project.name if @project}"
+
+= select_tag :project_id, options_for_select([["Select Project", time_log_entries_path]] + current_user.projects.collect{|p| [p.name, project_time_log_entries_path(p)]}, @project ? project_time_log_entries_path(@project) : time_log_entries_path), class: "jump_to_url"
+
 .right
-  = link_to t("time_log_entries.new"), new_project_time_log_entry_path(@project) if @project
+  = link_to "New log entry", new_project_time_log_entry_path(@project) if @project
 .worked-time
-  = TimeFormatter::format @project.worked_time(@from, @to, params[:user_id]) if @project
-
-- form_tag @project ? project_time_log_entries_path(@project) : time_log_entries_path, {method: :get, class: "simple-filtering"} do
-  = label_tag :from, t("from")
-  = text_field_tag :from, params[:from] || @project ? @project.created_at.to_date : 1.year.ago, class: "date-picker", size: 10
-  = label_tag :to, t("to")
-  = text_field_tag :to, params[:to] || Time.zone.now.to_date, class: "date-picker", size: 10
- 
-  = submit_tag t("submit")
-
+  You have worked:
+  = TimeFormatter::format @project.worked_time(1.year.ago, Time.zone.now, current_user.id) if @project
+  on this project
 
 - @time_log_entries.each do |entry|
   .time-log-entry
-    .entry-date
-      = localize entry.created_at, :format => :short
-      = link_to t("edit"), edit_project_time_log_entry_path(@project, entry) if @project && current_user == entry.user
-
-    .entry-duration
+    %span.entry-duration
       = TimeFormatter::format(entry.number_of_seconds)
-    .entry-worked-on
-      = t("worked_on")
+    %span.entry-date
+      = localize entry.created_at, :format => :short
+      = link_to "Edit", edit_project_time_log_entry_path(entry.task.project, entry) if entry.task && current_user == entry.user
+
+    - if entry.task
+      .entry-worked-on
+        = link_to "##{entry.task.pivotal_tracker_story_id}",                                         |
+                  "http://www.pivotaltracker.com/story/show/#{entry.task.pivotal_tracker_story_id}", |
+                  target: "_blank"                                                                   |
+        = entry.task.name
+      
 
 = will_paginate @time_log_entries
 
