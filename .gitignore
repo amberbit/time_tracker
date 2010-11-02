@@ -5,3 +5,4 @@ tmp/**/*
 public/stylesheets/utils.css
 Capfile
 config/deploy.rb
+.redcar/*

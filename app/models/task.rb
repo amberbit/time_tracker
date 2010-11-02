@@ -7,17 +7,16 @@ class Task
   include Mongoid::Timestamps
 
   field :name
-  field :pivotal_tracker_story_id, :type => Integer
-  field :iteration_number, :type => Integer
+  field :pivotal_tracker_story_id, type: Integer
+  field :iteration_number, type: Integer
   
   referenced_in :project
   referenced_in :user
-  references_many :time_log_entries, :dependent => :nullify
+  references_many :time_log_entries, dependent: :nullify
 
   validates_presence_of :name, :pivotal_tracker_story_id, :project
 
   def self.download_for_user(some_user)
-    projects_uri = URI.parse("https:///services/v3/projects")
     http = Net::HTTP.new("www.pivotaltracker.com", 443)
     http.use_ssl = true 
     headers = {'X-TrackerToken' => some_user.pivotal_tracker_api_token}
@@ -29,7 +28,7 @@ class Task
     end
 
     projects.each do |pivotal_project|
-      our_project = Project.find_or_initialize_by :pivotal_tracker_project_id => pivotal_project[:id]
+      our_project = Project.find_or_initialize_by pivotal_tracker_project_id: pivotal_project[:id]
       our_project.name = pivotal_project[:name]
       our_project.save!
 
@@ -52,9 +51,9 @@ class Task
 
         stories.each do |pivotal_story|
           unless pivotal_story[:current_state] == "unscheduled"
-            task = Task.find_or_initialize_by(:project_id => our_project.id,
-                                              :pivotal_tracker_story_id => pivotal_story[:id],
-                                              :user_id => some_user.id)
+            task = Task.find_or_initialize_by(project_id: our_project.id,
+                                              pivotal_tracker_story_id: pivotal_story[:id],
+                                              user_id: some_user.id)
             task.name = pivotal_story[:name]
             task.iteration_number = iteration
             task.save!
@@ -64,4 +63,3 @@ class Task
     end
   end
 end
-

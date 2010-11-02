@@ -8,6 +8,7 @@ class Project
 
   references_many :tasks
   references_many :time_log_entries
+  references_many :users, stored_as: :array, inverse_of: :projects
 
   validates_presence_of :name, :pivotal_tracker_project_id
 

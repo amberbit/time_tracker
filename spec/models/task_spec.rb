@@ -21,7 +21,8 @@ end
 describe Task, "downloading from PT" do
   before :each do
     fake_pivotal_api
-    @user = User.create user_attributes
+    @user = User.create! user_attributes
+    @user2 = User.create! user_attributes(email: "a@asdf.com")
   end
 
   it "should download tasks from PT for given user" do
@@ -44,6 +45,20 @@ describe Task, "downloading from PT" do
     project_names.should include("Series Project")
   end
 
-  it "should make resolved tasks hidden"
+  it "should add multiple users to the same project" do
+    Task.download_for_user(@user)
+    project_names = Project.all.collect {|project| project.name}
+    project_names.should include("Space Project")
+    project_names.should include("Series Project")
+  end
+
+  it "should allow multiple users in the same project" do
+    Task.download_for_user(@user)
+    Task.download_for_user(@user2)
+    Project.first.users.should include(@user)
+    Project.first.users.should include(@user2)
+  end
+  
+  it "should make resolved tasks hidden"  
 end
 
