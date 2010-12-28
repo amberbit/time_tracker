@@ -3,12 +3,31 @@ class TimeLogEntriesController < AuthenticatedController
   before_filter :find_time_log_entry, :only => [:edit, :update]
 
   def index
-    query = {sort: ["created_at", "desc"], page: params[:page], 
-             per_page: 20, conditions: {user_id: current_user.id}}
+    @from =
+    begin
+      Date.parse(params[:from])
+    rescue ArgumentError, TypeError
+      Date.today.beginning_of_month
+    end
 
-    query[:conditions][:project_id] = @project.id if @project
+    @to =
+    begin
+      Date.parse(params[:to])
+    rescue ArgumentError, TypeError
+      Date.today
+    end
 
-    @time_log_entries = TimeLogEntry.paginate(query)
+    entries = current_user.time_log_entries.
+      order_by(["created_at", "desc"]).
+      where(:created_at.gte => @from, :created_at.lte => @to+1)
+    entries = entries.where :project_id => @project.id if @project
+
+    @time_log_entries = entries.paginate(page: params[:page], per_page: 20)
+
+    projects = @project ? [@project] : current_user.projects
+    @total_time = projects.map do |project|
+      project.worked_time(1.year.ago, Time.zone.now, current_user.id)
+    end.sum
   end
 
   def new
