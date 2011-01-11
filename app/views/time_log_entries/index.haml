@@ -1,17 +1,11 @@
 %h2= "Time log entries #{"for project " + @project.name if @project}"
 
-- default_url = @project ? project_time_log_entries_path(@project, from: @from, to: @to) : |
-  time_log_entries_path(from: @from, to: @to)                                              |
-- project_urls = current_user.projects.collect{|p| [p.name, project_time_log_entries_path(p, from: @from, to: @to)]}
-
-= select_tag :project_id, options_for_select([["Select Project", time_log_entries_path(from: @from, to: @to)]] + project_urls, default_url), class: "jump_to_url"
-
-= form_tag '', method: :get do
+= form_tag time_log_entries_path, method: :get do
+  = select_tag :project_id, project_options
   = text_field_tag :from, @from
   \-
   = text_field_tag :to, @to
-  %br/
-  = submit_tag 'Show', :id => 'time_log_entries-show', 'data-url' => default_url
+  = submit_tag 'Show'
 
 .right
   = link_to "New log entry", new_project_time_log_entry_path(@project) if @project
@@ -36,7 +30,6 @@
                   "http://www.pivotaltracker.com/story/show/#{entry.task.pivotal_tracker_story_id}", |
                   target: "_blank"                                                                   |
         = entry.task.name
-      
+
 
 = will_paginate @time_log_entries
-

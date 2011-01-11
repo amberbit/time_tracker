@@ -19,14 +19,14 @@ class TimeLogEntriesController < AuthenticatedController
 
     entries = current_user.time_log_entries.
       order_by(["created_at", "desc"]).
-      where(:created_at.gte => @from, :created_at.lte => @to+1)
+      where(:created_at.gte => @from, :created_at.lte => @to+1.day)
     entries = entries.where :project_id => @project.id if @project
 
     @time_log_entries = entries.paginate(page: params[:page], per_page: 20)
 
     projects = @project ? [@project] : current_user.projects
     @total_time = projects.map do |project|
-      project.worked_time(1.year.ago, Time.zone.now, current_user.id)
+      project.worked_time(@from, @to+1.day, current_user.id)
     end.sum
   end
 
@@ -62,7 +62,7 @@ class TimeLogEntriesController < AuthenticatedController
   private
 
   def find_project
-    @project = current_user.projects.find(params[:project_id]) if params[:project_id]
+    @project = current_user.projects.find(params[:project_id]) if params[:project_id].present?
   end
 
   def find_task
