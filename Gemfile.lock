@@ -1,6 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    ZenTest (4.4.2)
     abstract (1.0.0)
     actionmailer (3.0.1)
       actionpack (= 3.0.1)
@@ -30,6 +31,10 @@ GEM
     activesupport (3.0.1)
     arel (1.0.1)
       activesupport (~> 3.0.0)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
+    autotest-notification (2.3.1)
+      autotest (~> 4.3)
     bcrypt-ruby (2.1.2)
     bson (1.1.1)
     bson_ext (1.1.1)
@@ -143,6 +148,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autotest
+  autotest-notification
   bson_ext (= 1.1.1)
   capistrano
   capybara

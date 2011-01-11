@@ -34,6 +34,8 @@ gem 'will_paginate'
 
 group :development do
   gem 'capistrano'
+  gem 'autotest'
+  gem 'autotest-notification'
 end
 
 group :development, :test do
