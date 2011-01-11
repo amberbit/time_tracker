@@ -32,11 +32,15 @@ gem 'will_paginate'
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 
+group :development do
+  gem 'capistrano'
+end
+
 group :development, :test do
   gem 'rspec-rails', '2.0.1'
   gem 'steak', '>= 1.0.0.rc.1'
   gem 'capybara'
   gem 'fakeweb', '1.3.0', require: false
   gem 'timecop'
+  gem 'wirble'
 end
-
