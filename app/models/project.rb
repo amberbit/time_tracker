@@ -25,4 +25,8 @@ class Project
 
     TimeLogEntry.find(conditions: query).sum('number_of_seconds').to_i
   end
+
+  def owned_by?(user)
+    owner_emails.include? user.email
+  end
 end
