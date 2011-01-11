@@ -120,7 +120,7 @@ describe TimeLogEntry do
     @project.worked_time(2.minutes.ago, Time.zone.now).should eql(60) 
   end
 
-  it "shoul list currently open time log entreies" do
+  it "should list currently open time log entreies" do
     entry = TimeLogEntry.create!(user: @user, project: @project, formatted_created_at: "01/01/2001 00:33")
     @project.current_time_log_entries.to_a.should eql([entry])
     entry.close
