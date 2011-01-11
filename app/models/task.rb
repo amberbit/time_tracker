@@ -23,13 +23,23 @@ class Task
 
     projects_response = http.get("/services/v3/projects", headers)
 
-    projects = Hpricot(projects_response.body).search("project").collect do
-      |p| {id: p.search("id")[0].inner_text.to_i, name: p.search("name")[0].inner_text}
+    projects = Hpricot(projects_response.body).search("project").collect do |p|
+      owners = p.search("membership role[text()='Owner']")
+      owner_emails = owners.map do |role|
+        role.parent.at('person email').inner_text
+      end
+
+      {
+        id: p.search("id")[0].inner_text.to_i,
+        name: p.search("name")[0].inner_text,
+        owner_emails: owner_emails
+      }
     end
 
     projects.each do |pivotal_project|
       our_project = Project.find_or_initialize_by pivotal_tracker_project_id: pivotal_project[:id]
       our_project.name = pivotal_project[:name]
+      our_project.owner_emails = pivotal_project[:owner_emails]
       our_project.save!
 
       some_user.projects << our_project

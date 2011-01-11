@@ -49,5 +49,13 @@ describe Task, "downloading from PT" do
     Project.first.users.should include(@user2)
   end
 
+  it "should assign owners to project" do
+    project = Project.first(conditions: {name: 'Space Project'})
+    project.owner_emails.should == ['kirkybaby@earth.ufp']
+
+    project = Project.first(conditions: {name: 'Series Project'})
+    project.owner_emails.should == []
+  end
+
   it "should make resolved tasks hidden"
 end
