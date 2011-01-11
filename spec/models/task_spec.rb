@@ -23,42 +23,31 @@ describe Task, "downloading from PT" do
     fake_pivotal_api
     @user = User.create! user_attributes
     @user2 = User.create! user_attributes(email: "a@asdf.com")
+
+    Task.download_for_user(@user)
+    Task.download_for_user(@user2)
   end
 
   it "should download tasks from PT for given user" do
-    Task.download_for_user(@user) 
     task_names = Task.all.collect {|task| task.name}
     task_names.should include("More power to shields")
   end
 
   it "should not download unscheduled tasks" do
-    Task.download_for_user(@user)
-    Task.download_for_user(@user)
     task_names = Task.all.collect {|task| task.name}
     task_names.should_not include("Make out with Number Six")
   end
 
   it "should create projects based on PT projects" do
-    Task.download_for_user(@user)
-    project_names = Project.all.collect {|project| project.name}
-    project_names.should include("Space Project")
-    project_names.should include("Series Project")
-  end
-
-  it "should add multiple users to the same project" do
-    Task.download_for_user(@user)
     project_names = Project.all.collect {|project| project.name}
     project_names.should include("Space Project")
     project_names.should include("Series Project")
   end
 
   it "should allow multiple users in the same project" do
-    Task.download_for_user(@user)
-    Task.download_for_user(@user2)
     Project.first.users.should include(@user)
     Project.first.users.should include(@user2)
   end
-  
-  it "should make resolved tasks hidden"  
-end
 
+  it "should make resolved tasks hidden"
+end
