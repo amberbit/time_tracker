@@ -21,6 +21,8 @@ class Project
     to = created_at if to.blank?
     query = {project_id: id, :created_at.gte => from, :created_at.lte => to}
     query.merge!({user_id: user_id}) unless user_id.blank?
-    TimeLogEntry.all(conditions: query).collect{|e| e.number_of_seconds}.sum
+
+    total_time = TimeLogEntry.find(conditions: query).sum('number_of_seconds')
+    total_time || 0
   end
 end
