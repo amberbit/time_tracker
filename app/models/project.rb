@@ -16,13 +16,13 @@ class Project
     TimeLogEntry.all(conditions: {current: true, project_id: id})  
   end
 
+  # Returns total time in seconds
   def worked_time(from=created_at, to=Time.zone.now, user_id=nil)
     from = created_at if from.blank?
     to = created_at if to.blank?
     query = {project_id: id, :created_at.gte => from, :created_at.lte => to}
     query.merge!({user_id: user_id}) unless user_id.blank?
 
-    total_time = TimeLogEntry.find(conditions: query).sum('number_of_seconds')
-    total_time || 0
+    TimeLogEntry.find(conditions: query).sum('number_of_seconds').to_i
   end
 end
