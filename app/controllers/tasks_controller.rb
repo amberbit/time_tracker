@@ -14,7 +14,7 @@ class TasksController < AuthenticatedController
     begin
       Task.download_for_user(current_user)
     rescue Exception => e
-      flash[:alert] = "Could not download new tasks! One kitten just died"
+      flash[:alert] = "Could not download new tasks! One kitten just died because of '#{e}'"
     end
     redirect_to :back
   end
