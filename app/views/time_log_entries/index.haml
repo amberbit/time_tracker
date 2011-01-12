@@ -2,6 +2,7 @@
 
 = form_tag time_log_entries_path, method: :get do
   = select_tag :project_id, project_options
+  = select_tag :user_id, user_options
   = text_field_tag :from, @from
   \-
   = text_field_tag :to, @to
@@ -10,7 +11,7 @@
 .right
   = link_to "New log entry", new_project_time_log_entry_path(@project) if @project
 .worked-time
-  You have worked:
+  Total time:
   = TimeFormatter::format @total_time
   = TimeFormatter::short_format @total_time
   - if @project
