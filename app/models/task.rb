@@ -9,7 +9,8 @@ class Task
   field :name
   field :pivotal_tracker_story_id, type: Integer
   field :iteration_number, type: Integer
-  
+  field :estimate, type: Integer
+
   referenced_in :project
   referenced_in :user
   references_many :time_log_entries, dependent: :nullify
@@ -54,9 +55,17 @@ class Task
       end
 
       iterations.each do |iteration|
-        stories = Hpricot(stories_response.body).search("/iterations/iteration:eq(#{iterations.index(iteration)})/stories/story").collect do
-          |s| {id: s.search("id")[0].inner_text.to_i, name: s.search("name")[0].inner_text, 
-               current_state: s.search("current_state")[0].inner_text}
+        doc = Hpricot(stories_response.body)
+        stories_xpath = "/iterations/iteration:eq(#{iterations.index(iteration)})/stories/story"
+        stories = doc.search(stories_xpath).collect do |s|
+          estimate_data = s.search("estimate")[0].inner_text
+          estimate = estimate_data.blank? ? nil : estimate_data.to_i
+          {
+            id: s.search("id")[0].inner_text.to_i,
+            name: s.search("name")[0].inner_text,
+            estimate: estimate,
+            current_state: s.search("current_state")[0].inner_text
+          }
         end
 
         stories.each do |pivotal_story|
@@ -66,6 +75,7 @@ class Task
                                               user_id: some_user.id)
             task.name = pivotal_story[:name]
             task.iteration_number = iteration
+            task.estimate = pivotal_story[:estimate]
             task.save!
           end
         end

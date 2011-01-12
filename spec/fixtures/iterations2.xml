@@ -11,7 +11,7 @@
         <project_id type="integer">2</project_id>
         <story_type>feature</story_type>
         <url>http://www.pivotaltracker.com/story/show/3</url>
-        <estimate type="integer">1</estimate>
+        <estimate type="integer"></estimate>
         <current_state>accepted</current_state>
         <description></description>
         <name>Prepare servers</name>

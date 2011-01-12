@@ -33,6 +33,14 @@ describe Task, "downloading from PT" do
     task_names.should include("More power to shields")
   end
 
+  it "should parse estimated story points" do
+    task1 = Task.first conditions: {name: 'More power to shields'}
+    task1.estimate.should == 1
+
+    task2 = Task.first conditions: {name: 'Prepare servers'}
+    task2.estimate.should be_nil
+  end
+
   it "should not download unscheduled tasks" do
     task_names = Task.all.collect {|task| task.name}
     task_names.should_not include("Make out with Number Six")
