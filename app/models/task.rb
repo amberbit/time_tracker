@@ -37,7 +37,8 @@ class Task
       some_user.projects << our_project
 
       http = Net::HTTP.new("www.pivotaltracker.com", 443)
-      http.use_ssl = true 
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       headers = {'X-TrackerToken' => some_user.pivotal_tracker_api_token}
       stories_response = http.get("/services/v3/projects/#{pivotal_project[:id]}/iterations", headers)
 
