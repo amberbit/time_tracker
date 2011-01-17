@@ -18,7 +18,9 @@ class Task
 
   def self.download_for_user(some_user)
     http = Net::HTTP.new("www.pivotaltracker.com", 443)
-    http.use_ssl = true 
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
     headers = {'X-TrackerToken' => some_user.pivotal_tracker_api_token}
 
     projects_response = http.get("/services/v3/projects", headers)
