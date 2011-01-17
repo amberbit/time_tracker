@@ -26,7 +26,7 @@
         <project_id type="integer">1</project_id>
         <story_type>feature</story_type>
         <url>http://www.pivotaltracker.com/story/show/2</url>
-        <estimate type="integer">1</estimate>
+        <estimate type="integer"></estimate>
         <current_state>unscheduled</current_state>
         <description></description>
         <name>Make out with Number Six</name>
@@ -39,5 +39,3 @@
     </stories>
   </iteration>
 </iterations>
-
-

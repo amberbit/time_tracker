@@ -1,4 +1,4 @@
-%h2= "Time log entries #{"for project " + @project.name if @project}"
+%h2 Time log entries
 
 = form_tag time_log_entries_path, method: :get do
   = select_tag :project_id, project_options

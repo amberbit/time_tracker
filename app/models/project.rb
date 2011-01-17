@@ -13,7 +13,7 @@ class Project
   validates_presence_of :name, :pivotal_tracker_project_id
 
   def current_time_log_entries
-    TimeLogEntry.all(conditions: {current: true, project_id: id})  
+    TimeLogEntry.all(conditions: {current: true, project_id: id})
   end
 
   # Returns total time in seconds
