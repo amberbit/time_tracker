@@ -1,4 +1,48 @@
 require 'spec_helper'
+
+describe TimeLogEntriesReport do
+  before :each do
+    @from = '2010-12-01'
+    @to = '2010-12-15'
+    @current_user = User.create! user_attributes(email: 'current@e.com')
+    @other_user = User.create! user_attributes(email: 'other@e.com')
+    @options = {
+      from: @from,
+      to: @to,
+      current_user: @current_user
+    }
+    @project1 = Project.create! project_attributes
+    @project1.users << @current_user
+    @project2 = Project.create! project_attributes
+    @project2.users << @current_user
+    @project3 = Project.create! project_attributes
+  end
+
+  describe "project conditions" do
+    it "any project" do
+      @report = TimeLogEntriesReport.new @options
+      @report.project_conditions.should == {project_id: {'$in' => [@project1.id, @project2.id]}}
+    end
+
+    it "project with user" do
+      @report = TimeLogEntriesReport.new @options.merge({
+        project_id: @project1.id.to_s
+      })
+      @report.project_conditions.should == {project_id: @project1.id}
+    end
+
+    it "project without user" do
+      @report = TimeLogEntriesReport.new @options.merge({
+        project_id: @project3.id.to_s
+      })
+      @report.project_conditions.should == {project_id: :forbidden}
+    end
+  end
+
+  describe "user conditions" do
+  end
+end
+
 =begin
 describe TimeLogEntriesReport do
   before :each do
