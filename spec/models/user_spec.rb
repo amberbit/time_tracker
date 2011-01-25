@@ -30,7 +30,7 @@ describe User do
     end
 
     it "should return all users from his projects" do
-      @user1.other_users.map(&:email).should == [@user2, @user3].map(&:email)
+      @user1.projects_users.map(&:email).should == [@user1, @user2, @user3].map(&:email)
     end
   end
 end
