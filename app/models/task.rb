@@ -62,7 +62,8 @@ class Task
         doc = Hpricot(stories_response.body)
         stories_xpath = "/iterations/iteration:eq(#{iterations.index(iteration)})/stories/story"
         stories = doc.search(stories_xpath).collect do |s|
-          estimate_data = s.search("estimate")[0].inner_text
+          estimate_tag = s.search("estimate")[0]
+          estimate_data = estimate_tag ? estimate_tag.inner_text : nil
           estimate = estimate_data.blank? ? nil : estimate_data.to_i
           {
             id: s.search("id")[0].inner_text.to_i,
