@@ -1,0 +1,18 @@
+defaults: &defaults
+  host: localhost
+
+development:
+  <<: *defaults
+  database: time_tracker-development
+
+test:
+  <<: *defaults
+  database: time_tracker-test
+
+# set these environment variables on your prod server
+production:
+  host:
+  port:
+  username:
+  password:
+  database:
