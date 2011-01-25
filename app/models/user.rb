@@ -17,12 +17,10 @@ class User
     time_log_entries.find(:first, :conditions => {current: true, project_id: project.id})
   end
 
-  # Returns all users (without himself) from all projects of the user
-  def other_users
+  # Returns all users from all projects of the user
+  def projects_users
     all_users_ids = projects.map { |project| project.user_ids }
     all_users_ids.flatten!
-    all_users_ids.uniq!
-    all_users_ids.delete(id)
     User.find(conditions: {:_id.in => all_users_ids})
   end
 end

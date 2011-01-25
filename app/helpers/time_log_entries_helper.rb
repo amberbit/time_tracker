@@ -6,7 +6,7 @@ module TimeLogEntriesHelper
   end
 
   def user_options
-    users = current_user.other_users
+    users = current_user.projects_users
     user_options = users.map { |u| [u.email, u.id] }
     user_options.unshift ["Any User", nil]
     options_for_select(user_options, params[:user_id])
