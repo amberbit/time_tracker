@@ -21,6 +21,7 @@ class User
   def projects_users
     all_users_ids = projects.map { |project| project.user_ids }
     all_users_ids.flatten!
-    User.find(conditions: {:_id.in => all_users_ids})
+    all_users_ids.uniq!
+    User.all(conditions: {:_id.in => all_users_ids})
   end
 end
