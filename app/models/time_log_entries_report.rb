@@ -5,55 +5,59 @@ class TimeLogEntriesReport
     @page = params[:page]
     @from = parse_date params[:from], Date.today.beginning_of_month
     @to =   parse_date params[:to],   Date.today
-    @user = User.find(params[:user_id]) if params[:user_id].present?
-    @project = Project.find(params[:project_id]) if params[:project_id].present?
+    @selected_user = User.find(params[:user_id]) if params[:user_id].present?
+    @selected_project = Project.find(params[:project_id]) if params[:project_id].present?
   end
 
-  def date_conditions
-    {
-      :created_at.gte => @from,
-      :created_at.lte => @to + 1.day
-    }
-  end
+  def conditions
+    conditions = []
 
-  def project_conditions
-    conditions = {}
+    @current_user.owned_projects.each do |project|
+      c = {project_id: project.id}
 
-    conditions[:project_id] =
-    if @project
-      if @current_user.projects.include? @project
-        @project.id
-      else
-        :forbidden
-      end
-    else
-      {'$in' => @current_user.project_ids}
+      # owner can see anybody's work
+      c[:user_id] = @selected_user.id if @selected_user
+
+      conditions << c
+    end
+
+    @current_user.not_owned_projects.each do |project|
+      c = {project_id: project.id}
+
+      # Regular user is only allowed to see his work. When he wants to see
+      # somebody's else entries - make sure he won't by setting fake user_id
+      c[:user_id] =
+        if @selected_user == nil or @selected_user == @current_user
+          @current_user.id
+        else
+          :forbidden
+        end
+
+      conditions << c
+    end
+
+    # one project was selected - remove other projects
+    if @selected_project
+      conditions.delete_if { |c| c[:project_id] != @selected_project.id }
+    end
+
+    # user doesn't have any projects - don't let him see whole DB
+    if conditions.empty?
+      conditions << {project_id: :forbidden}
+    end
+
+    # add date constraint
+    conditions.each do |c|
+      c.merge! date_conditions
     end
 
     conditions
   end
 
-  def user_conditions
-    conditions = {}
-
-    conditions[:user_id] =
-      case @user
-      when nil, @current_user
-        @current_user.id
-      else
-        :forbidden
-      end
-
-    conditions
-  end
-
-  def conditions
-    date_conditions.merge!(project_conditions).merge!(user_conditions)
-  end
-
   def run
-    Rails.logger.info conditions
-    entries = TimeLogEntry.order_by(["created_at", "desc"]).where(conditions)
+    mongo_conditions = conditions
+    Rails.logger.info mongo_conditions
+    entries = TimeLogEntry.order_by(["created_at", "desc"]).any_of(*mongo_conditions)
 
     {
       from: @from,
@@ -72,5 +76,12 @@ class TimeLogEntriesReport
     rescue ArgumentError, TypeError
       default_value
     end
+  end
+
+  def date_conditions
+    {
+      :created_at.gte => @from.to_time,
+      :created_at.lte => (@to + 1.day).to_time
+    }
   end
 end

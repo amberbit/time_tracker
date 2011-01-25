@@ -24,4 +24,12 @@ class User
     all_users_ids.uniq!
     User.all(conditions: {:_id.in => all_users_ids})
   end
+
+  def owned_projects
+    projects.where(:owner_emails => email)
+  end
+
+  def not_owned_projects
+    projects.where(:owner_emails.ne => email)
+  end
 end
