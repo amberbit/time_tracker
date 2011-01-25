@@ -4,45 +4,108 @@ describe TimeLogEntriesReport do
   before :each do
     @from = '2010-12-01'
     @to = '2010-12-15'
-    @current_user = User.create! user_attributes(email: 'current@e.com')
-    @other_user = User.create! user_attributes(email: 'other@e.com')
-    @options = {
-      from: @from,
-      to: @to,
-      current_user: @current_user
-    }
-    @project1 = Project.create! project_attributes
-    @project1.users << @current_user
-    @project2 = Project.create! project_attributes
-    @project2.users << @current_user
-    @project3 = Project.create! project_attributes
   end
 
-  describe "project conditions" do
-    it "any project" do
-      @report = TimeLogEntriesReport.new @options
-      @report.project_conditions.should == {project_id: {'$in' => [@project1.id, @project2.id]}}
+  describe "regular user" do
+    before :each do
+      @current_user = User.create! user_attributes(email: 'current@e.com')
+      @other_user = User.create! user_attributes(email: 'other@e.com')
+      @options = {
+        from: @from,
+        to: @to,
+        current_user: @current_user
+      }
+      @project1 = Project.create! project_attributes
+      @project1.users << @current_user
+      @project2 = Project.create! project_attributes
+      @project2.users << @current_user
+      @project3 = Project.create! project_attributes
     end
 
-    it "project with user" do
-      @report = TimeLogEntriesReport.new @options.merge({
-        project_id: @project1.id.to_s
-      })
-      @report.project_conditions.should == {project_id: @project1.id}
+    describe "project conditions" do
+      it "any project" do
+        @report = TimeLogEntriesReport.new @options
+        @report.project_conditions.should == {project_id: {'$in' => [@project1.id, @project2.id]}}
+      end
+
+      it "project where he belongs to" do
+        @report = TimeLogEntriesReport.new @options.merge({
+          project_id: @project1.id.to_s
+        })
+        @report.project_conditions.should == {project_id: @project1.id}
+      end
+
+      it "project where he doesn't belong to" do
+        @report = TimeLogEntriesReport.new @options.merge({
+          project_id: @project3.id.to_s
+        })
+        @report.project_conditions.should == {project_id: :forbidden}
+      end
     end
 
-    it "project without user" do
-      @report = TimeLogEntriesReport.new @options.merge({
-        project_id: @project3.id.to_s
-      })
-      @report.project_conditions.should == {project_id: :forbidden}
+    describe "user conditions" do
+      it "any user" do
+        @report = TimeLogEntriesReport.new @options
+        @report.user_conditions.should == {user_id: @current_user.id}
+      end
+
+      it "selects himself" do
+        @report = TimeLogEntriesReport.new @options.merge({
+          user_id: @current_user.id.to_s
+        })
+        @report.user_conditions.should == {user_id: @current_user.id}
+      end
+
+      it "other user" do
+        @report = TimeLogEntriesReport.new @options.merge({
+          user_id: @other_user.id.to_s
+        })
+        @report.user_conditions.should == {user_id: :forbidden}
+      end
     end
   end
 
-  describe "user conditions" do
+  describe "owner" do
   end
 end
 
+
+=begin
+  describe "user conditions" do
+    it "when regular or owner selects himself" do
+      @report = TimeLogEntriesReport.new @options.merge({
+        user_id: @current_user.id.to_s
+      })
+      @report.user_conditions.should == {user_id: @current_user.id}
+    end
+
+    describe "when regular user selects" do
+      it "any user" do
+        @report = TimeLogEntriesReport.new @options
+        @report.user_conditions.should == {user_id: @current_user.id}
+      end
+
+      it "other user" do
+        @report = TimeLogEntriesReport.new @options.merge({
+          user_id: @other_user.id.to_s
+        })
+        @report.user_conditions.should == {user_id: @current_user.id}
+      end
+    end
+
+    describe "when owner selects" do
+      it "any user" do
+
+      end
+
+      it "other user" do
+      end
+    end
+
+
+  end
+end
+=end
 =begin
 describe TimeLogEntriesReport do
   before :each do

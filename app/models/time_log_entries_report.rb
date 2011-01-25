@@ -35,16 +35,13 @@ class TimeLogEntriesReport
 
   def user_conditions
     conditions = {}
-      Rails.logger.info 'xxxx'
-      Rails.logger.info @user
-      if @user
 
     conditions[:user_id] =
-      # specific user requested
-
-        @user.id
-      else # any user requested
+      case @user
+      when nil, @current_user
         @current_user.id
+      else
+        :forbidden
       end
 
     conditions
