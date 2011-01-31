@@ -1,0 +1,9 @@
+Time Tracker
+
+Time Tracker is a tool for tracking time in Pivotal Tracker projects. It integrates with PT through the public API.
+
+User sees a list of task in all his projects. He can click play/stop to start/finish working on a task.
+
+Project owners can see detailed reports about all the work done in their projects. Regular users have access only to their own work.
+
+It's tracked here: https://www.pivotaltracker.com/projects/132571
