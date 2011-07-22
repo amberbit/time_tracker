@@ -1,4 +1,5 @@
-= select_tag :project_id, options_for_select([["Select Project", tasks_path]] + current_user.projects.collect{|p| [p.name, project_tasks_path(p)]}, @project ? project_tasks_path(@project) : tasks_path), class: "jump_to_url"
+- projects = current_user.projects.asc(:name).collect{ |p| [p.name, project_tasks_path(p)] }
+= select_tag :project_id, options_for_select([["Select Project", tasks_path]] + projects, @project ? project_tasks_path(@project) : tasks_path), class: "jump_to_url"
 
 = link_to "Refresh list of tasks", download_tasks_path
 
@@ -12,7 +13,7 @@
         = link_to([:stop_work, task.project, task], class: "icon-stop", title: "Stop work") { content_tag(:span, "Stop work") }
       - else
         = link_to([:start_work, task.project, task], class: "icon-start", title: "Start work") { content_tag(:span, "Start work") }
-      %span.iteration{title: "Iteration #{task.iteration_number}"} 
+      %span.iteration{title: "Iteration #{task.iteration_number}"}
         = task.iteration_number
       %span.project{title: "Project: #{task.project.name}", :style => "background-color: #{color_from_number(task.project.pivotal_tracker_project_id)}"}
         = link_to task.project.name, [task.project, :tasks]
