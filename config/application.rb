@@ -4,6 +4,10 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 
+# Ruby 1.9.2-p180 + bundler 1.0.10 fix
+# https://github.com/carlhuda/bundler/issues/closed/#issue/1038
+YAML::ENGINE.yamler = 'syck'
+
 ["time_formatter"].each do |item|
   require File.join(File.dirname(__FILE__), "..", "lib", item)
 end

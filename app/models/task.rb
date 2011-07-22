@@ -25,12 +25,14 @@ class Task
     headers = {'X-TrackerToken' => some_user.pivotal_tracker_api_token}
 
     projects_response = http.get("/services/v3/projects", headers)
-
     projects = Hpricot(projects_response.body).search("project").collect do |p|
       owners = p.search("membership role[text()='Owner']")
       owner_emails = owners.map do |role|
-        role.parent.at('person email').inner_text
+        email_tag = role.parent.at('person email')
+        email_tag ? email_tag.inner_text : nil
       end
+
+      owner_emails.compact!
 
       {
         id: p.search("id")[0].inner_text.to_i,
@@ -42,7 +44,9 @@ class Task
     projects.each do |pivotal_project|
       our_project = Project.find_or_initialize_by pivotal_tracker_project_id: pivotal_project[:id]
       our_project.name = pivotal_project[:name]
-      our_project.owner_emails = pivotal_project[:owner_emails]
+      if pivotal_project[:owner_emails].present?
+        our_project.owner_emails = pivotal_project[:owner_emails]
+      end
       our_project.save!
 
       some_user.projects << our_project
