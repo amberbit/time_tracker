@@ -13,7 +13,7 @@
         = link_to([:stop_work, task.project, task], class: "icon-stop", title: "Stop work") { content_tag(:span, "Stop work") }
       - else
         = link_to([:start_work, task.project, task], class: "icon-start", title: "Start work") { content_tag(:span, "Start work") }
-      %span.iteration{title: "Iteration #{task.iteration_number}"} 
+      %span.iteration{title: "Iteration #{task.iteration_number}"}
         = task.iteration_number
       %span.project{title: "Project: #{task.project.name}", :style => "background-color: #{color_from_number(task.project.pivotal_tracker_project_id)}"}
         = link_to task.project.name, [task.project, :tasks]
