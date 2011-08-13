@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TimeLogEntriesReport do
+describe ReportHelper do
   before :each do
     @from = '2010-12-01'
     @to = '2010-12-15'

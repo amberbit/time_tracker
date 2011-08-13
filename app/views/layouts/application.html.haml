@@ -13,7 +13,7 @@
           - if current_user
             %li= link_to "Tasks", root_path
             %li= link_to "Logged time", time_log_entries_path
-            %li= link_to "Reports", reports_path
+            %li= link_to "Reports", pivot_reports_path
             %li= link_to "My profile", edit_user_registration_path
             %li= link_to "Sign out", destroy_user_session_path
           - else

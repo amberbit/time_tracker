@@ -1,5 +1,14 @@
 module Report
   module Helper
+    def initialize(params)
+      @current_user = params[:current_user]
+      @page = params[:page]
+      @from = DateParser.parse params[:from], Date.today.beginning_of_month
+      @to =   DateParser.parse params[:to],   Date.today
+      @selected_user = User.find(params[:user_id]) if params[:user_id].present?
+      @selected_project = Project.find(params[:project_id]) if params[:project_id].present?
+    end
+
     def conditions
       conditions = []
 

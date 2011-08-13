@@ -3,7 +3,7 @@ class TimeLogEntriesController < AuthenticatedController
   before_filter :find_time_log_entry, :only => [:edit, :update]
 
   def index
-    report = TimeLogEntriesReport.new(params.merge(current_user: current_user))
+    report = Report::TimeLogEntries.new(params.merge(current_user: current_user))
     result = report.run
     @to = result[:to]
     @from = result[:from]
