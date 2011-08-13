@@ -2,7 +2,7 @@
 
 $blue = #084B8A
 $dark_blue = #0A0A2A
-$green = #008b00 
+$green = #008b00
 $red = #d70000
 $highlighted = #fffaaf
 
@@ -45,8 +45,6 @@ header
     :display block
     :text-align right
     :margin-top -42px
-    :margin-left 500px
-    :margin-right 50px
     ul
       :display block
       :list-style-type none
@@ -59,13 +57,13 @@ header
         :display inline-block
         :border
           :width 0 1px 1px 1px
-          :style solid 
+          :style solid
           :color $blue
         :height 30px
         :line-height 30px
         :margin 0 3px 0px 3px
         :padding 0 10px
-        @include round-corners(0, 0, 5px, 5px) 
+        @include round-corners(0, 0, 5px, 5px)
         @include vertical-gradient($dark_blue, $blue)
         @include box-shadow(#aaa, 2px, 1px, 3px)
         a, a:visited
@@ -125,10 +123,10 @@ a, a:visited, a:hover
         :line-height 10px
         :height 10px
         :float right
-        :margin -5px 5px 0 0 
+        :margin -5px 5px 0 0
         :padding 2px 5px 2px 5px
         :color white
-        @include round-corners(0, 0, 2px, 2px) 
+        @include round-corners(0, 0, 2px, 2px)
         @include box-shadow(#666, 2px, 1px, 3px)
       span.iteration
         @include vertical-gradient($dark_blue, $blue)
@@ -187,3 +185,38 @@ a, a:visited, a:hover
     :color $red
   :color $red
   :background-color #ffefef
+
+#report
+  h1
+    :margin 0 0 10px 0
+    :font-size 16px
+
+  form
+    input[type=text]
+      :width 90px
+    label
+      :float left
+      :width 70px
+      :margin-right 0.5em
+      :padding-top 0.2em
+      :text-align right
+      :font-weight bold
+  fieldset
+    :border 1px solid $blue
+    :padding 4px
+    :margin 4px
+    :width 400px
+    legend
+      :border 1px solid $blue
+      :padding 3px
+
+  #entries
+    :border-collapse collapse
+    td
+      :padding 3px 4px
+    tbody
+      td.time
+        :text-align right
+    tfoot
+      td
+        :border-top 1px solid black

@@ -1,0 +1,41 @@
+#report
+  %h1 Reports - Pivot
+
+  %section
+    = form_tag nil, method: :get do
+      %fieldset
+        %legend Configuration
+        = label_tag :from
+        = text_field_tag :from, @from
+        %br/
+        = label_tag :to
+        = text_field_tag :to, @to
+        %br/
+        = label_tag :row_key
+        = select_tag :row_key, options_for_select(Report::Pivot::ROW_KEYS, @row_key)
+        %br/
+      %fieldset
+        %legend Filter
+        = label_tag :project_id
+        = select_tag :project_id, project_options
+        %br/
+        = label_tag :user_id
+        = select_tag :user_id, user_options
+        %br/
+
+      = submit_tag 'Show'
+
+  %table#entries
+    %thead
+      %tr
+        %th= @row_key
+        %th Total
+    %tbody
+      - @entries.each do |entry|
+        %tr
+          %td= entry[:key].name
+          %td.time= TimeFormatter::short_format(entry["total_time"], include_parentheses: false)
+    %tfoot
+      %tr
+        %td
+        %td= TimeFormatter::short_format(@total_time, include_parentheses: false)
