@@ -2,4 +2,4 @@ set :user, "#{application}-#{stage}"
 set :group, "#{application}-#{stage}"
 set :deploy_env, 'production'
 set :deploy_to, "/home/#{user}/app"
-set :branch, 'v1.1.0'
+set :branch, 'v1.2.0'
