@@ -41,9 +41,7 @@ header {
   header nav {
     display: block;
     text-align: right;
-    margin-top: -42px;
-    margin-left: 500px;
-    margin-right: 50px; }
+    margin-top: -42px; }
     header nav ul {
       display: block;
       list-style-type: none;
@@ -238,3 +236,32 @@ a, a:visited, a:hover {
   border-color: #d70000;
   color: #d70000;
   background-color: #ffefef; }
+
+#report h1 {
+  margin: 0 0 10px 0;
+  font-size: 16px; }
+#report form input[type=text] {
+  width: 90px; }
+#report form label {
+  float: left;
+  width: 70px;
+  margin-right: 0.5em;
+  padding-top: 0.2em;
+  text-align: right;
+  font-weight: bold; }
+#report fieldset {
+  border: 1px solid #084b8a;
+  padding: 4px;
+  margin: 4px;
+  width: 400px; }
+  #report fieldset legend {
+    border: 1px solid #084b8a;
+    padding: 3px; }
+#report #entries {
+  border-collapse: collapse; }
+  #report #entries td {
+    padding: 3px 4px; }
+  #report #entries tbody td.time {
+    text-align: right; }
+  #report #entries tfoot td {
+    border-top: 1px solid black; }

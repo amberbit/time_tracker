@@ -4,7 +4,7 @@
     %title TimeTracker
     = stylesheet_link_tag "reset.css", "screen.css"
     = javascript_include_tag "jquery-1.4.3.min", "application"
-    = csrf_meta_tag 
+    = csrf_meta_tag
   %body
     %header
       %h1= link_to "TimeTracker", root_path
@@ -13,16 +13,17 @@
           - if current_user
             %li= link_to "Tasks", root_path
             %li= link_to "Logged time", time_log_entries_path
+            %li= link_to "Reports", pivot_reports_path
             %li= link_to "My profile", edit_user_registration_path
             %li= link_to "Sign out", destroy_user_session_path
           - else
             %li= link_to "Sign up", new_user_registration_path
             %li= link_to "Sign in", new_user_session_path
-    %section#content  
+    %section#content
       - unless notice.blank?
         %p.notice= notice
       - unless alert.blank?
         %p.alert= alert
-      = yield 
+      = yield
     %footer
       Copyright 2010 &copy; Wojciech Piekutowski, Hubert Łępicki

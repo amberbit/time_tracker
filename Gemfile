@@ -19,7 +19,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '2.0.1'
   gem 'steak', '>= 1.0.0.rc.1'
-  gem 'capybara'
+  gem 'capybara', git: "git://github.com/jnicklas/capybara.git"
   gem 'fakeweb', '1.3.0', require: false
   gem 'timecop'
   gem 'wirble'

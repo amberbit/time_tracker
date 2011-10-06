@@ -13,6 +13,8 @@ class User
   references_many :tasks, dependent: :nullify
   references_many :time_log_entries
 
+  alias_method :name, :email
+
   def current_time_log_entry(project)
     time_log_entries.find(:first, :conditions => {current: true, project_id: project.id})
   end

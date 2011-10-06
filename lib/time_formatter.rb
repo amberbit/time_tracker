@@ -4,12 +4,20 @@ module TimeFormatter
     "#{time[:hours]}h #{time[:minutes]}m #{time[:seconds]}s"
   end
 
-  def self.short_format(time_in_seconds)
+  def self.short_format(time_in_seconds, options={})
+    options[:include_parentheses] = true unless options.has_key?(:include_parentheses)
+
     time = split(time_in_seconds)
     time.each do |kind, amount|
       time[kind] = '%02d' % amount
     end
-    "(#{time[:hours]}:#{time[:minutes]}:#{time[:seconds]})"
+
+    formatted_time = "#{time[:hours]}:#{time[:minutes]}:#{time[:seconds]}"
+    if options[:include_parentheses]
+      formatted_time = "(#{formatted_time})"
+    end
+
+    formatted_time
   end
 
   private
