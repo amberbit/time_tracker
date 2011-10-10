@@ -12,8 +12,9 @@ class Task
   field :estimate, type: Integer
 
   referenced_in :project
-  referenced_in :user
   references_many :time_log_entries, dependent: :nullify
+
+  index :project_id
 
   validates_presence_of :name, :pivotal_tracker_story_id, :project
 
@@ -80,8 +81,7 @@ class Task
         stories.each do |pivotal_story|
           unless pivotal_story[:current_state] == "unscheduled"
             task = Task.find_or_initialize_by(project_id: our_project.id,
-                                              pivotal_tracker_story_id: pivotal_story[:id],
-                                              user_id: some_user.id)
+                                              pivotal_tracker_story_id: pivotal_story[:id])
             task.name = pivotal_story[:name]
             task.iteration_number = iteration
             task.estimate = pivotal_story[:estimate]

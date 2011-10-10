@@ -59,12 +59,12 @@ describe TimeLogEntry do
   it "should be current if just created" do
     entry = TimeLogEntry.create!(user: @user, project: @project)
     entry.should be_current
-    @user.current_time_log_entry(@project).should eql(entry)
+    @user.current_time_log_entry.should eql(entry)
   end
 
   it "should be possible to close this time log entry" do
     entry = TimeLogEntry.create!(user: @user, project: @project)
-    @user.current_time_log_entry(@project).close
+    @user.current_time_log_entry.close
     entry.reload.should_not be_current
   end
 
@@ -86,7 +86,7 @@ describe TimeLogEntry do
   it "should switch current time log entry to this newly created one" do
     entry = TimeLogEntry.create!(user: @user, project: @project)
     TimeLogEntry.create(user: @user, project: @project).should be_current
-  end 
+  end
 
   it "should be possible to override created_at date on creation" do
     entry = TimeLogEntry.create!(user: @user, project: @project, formatted_created_at: "01/01/2001 00:33")
@@ -117,7 +117,7 @@ describe TimeLogEntry do
       entry = TimeLogEntry.create!(user: @user, project: @project)
     end
     entry.close
-    @project.worked_time(2.minutes.ago, Time.zone.now).should eql(60) 
+    @project.worked_time(2.minutes.ago, Time.zone.now).should eql(60)
   end
 
   it "should list currently open time log entreies" do
@@ -127,4 +127,3 @@ describe TimeLogEntry do
     @project.current_time_log_entries.should be_empty
   end
 end
-

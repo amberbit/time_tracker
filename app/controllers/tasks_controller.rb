@@ -3,11 +3,14 @@ class TasksController < AuthenticatedController
   before_filter :find_task, :only => [:start_work, :stop_work]
 
   def index
-    if @project
-      @tasks = current_user.tasks.find(:all, conditions: {project_id: @project.id}).asc(:project_id).desc(:iteration_number)
-    else
-      @tasks = current_user.tasks.asc(:project_id).desc(:iteration_number)
-    end
+    @tasks =
+      if @project
+        @project.tasks
+      else
+        Task.find(:all, conditions: {:project_id.in => current_user.project_ids})
+      end
+
+    @tasks = @tasks.asc(:project_id).desc(:iteration_number).to_a
   end
 
   def download
@@ -26,7 +29,7 @@ class TasksController < AuthenticatedController
   end
 
   def stop_work
-   tle = current_user.current_time_log_entry(@project)
+   tle = current_user.current_time_log_entry
    tle.close if tle
    redirect_to :back
   end

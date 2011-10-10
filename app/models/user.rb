@@ -15,8 +15,8 @@ class User
 
   alias_method :name, :email
 
-  def current_time_log_entry(project)
-    time_log_entries.find(:first, :conditions => {current: true, project_id: project.id})
+  def current_time_log_entry
+    time_log_entries.find(:first, :conditions => {current: true})
   end
 
   # Returns all users from all projects of the user
