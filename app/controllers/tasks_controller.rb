@@ -7,7 +7,7 @@ class TasksController < AuthenticatedController
       if @project
         @project.tasks
       else
-        Task.find(:all, conditions: {:project_id.in => current_user.project_ids})
+        current_user.tasks
       end
 
     @tasks = @tasks.asc(:project_id).desc(:iteration_number).to_a
@@ -24,7 +24,10 @@ class TasksController < AuthenticatedController
   end
 
   def start_work
-    TimeLogEntry.create!(user: current_user, project: @project, task: @task)
+    TimeLogEntry.create! user: current_user,
+                           project: @project,
+                           task: @task,
+                           current: true
     redirect_to :back
   end
 
@@ -42,6 +45,7 @@ class TasksController < AuthenticatedController
   end
 
   def find_task
-    @task = current_user.tasks.find(params[:id])
+    id = BSON::ObjectId.from_string(params[:id])
+    @task = current_user.tasks.where(:_id => id).first
   end
 end

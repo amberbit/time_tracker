@@ -10,7 +10,6 @@ class User
   field :pivotal_tracker_api_token
   validates_presence_of :pivotal_tracker_api_token
   references_many :projects, stored_as: :array, inverse_of: :users
-  references_many :tasks, dependent: :nullify
   references_many :time_log_entries
 
   alias_method :name, :email
@@ -33,5 +32,9 @@ class User
 
   def not_owned_projects
     projects.where(:owner_emails.ne => email)
+  end
+
+  def tasks
+    Task.where(:project_id.in => project_ids)
   end
 end
