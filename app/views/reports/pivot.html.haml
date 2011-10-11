@@ -22,6 +22,9 @@
         = label_tag :user_id
         = select_tag :user_id, user_options
         %br/
+        = label_tag :label
+        = text_field_tag :label, params[:label]
+        %br/
 
       = submit_tag 'Show'
 

@@ -7,6 +7,7 @@ module Report
       @to =   DateParser.parse params[:to],   Date.today
       @selected_user = User.find(params[:user_id]) if params[:user_id].present?
       @selected_project = Project.find(params[:project_id]) if params[:project_id].present?
+      @label = params[:label] if params
     end
 
     def conditions
@@ -51,6 +52,13 @@ module Report
         c.merge!(
           :created_at => {'$gte' => @from.to_time, '$lte' => (@to + 1.day).to_time}
         )
+      end
+
+      # filter by label
+      if @label.present?
+        conditions.each do |c|
+          c.merge!(task_labels: @label)
+        end
       end
 
       conditions

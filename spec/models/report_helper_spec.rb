@@ -25,6 +25,21 @@ describe Report::Helper do
     @project3 = Project.create! project_attributes
   end
 
+  it "any user, any project, label" do
+    @report = Report::TimeLogEntries.new @options.merge({
+      label: 'super'
+    })
+    conditions = @report.conditions
+    conditions.should have(2).items
+
+    conditions[0][:project_id].should == @owner_project.id # as an owner I can see any user's entries
+    conditions[0][:task_labels].should == 'super'
+
+    conditions[1][:project_id].should == @member_project.id # as a regular user I can see only my entires
+    conditions[1][:user_id].should ==  @current_user.id
+    conditions[1][:task_labels].should == 'super'
+  end
+
   it "any user, any project" do
     @report = Report::TimeLogEntries.new @options
     conditions = @report.conditions
