@@ -8,6 +8,16 @@
 
 = link_to "Refresh list of tasks", download_tasks_path
 
+- if @project.blank?
+  %p
+    %br
+    Please select a project
+- elsif @tasks.blank?
+  %p
+    %br
+    No tasks for this project. Perhaps try to
+    =link_to "refresh list of tasks", download_tasks_path
+
 %ul.tasks
   - @tasks.each do |task|
     - project = projects_hash[task.project_id]

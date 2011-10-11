@@ -6,13 +6,13 @@ feature "Time logging", %q{
   As a user
   I want to see time spent on a project and tasks
 } do
-  
+
   scenario "Seeing time spent on my own tasks" do
     fake_pivotal_api
     sign_in_as "user@amberbit.com"
     visit tasks_list
     click_link "Refresh list of tasks"
-
+    select Project.first.name, from: 'project_id'
     click_link "Start work"
     TimeLogEntry.count.should eql(1)
     TimeLogEntry.first.should be_current
@@ -36,4 +36,3 @@ feature "Time logging", %q{
 
   end
 end
-

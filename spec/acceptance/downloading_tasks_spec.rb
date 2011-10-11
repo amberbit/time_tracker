@@ -10,16 +10,17 @@ feature "Downloading Tasks", %q{
     fake_pivotal_api
 
     sign_in_as "user@amberbit.com"
-    
+
     visit tasks_list
     page.should_not have_content("Space Project")
 
     click_link "Refresh list of tasks"
-
+    select Project.first.name, from: 'project_id'
     page.should have_content("Space Project")
     page.should have_content("Series Project")
     page.should have_content("More power to shields")
     page.should_not have_content("Make out with Number Six")
+    select Project.last.name, from: 'project_id'
     page.should have_content("Prepare servers")
   end
 end
