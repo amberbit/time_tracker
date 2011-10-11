@@ -5,12 +5,10 @@ class TasksController < AuthenticatedController
   def index
     @tasks =
       if @project
-        @project.tasks
+        @project.tasks.asc(:project_id).desc(:iteration_number).to_a
       else
-        current_user.tasks
+        []
       end
-
-    @tasks = @tasks.asc(:project_id).desc(:iteration_number).to_a
   end
 
   def download
