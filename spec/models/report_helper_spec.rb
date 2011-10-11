@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ReportHelper do
+describe Report::Helper do
   before :each do
     @from = '2010-12-01'
     @to = '2010-12-15'
@@ -25,8 +25,23 @@ describe ReportHelper do
     @project3 = Project.create! project_attributes
   end
 
+  it "any user, any project, label" do
+    @report = Report::TimeLogEntries.new @options.merge({
+      label: 'super'
+    })
+    conditions = @report.conditions
+    conditions.should have(2).items
+
+    conditions[0][:project_id].should == @owner_project.id # as an owner I can see any user's entries
+    conditions[0][:task_labels].should == 'super'
+
+    conditions[1][:project_id].should == @member_project.id # as a regular user I can see only my entires
+    conditions[1][:user_id].should ==  @current_user.id
+    conditions[1][:task_labels].should == 'super'
+  end
+
   it "any user, any project" do
-    @report = TimeLogEntriesReport.new @options
+    @report = Report::TimeLogEntries.new @options
     conditions = @report.conditions
     conditions.should have(2).items
 
@@ -37,7 +52,7 @@ describe ReportHelper do
   end
 
   it "any user, owned project" do
-    @report = TimeLogEntriesReport.new @options.merge({
+    @report = Report::TimeLogEntries.new @options.merge({
       project_id: @owner_project.id.to_s
     })
     conditions = @report.conditions
@@ -47,7 +62,7 @@ describe ReportHelper do
   end
 
   it "any user, not owned project" do
-    @report = TimeLogEntriesReport.new @options.merge({
+    @report = Report::TimeLogEntries.new @options.merge({
       project_id: @member_project.id.to_s
     })
     conditions = @report.conditions
@@ -58,7 +73,7 @@ describe ReportHelper do
   end
 
   it "self, any project" do
-    @report = TimeLogEntriesReport.new @options.merge({
+    @report = Report::TimeLogEntries.new @options.merge({
       user_id: @current_user.id.to_s
     })
     conditions = @report.conditions
@@ -72,7 +87,7 @@ describe ReportHelper do
   end
 
   it "self, owned project" do
-    @report = TimeLogEntriesReport.new @options.merge({
+    @report = Report::TimeLogEntries.new @options.merge({
       user_id: @current_user.id.to_s,
       project_id: @owner_project.id.to_s
     })
@@ -84,7 +99,7 @@ describe ReportHelper do
   end
 
   it "self, not owned project" do
-    @report = TimeLogEntriesReport.new @options.merge({
+    @report = Report::TimeLogEntries.new @options.merge({
       user_id: @current_user.id.to_s,
       project_id: @member_project.id.to_s
     })
@@ -96,7 +111,7 @@ describe ReportHelper do
   end
 
   it "other user, any project" do
-    @report = TimeLogEntriesReport.new @options.merge({
+    @report = Report::TimeLogEntries.new @options.merge({
       user_id: @other_user.id.to_s
     })
     conditions = @report.conditions
@@ -110,7 +125,7 @@ describe ReportHelper do
   end
 
   it "other user, owned project" do
-    @report = TimeLogEntriesReport.new @options.merge({
+    @report = Report::TimeLogEntries.new @options.merge({
       user_id: @other_user.id.to_s,
       project_id: @owner_project.id.to_s
     })
@@ -122,7 +137,7 @@ describe ReportHelper do
   end
 
   it "other user, member project" do
-    @report = TimeLogEntriesReport.new @options.merge({
+    @report = Report::TimeLogEntries.new @options.merge({
       user_id: @other_user.id.to_s,
       project_id: @member_project.id.to_s
     })

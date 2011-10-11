@@ -10,12 +10,16 @@ class Task
   field :pivotal_tracker_story_id, type: Integer
   field :iteration_number, type: Integer
   field :estimate, type: Integer
+  field :labels, type: Array
 
   referenced_in :project
-  referenced_in :user
   references_many :time_log_entries, dependent: :nullify
 
+  index :project_id
+
   validates_presence_of :name, :pivotal_tracker_story_id, :project
+
+  before_save :denormalize_labels_to_time_log_entries
 
   def self.download_for_user(some_user)
     http = Net::HTTP.new("www.pivotaltracker.com", 443)
@@ -73,22 +77,29 @@ class Task
             id: s.search("id")[0].inner_text.to_i,
             name: s.search("name")[0].inner_text,
             estimate: estimate,
-            current_state: s.search("current_state")[0].inner_text
+            current_state: s.search("current_state")[0].inner_text,
+            labels: s.at("labels").try(:inner_text).try(:split, ',')
           }
         end
 
         stories.each do |pivotal_story|
           unless pivotal_story[:current_state] == "unscheduled"
             task = Task.find_or_initialize_by(project_id: our_project.id,
-                                              pivotal_tracker_story_id: pivotal_story[:id],
-                                              user_id: some_user.id)
+                                              pivotal_tracker_story_id: pivotal_story[:id])
             task.name = pivotal_story[:name]
             task.iteration_number = iteration
             task.estimate = pivotal_story[:estimate]
+            task.labels = pivotal_story[:labels]
             task.save!
           end
         end
       end
     end
+  end
+
+  private
+
+  def denormalize_labels_to_time_log_entries
+    TimeLogEntry.collection.update({task_id: id}, {"$set" => {task_labels: labels}}, multi: true)
   end
 end

@@ -1,19 +1,26 @@
-- projects = current_user.projects.asc(:name).collect{ |p| [p.name, project_tasks_path(p)] }
+- raw_projects = current_user.projects.asc(:name)
+- projects = raw_projects.collect{ |p| [p.name, project_tasks_path(p)] }
+- projects_hash = {}
+- raw_projects.each { |p| projects_hash[p.id] = p }
 = select_tag :project_id, options_for_select([["Select Project", tasks_path]] + projects, @project ? project_tasks_path(@project) : tasks_path), class: "jump_to_url"
+
+- current_task_id_cache = current_task_id
 
 = link_to "Refresh list of tasks", download_tasks_path
 
 %ul.tasks
   - @tasks.each do |task|
-    %li{:class => "#{'current' if is_current_task?(task)}"}
+    - project = projects_hash[task.project_id]
+    - current = task.id == current_task_id_cache
+    %li{:class => "#{'current' if current}"}
       %span.task_name
         = link_to "##{task.pivotal_tracker_story_id}", "http://www.pivotaltracker.com/story/show/#{task.pivotal_tracker_story_id}", target: "_blank"
         = task.name
-      - if is_current_task?(task)
-        = link_to([:stop_work, task.project, task], class: "icon-stop", title: "Stop work") { content_tag(:span, "Stop work") }
+      - if current
+        = link_to([:stop_work, project, task], class: "icon-stop", title: "Stop work") { content_tag(:span, "Stop work") }
       - else
-        = link_to([:start_work, task.project, task], class: "icon-start", title: "Start work") { content_tag(:span, "Start work") }
+        = link_to([:start_work, project, task], class: "icon-start", title: "Start work") { content_tag(:span, "Start work") }
       %span.iteration{title: "Iteration #{task.iteration_number}"}
         = task.iteration_number
-      %span.project{title: "Project: #{task.project.name}", :style => "background-color: #{color_from_number(task.project.pivotal_tracker_project_id)}"}
-        = link_to task.project.name, [task.project, :tasks]
+      %span.project{title: "Project: #{project.name}", :style => "background-color: #{color_from_number(project.pivotal_tracker_project_id)}"}
+        = link_to project.name, [project, :tasks]

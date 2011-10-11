@@ -6,12 +6,14 @@ class TimeLogEntry
   referenced_in :task
 
   field :number_of_seconds, type: Integer, default: 0
-  field :current, type: Boolean, default: true  
+  field :current, type: Boolean, default: true
+  field :task_labels, type: Array
 
   validates_presence_of :project, :user
   validates_uniqueness_of :current, scope: :user_id, if: Proc.new { |o| o.current == true }
   before_validation :close_current_if_new
-  
+  before_save :update_task_labels
+
   def can_edit?(user)
     self.user == user || user.role_in_project(project) == :scrum_master
   end
@@ -19,7 +21,7 @@ class TimeLogEntry
   def formatted_number_of_seconds
     TimeFormatter::format(number_of_seconds)
   end
-  
+
   def formatted_number_of_seconds=(str)
     begin
       self.number_of_seconds = (Time.parse(str) - Time.parse("00:00:00")).to_i
@@ -55,7 +57,7 @@ class TimeLogEntry
     begin
       self.created_at = Time.parse(time)
     rescue ArgumentError
-      # silently ignore, use default 
+      # silently ignore, use default
     end
   end
 
@@ -63,5 +65,11 @@ class TimeLogEntry
     (created_at ? created_at : Time.zone.now).strftime("%d/%m/%Y %k:%M:%S")
   end
 
+  private
 
+  def update_task_labels
+    return if task_id.nil?
+
+    self.task_labels = task.labels
+  end
 end

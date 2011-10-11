@@ -1,6 +1,11 @@
 module ApplicationHelper
   def is_current_task?(task)
-    current_user.current_time_log_entry(task.project) && current_user.current_time_log_entry(task.project).task_id == task.id
+    current_task_id == task.id
+  end
+
+  def current_task_id
+    time_log_entry = current_user.current_time_log_entry
+    time_log_entry.try(:task_id)
   end
 
   def color_from_number(some_number)
