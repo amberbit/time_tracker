@@ -2,7 +2,7 @@ module Report
   class Pivot
     include Report::Helper
 
-    ROW_KEYS = [:user_id, :project_id]
+    ROW_KEYS = [:user_id, :project_id, :task_id]
 
     def initialize(params)
       super
