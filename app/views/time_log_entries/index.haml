@@ -1,12 +1,12 @@
 %h2 Time log entries
 
-= form_tag time_log_entries_path, method: :get do
+= form_tag time_log_entries_path, method: :get, class: 'form-inline' do
   = select_tag :project_id, project_options
   = select_tag :user_id, user_options
-  = text_field_tag :from, @from
+  = text_field_tag :from, @from, class: 'input-small'
   \-
-  = text_field_tag :to, @to
-  = submit_tag 'Show'
+  = text_field_tag :to, @to, class: 'input-small'
+  = submit_tag 'Show', class: 'btn btn-primary'
 
 .right
   = link_to "New log entry", new_project_time_log_entry_path(@project) if @project
@@ -23,7 +23,7 @@
       = TimeFormatter::format(entry.number_of_seconds)
     %span.entry-date
       = localize entry.created_at, :format => :short
-      = link_to "Edit", edit_project_time_log_entry_path(entry.task.project, entry) if entry.task && current_user == entry.user
+      = link_to "Edit", edit_project_time_log_entry_path(entry.task.project, entry), class: 'btn btn-mini' if entry.task && current_user == entry.user
 
     - if entry.task
       .entry-worked-on
