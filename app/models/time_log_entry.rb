@@ -14,6 +14,8 @@ class TimeLogEntry
   before_validation :close_current_if_new
   before_save :update_task_labels
 
+  scope :newest, order_by(["created_at", "desc"])
+
   def can_edit?(user)
     self.user == user || user.role_in_project(project) == :scrum_master
   end
