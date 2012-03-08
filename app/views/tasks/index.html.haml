@@ -2,11 +2,10 @@
 - projects = raw_projects.collect{ |p| [p.name, project_tasks_path(p)] }
 - projects_hash = {}
 - raw_projects.each { |p| projects_hash[p.id] = p }
-= select_tag :project_id, options_for_select([["Select Project", tasks_path]] + projects, @project ? project_tasks_path(@project) : tasks_path), class: "jump_to_url"
-
 - current_task_id_cache = current_task_id
-
-= link_to "Refresh list of tasks", download_tasks_path
+.form-inline
+  = select_tag :project_id, options_for_select([["Select Project", tasks_path]] + projects, @project ? project_tasks_path(@project) : tasks_path), class: "jump_to_url"
+  = link_to "Refresh list of tasks", download_tasks_path, class: 'btn btn-primary'
 
 - if @project.blank?
   %p
@@ -22,7 +21,7 @@
   - @tasks.each do |task|
     - project = projects_hash[task.project_id]
     - current = task.id == current_task_id_cache
-    %li{:class => "#{'current' if current}"}
+    %li.task{class: current && 'current'}
       %span.task_name
         = link_to "##{task.pivotal_tracker_story_id}", "http://www.pivotaltracker.com/story/show/#{task.pivotal_tracker_story_id}", target: "_blank"
         = task.name

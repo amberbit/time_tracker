@@ -73,7 +73,7 @@ TimeTracker::Application.routes.draw do
   #     resources :products
   #   end
 
-  root :to => "tasks#index"
+  root to: "tasks#welcome"
 
   # See how all your routes lay out with "rake routes"
 

@@ -11,5 +11,5 @@
     = f.collection_select :task_id, @project.tasks.find(:all, sort: ["updated_at", "desc"]), :id, :name
   = f.hidden_field :current, :value => 0
   %p
-    = f.submit "Submit"
+    = f.submit "Submit", class: 'btn btn-primary'
 

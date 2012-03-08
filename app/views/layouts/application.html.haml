@@ -2,28 +2,42 @@
 %html
   %head
     %title TimeTracker
-    = stylesheet_link_tag "reset.css", "screen.css"
-    = javascript_include_tag "jquery-1.4.3.min", "application"
+    = stylesheet_link_tag "reset", "screen"
+    = javascript_include_tag "jquery-1.7.1.min", "application"
+    = javascript_include_tag "bootstrap/bootstrap-dropdown"
     = csrf_meta_tag
   %body
-    %header
-      %h1= link_to "TimeTracker", root_path
-      %nav
-        %ul
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
           - if current_user
-            %li= link_to "Tasks", root_path
-            %li= link_to "Logged time", time_log_entries_path
-            %li= link_to "Reports", pivot_reports_path
-            %li= link_to "My profile", edit_user_registration_path
-            %li= link_to "Sign out", destroy_user_session_path
+            %ul.nav
+              %li{class: controller_name == 'tasks' && 'active'}=link_to t('header.tasks'), root_path
+              %li{class: controller_name == 'time_log_entries' && 'active'}=link_to t('header.logged_time'), [:time_log_entries]
+              %li{class: controller_name == 'reports' && 'active'}=link_to t('header.reports'), [:pivot_reports]
+              %li{class: controller_name == 'users' && 'active'}=link_to t('header.my_profile'), [:edit, :user, :registration]
+              %li.divider-vertical
+            %ul.nav.right
+              %li= link_to t('header.sign_out'), destroy_user_session_path
           - else
-            %li= link_to "Sign up", new_user_registration_path
-            %li= link_to "Sign in", new_user_session_path
+            %ul.nav.right
+              %li= link_to "Sign up", new_user_registration_path
+              %li= link_to "Sign in", new_user_session_path
+
+          = render 'layouts/task_menu'
+
+    %header
+      %h1
+        = link_to "TimeTracker", root_path
+        -if @worked_today.present?
+          %span.right.worked-today{title: "time worked today"}
+            worked today:
+            %span.time= TimeFormatter::format @worked_today
     %section#content
-      - unless notice.blank?
-        %p.notice= notice
-      - unless alert.blank?
-        %p.alert= alert
+      - if notice
+        .alert.alert-info= notice
+      - if flash[:error] || alert
+        .alert.alert-error= flash[:error] || alert
       = yield
     %footer
       Copyright 2010 &copy; Wojciech Piekutowski, Hubert Łępicki
