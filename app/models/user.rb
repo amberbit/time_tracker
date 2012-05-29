@@ -8,6 +8,9 @@ class User
          :recoverable, :rememberable, :trackable, :validatable
 
   field :pivotal_tracker_api_token
+  field :admin, type: Boolean, default: false
+  attr_protected :admin
+
   validates_presence_of :pivotal_tracker_api_token
   references_many :projects, stored_as: :array, inverse_of: :users
   references_many :time_log_entries
@@ -27,7 +30,7 @@ class User
   end
 
   def owned_projects
-    projects.where(:owner_emails => email)
+    admin? ? projects : projects.where(:owner_emails => email)
   end
 
   def not_owned_projects

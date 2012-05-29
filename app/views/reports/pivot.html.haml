@@ -3,7 +3,7 @@
 
   %section
     = form_tag nil, method: :get do
-      %fieldset
+      %fieldset.well
         %legend Configuration
         = label_tag :from
         = text_field_tag :from, @from
@@ -14,7 +14,7 @@
         = label_tag :row_key
         = select_tag :row_key, options_for_select(Report::Pivot::ROW_KEYS, @row_key)
         %br/
-      %fieldset
+      %fieldset.well
         %legend Filter
         = label_tag :project_id
         = select_tag :project_id, project_options
@@ -26,9 +26,9 @@
         = text_field_tag :label, params[:label]
         %br/
 
-      = submit_tag 'Show'
+      = submit_tag 'Show', class: 'btn btn-primary'
 
-  %table#entries
+  %table#entries.table.table-striped.table-bordered
     %thead
       %tr
         %th= @row_key

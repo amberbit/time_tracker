@@ -7,6 +7,7 @@ gem 'haml', '3.0.22'
 gem 'devise', '1.1.3'
 gem 'hpricot'
 gem 'will_paginate'
+gem 'sass'
 
 group :development do
   gem 'capistrano'
