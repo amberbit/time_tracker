@@ -13,6 +13,10 @@ describe User do
     end
   end
 
+  it "should not allow admin role mass assignment" do
+    User.create!(user_attributes(admin: true)).should_not be_admin
+  end
+
   describe 'with projects' do
     before :each do
       @user1 = User.create! user_attributes(email: '1@1.com')

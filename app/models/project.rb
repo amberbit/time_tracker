@@ -27,6 +27,6 @@ class Project
   end
 
   def owned_by?(user)
-    owner_emails.include? user.email
+    user.admin? || owner_emails.include?(user.email)
   end
 end
