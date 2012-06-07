@@ -11,6 +11,7 @@ class Task
   field :iteration_number, type: Integer
   field :estimate, type: Integer
   field :labels, type: Array
+  field :current_state
 
   referenced_in :project
   references_many :time_log_entries, dependent: :nullify
@@ -22,6 +23,9 @@ class Task
   before_save :denormalize_labels_to_time_log_entries
 
   def self.download_for_user(some_user)
+    #download_for_userr(some_user)
+    #return
+
     http = Net::HTTP.new("www.pivotaltracker.com", 443)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -30,69 +34,65 @@ class Task
 
     projects_response = http.get("/services/v3/projects", headers)
     projects = Hpricot(projects_response.body).search("project").collect do |p|
-      owners = p.search("membership role[text()='Owner']")
-      owner_emails = owners.map do |role|
-        email_tag = role.parent.at('person email')
-        email_tag ? email_tag.inner_text : nil
+      last_activity = p.at("last_activity_at").nil? ? 
+                  Time.new : DateTime.parse(p.at("last_activity_at").inner_text)
+
+      id = p.search("id")[0].inner_text.to_i
+      our_project = Project.find_or_initialize_by pivotal_tracker_project_id: id
+      recent = our_project.tasks.max(:updated_at) || Time.at(0)
+
+      unless our_project.users.include?(some_user)
+	our_project.users << some_user
       end
 
-      owner_emails.compact!
+      if last_activity > recent
+        owners = p.search("membership role[text()='Owner']")
+        owner_emails = owners.map do |role|
+          email_tag = role.parent.at('person email')
+          email_tag ? email_tag.inner_text : nil
+        end
+        owner_emails.compact!
 
-      {
-        id: p.search("id")[0].inner_text.to_i,
-        name: p.search("name")[0].inner_text,
-        owner_emails: owner_emails
-      }
+	our_project.name = p.search("name")[0].inner_text
+	unless owner_emails.nil?
+	  our_project.owner_emails = owner_emails
+	end
+
+        {
+          id: id,
+	  recent: recent,
+	  iteration: p.search("current_iteration_number")[0].inner_text.to_i,
+	  our_project: our_project
+        }
+      end
     end
 
-    projects.each do |pivotal_project|
-      our_project = Project.find_or_initialize_by pivotal_tracker_project_id: pivotal_project[:id]
-      our_project.name = pivotal_project[:name]
-      if pivotal_project[:owner_emails].present?
-        our_project.owner_emails = pivotal_project[:owner_emails]
-      end
-      our_project.save!
+    projects.compact!
 
+    projects.each do |pivotal_project|
+      our_project = pivotal_project[:our_project]
+      our_project.save!
       some_user.projects << our_project
 
-      http = Net::HTTP.new("www.pivotaltracker.com", 443)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      recent_str = pivotal_project[:recent].strftime("%m/%d/%Y")
+      tasks_response = http.get("/services/v3/projects/#{pivotal_project[:id]}/stories"\
+					"?filter=modified_since:#{recent_str}", headers)
+      Hpricot(tasks_response.body).search("story").each do |s|
+        id = s.search("id")[0].inner_text.to_i
 
-      headers = {'X-TrackerToken' => some_user.pivotal_tracker_api_token}
-      stories_response = http.get("/services/v3/projects/#{pivotal_project[:id]}/iterations", headers)
+        estimate_tag = s.search("estimate")[0]
+        estimate_data = estimate_tag ? estimate_tag.inner_text : nil
+        estimate = estimate_data.blank? ? nil : estimate_data.to_i
 
-      iterations = Hpricot(stories_response.body).search("iteration").collect do
-        |s| s.search("number")[0].inner_text.to_i
-      end
+	task = Task.find_or_initialize_by(project_id: our_project.id, pivotal_tracker_story_id: id)
 
-      iterations.each do |iteration|
-        doc = Hpricot(stories_response.body)
-        stories_xpath = "/iterations/iteration:eq(#{iterations.index(iteration)})/stories/story"
-        stories = doc.search(stories_xpath).collect do |s|
-          estimate_tag = s.search("estimate")[0]
-          estimate_data = estimate_tag ? estimate_tag.inner_text : nil
-          estimate = estimate_data.blank? ? nil : estimate_data.to_i
-          {
-            id: s.search("id")[0].inner_text.to_i,
-            name: s.search("name")[0].inner_text,
-            estimate: estimate,
-            current_state: s.search("current_state")[0].inner_text,
-            labels: s.at("labels").try(:inner_text).try(:split, ',')
-          }
-        end
+        task.name = s.search("name")[0].inner_text
+ 	task.iteration_number = pivotal_project[:iteration]
+        task.estimate = estimate
+        task.labels = s.at("labels").try(:inner_text).try(:split, ',')
+        task.current_state = s.search("current_state")[0].inner_text
 
-        stories.each do |pivotal_story|
-          unless pivotal_story[:current_state] == "unscheduled"
-            task = Task.find_or_initialize_by(project_id: our_project.id,
-                                              pivotal_tracker_story_id: pivotal_story[:id])
-            task.name = pivotal_story[:name]
-            task.iteration_number = iteration
-            task.estimate = pivotal_story[:estimate]
-            task.labels = pivotal_story[:labels]
-            task.save!
-          end
-        end
+	task.save!
       end
     end
   end
