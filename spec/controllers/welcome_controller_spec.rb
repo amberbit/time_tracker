@@ -9,4 +9,5 @@ describe WelcomeController do
     end
   end
 
+  include Devise::TestHelpers
 end
