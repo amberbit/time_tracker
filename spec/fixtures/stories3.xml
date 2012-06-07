@@ -1,0 +1,28 @@
+<stories type="array" count="2" total="2">
+  <story>
+    <id type="integer">30630977</id>
+    <project_id type="integer">2</project_id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/30630977</url>
+    <estimate type="integer">-1</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>Story X</name>
+    <requested_by>John Doe</requested_by>
+    <created_at type="datetime">2012/06/04 10:01:19 UTC</created_at>
+    <updated_at type="datetime">2012/06/04 10:01:23 UTC</updated_at>
+  </story>
+  <story>
+    <id type="integer">30630983</id>
+    <project_id type="integer">2</project_id>
+    <story_type>feature</story_type>
+    <url>http://www.pivotaltracker.com/story/show/30630983</url>
+    <estimate type="integer">-1</estimate>
+    <current_state>unstarted</current_state>
+    <description></description>
+    <name>Yet another story</name>
+    <requested_by>John Doe</requested_by>
+    <created_at type="datetime">2012/06/04 10:01:29 UTC</created_at>
+    <updated_at type="datetime">2012/06/04 10:01:31 UTC</updated_at>
+  </story>
+</stories>

@@ -23,9 +23,6 @@ class Task
   before_save :denormalize_labels_to_time_log_entries
 
   def self.download_for_user(some_user)
-    #download_for_userr(some_user)
-    #return
-
     http = Net::HTTP.new("www.pivotaltracker.com", 443)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -58,10 +55,13 @@ class Task
 	  our_project.owner_emails = owner_emails
 	end
 
+	iteration_tag = p.search("current_iteration_number")[0]
+	iteration = iteration_tag ? iteration_tag.inner_text.to_i : nil
+
         {
           id: id,
 	  recent: recent,
-	  iteration: p.search("current_iteration_number")[0].inner_text.to_i,
+	  iteration: iteration,
 	  our_project: our_project
         }
       end
@@ -91,8 +91,8 @@ class Task
         task.estimate = estimate
         task.labels = s.at("labels").try(:inner_text).try(:split, ',')
         task.current_state = s.search("current_state")[0].inner_text
-
-	task.save!
+	
+	task.save! unless task.current_state == "unscheduled"
       end
     end
   end
