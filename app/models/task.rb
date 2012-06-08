@@ -11,6 +11,7 @@ class Task
   field :iteration_number, type: Integer
   field :estimate, type: Integer
   field :labels, type: Array
+  field :current_state
 
   referenced_in :project
   references_many :time_log_entries, dependent: :nullify

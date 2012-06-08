@@ -7,6 +7,9 @@
   = select_tag :project_id, options_for_select([["Select Project", tasks_path]] + projects, @project ? project_tasks_path(@project) : tasks_path), class: "jump_to_url"
   = link_to "Refresh list of tasks", download_tasks_path, class: 'btn btn-primary'
 
+  = check_box_tag "show_accepted"
+  = "Show accepted tasks"
+
 - if @project.blank?
   %p
     %br
@@ -21,7 +24,7 @@
   - @tasks.each do |task|
     - project = projects_hash[task.project_id]
     - current = task.id == current_task_id_cache
-    %li.task{class: current && 'current'}
+    %li.task{class: current && 'current', class: task.current_state }
       %span.task_name
         = link_to "##{task.pivotal_tracker_story_id}", "http://www.pivotaltracker.com/story/show/#{task.pivotal_tracker_story_id}", target: "_blank"
         = task.name
