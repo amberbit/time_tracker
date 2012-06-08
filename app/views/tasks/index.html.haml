@@ -7,7 +7,7 @@
   = select_tag :project_id, options_for_select([["Select Project", tasks_path]] + projects, @project ? project_tasks_path(@project) : tasks_path), class: "jump_to_url"
   = link_to "Refresh list of tasks", download_tasks_path, class: 'btn btn-primary'
 
-  = check_box_tag "show_accepted"
+  = check_box_tag "show_accepted", 'show_accepted', false
   = "Show accepted tasks"
 
 - if @project.blank?

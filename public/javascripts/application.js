@@ -5,12 +5,10 @@ $(".jump_to_url").live("change", function(event) {
  window.location = $(this).val();
 });
 
-$("#show_accepted").attr('checked', true);
-
-$("#show_accepted").click(function() {
+$("#show_accepted").change(function() {
   if($("#show_accepted").attr('checked'))
     $(".accepted").show();
   else
     $(".accepted").hide();
-})();
+}).change();
 
