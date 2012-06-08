@@ -11,6 +11,7 @@ class Task
   field :iteration_number, type: Integer
   field :estimate, type: Integer
   field :labels, type: Array
+  field :current_state
 
   referenced_in :project
   references_many :time_log_entries, dependent: :nullify
@@ -90,11 +91,43 @@ class Task
             task.iteration_number = iteration
             task.estimate = pivotal_story[:estimate]
             task.labels = pivotal_story[:labels]
+	    task.current_state = pivotal_story[:current_state]
+
             task.save!
           end
         end
       end
     end
+  end
+
+  def self.parse_activity request_body
+    Hpricot(request_body).search("activity") do |a|	    
+      event_type = a.at("event_type").inner_text
+      project_id = a.at("project_id").inner_text.to_i
+      our_project = Project.find_or_initialize_by pivotal_tracker_project_id: project_id      
+
+      story = a.at("story")
+      estimate_tag = story.search("estimate")[0]
+      estimate_data = estimate_tag ? estimate_tag.inner_text : nil
+      estimate = estimate_data.blank? ? nil : estimate_data.to_i
+
+      name_tag = story.search("name")[0]
+      name = name_tag ? name_tag.inner_text : nil
+
+      current_state_tag = story.search("current_state")[0]
+      current_state = current_state_tag.blank? ? nil : current_state_tag.inner_text	
+
+      story_id = story.search("id")[0].inner_text.to_i
+
+      task = Task.find_or_initialize_by(project_id: our_project.id, pivotal_tracker_story_id: story_id)
+
+      task.name = name || task.name
+      task.estimate = estimate || task.estimate
+      task.current_state = current_state || task.current_state
+      task.labels = story.at("labels").try(:inner_text).try(:split, ',') || task.labels
+
+      task.save!
+    end    
   end
 
   private
