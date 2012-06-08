@@ -91,6 +91,7 @@ class Task
             task.iteration_number = iteration
             task.estimate = pivotal_story[:estimate]
             task.labels = pivotal_story[:labels]
+	    task.current_state = pivotal_story[:current_state]
             task.save!
           end
         end

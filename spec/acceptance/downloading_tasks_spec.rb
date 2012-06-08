@@ -23,4 +23,26 @@ feature "Downloading Tasks", %q{
     select Project.last.name, from: 'project_id'
     page.should have_content("Prepare servers")
   end
+
+  scenario "Allowing user to hide accepted tasks" do
+    Capybara.ignore_hidden_elements = true
+    fake_pivotal_api
+
+    sign_in_as "user@amberbit.com"
+
+    visit tasks_list
+    click_link "Refresh list of tasks"
+    select Project.first.name, from: 'project_id'
+    check 'show_accepted'
+    page.should have_css('span', :text => "More power to shields", :visible => true)
+    page.should have_css('span', :text => "Story Y", :visible => true)
+
+    uncheck 'show_accepted'
+    page.should have_no_css('span', :text => "More power to shields", :visible => true)
+    page.should have_no_css('span', :text => "Story Y", :visible => true)
+
+    check 'show_accepted'
+    page.should have_css('span', :text => "More power to shields", :visible => true)
+    page.should have_css('span', :text => "Story Y", :visible => true)
+  end
 end
