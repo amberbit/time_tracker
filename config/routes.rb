@@ -26,6 +26,8 @@ TimeTracker::Application.routes.draw do
     end
   end
 
+  post '/pivotal_web_hook', :to => "webHooks#pivotal_activity_web_hook"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
