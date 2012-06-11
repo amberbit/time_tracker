@@ -105,6 +105,7 @@ class Task
       event_type = a.at("event_type").inner_text
       project_id = a.at("project_id").inner_text.to_i
       our_project = Project.find_or_initialize_by pivotal_tracker_project_id: project_id
+      return if our_project.new_record?
 
       story = a.at("story")
       estimate_tag = story.search("estimate")[0]
@@ -126,7 +127,7 @@ class Task
       task.current_state = current_state || task.current_state
       task.labels = story.at("labels").try(:inner_text).try(:split, ',') || task.labels
 
-      task.iteration_number = our_project.tasks.where(:iteration_number.ne => nil?).max(:iteration_number)
+      task.iteration_number = our_project.tasks.where(:iteration_number.ne => nil?).max(:iteration_number) || 1
       task.save!
     end    
   end
