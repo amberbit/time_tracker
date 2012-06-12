@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity>
+  <id type="integer">206058955</id>
+  <version type="integer">11</version>
+  <event_type>story_update</event_type> 
+  <occurred_at type="datetime">2012/06/08 14:19:24 UTC</occurred_at>
+  <author>Jenny Doe</author>
+  <project_id type="integer">2</project_id>
+  <description>Jenny Doe edited &quot;d&quot;</description>
+  <stories type="array">
+    <story>
+      <id type="integer">30912545</id>
+      <url>http://www.pivotaltracker.com/services/v3/projects/569617/stories/30912545</url>
+      <current_state>unstarted</current_state>
+    </story>
+  </stories>
+</activity>
