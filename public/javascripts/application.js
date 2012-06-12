@@ -4,9 +4,16 @@ $(".jump_to_url").live("change", function(event) {
   window.location = $(this).val();
 });
 
-$("#show_accepted").change(function() {
+function show_accepted_changed() {
   if($("#show_accepted").attr('checked'))
     $(".accepted").show();
   else
     $(".accepted").hide();
+}
+show_accepted_changed();
+
+$("#show_accepted").change(function() {
+  show_accepted_changed();
+}).attr("onchange", function() {
+  show_accepted_changed();
 });
