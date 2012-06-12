@@ -31,4 +31,27 @@ feature "Pivotal Tracker Activity Web Hook", %q{
 
     page.should have_content("Conquer the Universe!")
   end
+
+  scenario "Tasks from nonexistent projects shouldn't be added" do
+    fake_pivotal_api
+
+    sign_in_as "user@amberbit.com"
+
+    visit tasks_list
+    page.should_not have_content("Space Project")
+
+    click_link "Refresh list of tasks"
+    select Project.last.name, from: 'project_id'
+    page.should have_content("Prepare servers")
+    page.should_not have_content("Make sandwiches")
+
+    activity3 = File.read(File.join(Rails.root, "spec", "fixtures", "activity3.xml"))
+    
+    Task.parse_activity activity3
+
+    select Project.first.name, from: 'project_id'
+    select Project.last.name, from: 'project_id'
+
+    page.should_not have_content("Make sandwiches")
+  end
 end
