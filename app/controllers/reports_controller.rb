@@ -10,5 +10,6 @@ class ReportsController < ApplicationController
     @row_key = result[:row_key]
     @entries = result[:entries]
     @total_time = result[:total_time]
+    @story_type = params[:story_type]
   end
 end
