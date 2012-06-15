@@ -12,4 +12,8 @@ module TimeLogEntriesHelper
     user_options.unshift ["Any User", nil]
     options_for_select(user_options, params[:user_id])
   end
+
+  def story_types
+    %w[feature bug chore release]
+  end
 end

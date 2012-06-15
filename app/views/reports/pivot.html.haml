@@ -25,6 +25,10 @@
         = label_tag :label
         = text_field_tag :label, params[:label]
         %br/
+        = label_tag :story_type
+        - story_types.each do |value|
+          %input{:type=>"checkbox", :name=>"story_type", :value=>"#{value}", :checked=>true}
+          =value
 
       = submit_tag 'Show', class: 'btn btn-primary'
 
