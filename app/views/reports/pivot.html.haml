@@ -27,7 +27,8 @@
         %br/
         = label_tag :story_type
         - story_types.each do |value|
-          %input{:type=>"checkbox", :name=>"story_type[]", :value=>"#{value}", :checked=>(@story_type.include?(value)) }
+          %input{:type=>"checkbox", :id => "#{value}_checkbox", :name=>"story_type[]", :value=>"#{value}",
+            :checked=>(@story_type.blank? ? true : @story_type.include?(value) )}
           =value
 
       = submit_tag 'Show', class: 'btn btn-primary'

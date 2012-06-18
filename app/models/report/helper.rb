@@ -63,10 +63,9 @@ module Report
       end
 
       # filter by story type
-      if @story_types.present?
-	conditions.each do |c|
-	  c.merge!(task_story_type: {"$in" => @story_types})
-	end
+      @story_types = [] unless @story_types.present?
+      conditions.each do |c|
+        c.merge!(task_story_type: {"$in" => @story_types})
       end
 
       conditions
