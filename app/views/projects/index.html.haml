@@ -1,0 +1,13 @@
+%h1 Projects
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th Name
+  %tbody
+    - @projects.each do |p|
+      %tr
+        %td
+          = link_to "##{p.pivotal_tracker_project_id}", project_path(p)
+          = p.name
+
