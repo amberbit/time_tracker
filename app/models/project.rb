@@ -5,6 +5,7 @@ class Project
   field :name
   field :pivotal_tracker_project_id, :type => Integer
   field :owner_emails, :type => Array, :default => []
+  field :our_owner_emails, :type => Array, :default => []
 
   references_many :tasks
   references_many :time_log_entries
@@ -27,6 +28,7 @@ class Project
   end
 
   def owned_by?(user)
-    user.admin? || owner_emails.include?(user.email)
+    #user.admin? || owner_emails.include?(user.email)
+    user.admin? || our_owner_emails.include?(user.email)
   end
 end
