@@ -8,9 +8,16 @@
         %thead
           %tr
             %th Email
+            %th
         %tbody
           - @current_project.our_owner_emails.each do |o|
             %tr
-              %td
-                = o
+              %td= o
+              %td= #button_to "X", remove_owner_path(@current_project.id, o), method: :delete
+
+      = form_tag add_owner_path, method: :post, class: 'form-inline' do |f|
+        = text_field_tag :email
+        = hidden_field_tag :project_id, @current_project.id
+        = submit_tag 'Add user', class: 'btn btn-primary'
+        
 
