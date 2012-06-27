@@ -6,7 +6,7 @@ class WebHooksController < ApplicationController
       Task::parse_activity request.body
     end
 
-    render :nothing => true, :status => 200
+    head :ok
   end
 
 end

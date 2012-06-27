@@ -91,7 +91,7 @@ class Task
             task.iteration_number = iteration
             task.estimate = pivotal_story[:estimate]
             task.labels = pivotal_story[:labels]
-	    task.current_state = pivotal_story[:current_state]
+            task.current_state = pivotal_story[:current_state]
 
             task.save!
           end
@@ -116,7 +116,7 @@ class Task
       name = name_tag ? name_tag.inner_text : nil
 
       current_state_tag = story.search("current_state")[0]
-      current_state = current_state_tag.blank? ? nil : current_state_tag.inner_text	
+      current_state = current_state_tag.blank? ? nil : current_state_tag.inner_text     
 
       story_id = story.search("id")[0].inner_text.to_i
 
@@ -129,7 +129,7 @@ class Task
 
       task.iteration_number = our_project.tasks.where(:iteration_number.ne => nil?).max(:iteration_number) || 1
       task.save!
-    end    
+    end
   end
 
   private

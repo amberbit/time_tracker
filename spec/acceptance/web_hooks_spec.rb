@@ -46,7 +46,7 @@ feature "Pivotal Tracker Activity Web Hook", %q{
     page.should_not have_content("Make sandwiches")
 
     activity3 = File.read(File.join(Rails.root, "spec", "fixtures", "activity3.xml"))
-    
+
     Task.parse_activity activity3
 
     select Project.first.name, from: 'project_id'
