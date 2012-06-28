@@ -11,7 +11,13 @@ class ProjectsController < AuthenticatedController
 
   def add_owner
     project = Project.find(params[:project_id])
-    project.add_owner params[:email]    
+    if project.add_owner params[:email]
+      flash[:notice] = "User added successfully."
+    else
+      flash[:error] = "User could not be added.\n 
+        Either the user with given email address doesn't exist or he is already a project owner."
+    end
+
     redirect_to project_path(project)
   end
 

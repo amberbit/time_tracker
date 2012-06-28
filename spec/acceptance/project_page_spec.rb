@@ -32,21 +32,41 @@ feature "Project Page", %q{
       page.should have_content("kirkybaby@earth.ufp")
     end
 
-    scenario "Adding owners to the list" do
-      fill_in "email", with: "mail@mail.com" 
-      click_button "Add user"
+    describe "Adding owners to the list" do
 
-      page.should have_content("earth.ufp")
+      scenario "Manually" do      
+        fill_in "email", with: "mail@mail.com" 
+        click_button "Add user"
+
+        page.should have_content("earth.ufp")
+      end
+
+      scenario "Using autocomplete" do
+        fill_in "email", with: "amb" 
+        page.should have_content("user@amberbit.com")
+      end
+
+      scenario "Adding user who is already an owner" do
+        fill_in "email", with: "mail@mail.com" 
+        click_button "Add user"
+
+        fill_in "email", with: "mail@mail.com" 
+        click_button "Add user"
+
+        page.should have_content("User could not be added")
+      end
+
+      scenario "Setting non existent user as an owner" do
+        fill_in "email", with: "there_is_no_such_user@mail.com" 
+        click_button "Add user"
+
+        page.should have_content("User could not be added")
+      end
     end
 
     scenario "Removing owners from the list" do
       click_link 'remove'
       page.should_not have_content("kirkybaby@earth.ufp")
-    end
-
-    scenario "Using autocomplete" do
-      fill_in "email", with: "amb" 
-      page.should have_content("user@amberbit.com")
     end
 
   end

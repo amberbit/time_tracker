@@ -28,12 +28,16 @@ class Project
   end
 
   def owned_by?(user)
-    user.admin? || our_owner_emails.include?(user.email)
+    user.admin? || owner_emails.include?(user.email) || our_owner_emails.include?(user.email)
   end
 
   def add_owner email
-    our_owner_emails << email
-    save!
+    if !our_owner_emails.include?(email) && !User.where(email: email).blank?
+      our_owner_emails << email
+      save!
+    else
+      false
+    end
   end
 
   def remove_owner email
