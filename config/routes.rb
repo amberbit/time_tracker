@@ -4,7 +4,7 @@ TimeTracker::Application.routes.draw do
   devise_for :users
 
   resources :users do
-    get :autocomplete_user_email,  :on => :collection
+    get :autocomplete_user_email, :on => :collection
   end
 
   resources :tasks do

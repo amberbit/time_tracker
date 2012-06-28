@@ -1,4 +1,4 @@
-Rlass ReportsController < ApplicationController
+class ReportsController < ApplicationController
   def index
   end
 

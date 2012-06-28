@@ -44,6 +44,11 @@ feature "Project Page", %q{
       page.should_not have_content("kirkybaby@earth.ufp")
     end
 
+    scenario "Using autocomplete" do
+      fill_in "email", with: "amb" 
+      page.should have_content("user@amberbit.com")
+    end
+
   end
 
 end
