@@ -31,7 +31,7 @@ feature "Downloading Tasks", %q{
 
     visit tasks_list
     page.should_not have_content("Space Project")
-  
+
     click_link "Refresh list of tasks"
     select Project.last.name, from: 'project_id'
     page.should have_content("Prepare servers")
@@ -40,8 +40,8 @@ feature "Downloading Tasks", %q{
     FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects",
                          body: File.read(File.join(Rails.root, "spec", "fixtures", "projects2.xml")))
     FakeWeb.register_uri(:get, %r[\Ahttps:\/\/www.pivotaltracker.com\/services\/v3\/projects\/2\/stories.*],
-			 body: File.read(File.join(Rails.root, "spec", "fixtures", "stories3.xml")))
-    
+                         body: File.read(File.join(Rails.root, "spec", "fixtures", "stories3.xml")))
+
     click_link "Refresh list of tasks"
     select Project.last.name, from: 'project_id'
 

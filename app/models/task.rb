@@ -39,7 +39,7 @@ class Task
       recent = our_project.tasks.max(:updated_at) || Time.at(0)
 
       unless our_project.users.include?(some_user)
-	our_project.users << some_user
+        our_project.users << some_user
       end
 
       if last_activity > recent
@@ -50,19 +50,19 @@ class Task
         end
         owner_emails.compact!
 
-	our_project.name = p.search("name")[0].inner_text
-	unless owner_emails.nil?
-	  our_project.owner_emails = owner_emails
-	end
+        our_project.name = p.search("name")[0].inner_text
+        unless owner_emails.nil?
+          our_project.owner_emails = owner_emails
+        end
 
-	iteration_tag = p.search("current_iteration_number")[0]
-	iteration = iteration_tag ? iteration_tag.inner_text.to_i : nil
+        iteration_tag = p.search("current_iteration_number")[0]
+        iteration = iteration_tag ? iteration_tag.inner_text.to_i : nil
 
         {
           id: id,
-	  recent: recent,
-	  iteration: iteration,
-	  our_project: our_project
+          recent: recent,
+          iteration: iteration,
+          our_project: our_project
         }
       end
     end
@@ -76,7 +76,7 @@ class Task
 
       recent_str = pivotal_project[:recent].strftime("%m/%d/%Y")
       tasks_response = http.get("/services/v3/projects/#{pivotal_project[:id]}/stories"\
-					"?filter=modified_since:#{recent_str}", headers)
+                                        "?filter=modified_since:#{recent_str}", headers)
       Hpricot(tasks_response.body).search("story").each do |s|
         id = s.search("id")[0].inner_text.to_i
 
@@ -84,15 +84,15 @@ class Task
         estimate_data = estimate_tag ? estimate_tag.inner_text : nil
         estimate = estimate_data.blank? ? nil : estimate_data.to_i
 
-	task = Task.find_or_initialize_by(project_id: our_project.id, pivotal_tracker_story_id: id)
+        task = Task.find_or_initialize_by(project_id: our_project.id, pivotal_tracker_story_id: id)
 
         task.name = s.search("name")[0].inner_text
- 	task.iteration_number = pivotal_project[:iteration]
+        task.iteration_number = pivotal_project[:iteration]
         task.estimate = estimate
         task.labels = s.at("labels").try(:inner_text).try(:split, ',')
         task.current_state = s.search("current_state")[0].inner_text
-	
-	task.save! unless task.current_state == "unscheduled"
+
+        task.save! unless task.current_state == "unscheduled"
       end
     end
   end
