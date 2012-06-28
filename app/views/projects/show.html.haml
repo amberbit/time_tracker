@@ -16,8 +16,7 @@
               %td= link_to "remove", remove_owner_path(@current_project.id, o), method: :delete
 
       = form_tag add_owner_path, method: :post, class: 'form-inline' do |f|
-        = text_field_tag :email
+        = autocomplete_field_tag :email, '', autocomplete_user_email_users_path
         = hidden_field_tag :project_id, @current_project.id
         = submit_tag 'Add user', class: 'btn btn-primary'
-        
 

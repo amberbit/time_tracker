@@ -1,0 +1,6 @@
+%h1 Users
+
+- if @emails.present?
+  %ul
+    - @emails.each do |e|
+      %li= e
