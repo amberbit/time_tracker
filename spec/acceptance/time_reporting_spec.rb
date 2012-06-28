@@ -30,8 +30,8 @@ feature "Time logging", %q{
       select Project.first.name, from: 'project_id'
 
       (0..4).each do |n|
-	all("a.icon-start")[2*n].click
-	all("a.icon-stop")[0].click
+        all("a.icon-start")[2*n].click
+        all("a.icon-stop")[0].click
       end
     end
 
@@ -43,10 +43,10 @@ feature "Time logging", %q{
       search.click
 
       within("#entries") do
-	page.should have_content("Feature Story")
-	page.should have_content("Bug Story")
-	page.should have_content("Chore Story")
-	page.should have_content("Release Story")
+        page.should have_content("Feature Story")
+        page.should have_content("Bug Story")
+        page.should have_content("Chore Story")
+        page.should have_content("Release Story")
       end
 
       uncheck "feature_checkbox"

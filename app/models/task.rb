@@ -75,14 +75,14 @@ class Task
           estimate_data = estimate_tag ? estimate_tag.inner_text : nil
           estimate = estimate_data.blank? ? nil : estimate_data.to_i
 
-	  story_type = s.at("story_type").inner_text
+          story_type = s.at("story_type").inner_text
           {
             id: s.search("id")[0].inner_text.to_i,
             name: s.search("name")[0].inner_text,
             estimate: estimate,
             current_state: s.search("current_state")[0].inner_text,
             labels: s.at("labels").try(:inner_text).try(:split, ','),
-	    story_type: story_type
+            story_type: story_type
           }
         end
 
@@ -94,7 +94,7 @@ class Task
             task.iteration_number = iteration
             task.estimate = pivotal_story[:estimate]
             task.labels = pivotal_story[:labels]
-	    task.story_type = pivotal_story[:story_type]
+            task.story_type = pivotal_story[:story_type]
             task.save!
           end
         end

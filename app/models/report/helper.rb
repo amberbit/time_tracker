@@ -8,7 +8,7 @@ module Report
       @selected_user = User.find(params[:user_id]) if params[:user_id].present?
       @selected_project = Project.find(params[:project_id]) if params[:project_id].present?
       @label = params[:label] if params
-      @story_types = params[:story_type] if params[:story_type].present?
+      @story_types = params[:story_types] if params[:story_types].present?
     end
 
     def conditions
