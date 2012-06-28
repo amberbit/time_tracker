@@ -1,7 +1,7 @@
 class ProjectsController < AuthenticatedController
 
   def index
-    @projects = Project.all.reject { |p| !p.owned_by?(current_user) }    
+    @projects = Project.all.reject { |p| !p.owned_by?(current_user) }
     @projects = Project.all
   end
 
@@ -11,15 +11,13 @@ class ProjectsController < AuthenticatedController
 
   def add_owner
     project = Project.find(params[:project_id])
-    project.our_owner_emails << params[:email]
-    project.save!
+    project.add_owner params[:email]    
     redirect_to project_path(project)
   end
 
   def remove_owner
-    #project = Project.find(params[:project_id])
-    #project.our_owner_emails.delete(params[:email])
-    #project.save!
+    project = Project.find(params[:project_id])
+    project.remove_owner params[:email]
     redirect_to project_path(project)
   end
 end

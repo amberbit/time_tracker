@@ -28,7 +28,17 @@ class Project
   end
 
   def owned_by?(user)
-    #user.admin? || owner_emails.include?(user.email)
     user.admin? || our_owner_emails.include?(user.email)
   end
+
+  def add_owner email
+    our_owner_emails << email
+    save!
+  end
+
+  def remove_owner email
+    our_owner_emails.delete(URI.unescape(email))
+    save!
+  end
+
 end

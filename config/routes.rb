@@ -20,7 +20,8 @@ TimeTracker::Application.routes.draw do
   end
 
   post '/add_owner', :to => 'projects#add_owner'
-  delete '/projects/:project_id/owner/:email', :to => 'projects#remove_owner', :as => :remove_owner
+  match '/projects/:project_id/owners(/:email)', :to => 'projects#remove_owner',
+                                        :as => :remove_owner, :method => :delete
 
   resources :time_log_entries
   resources :reports, only: :index do
