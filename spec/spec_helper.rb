@@ -39,7 +39,8 @@ def user_attributes(attrs = {})
   { email: "example@amberbit.com",
     password: "asdf1234",
     password_confirmation: "asdf1234",
-    pivotal_tracker_api_token: '12345678901234567890123456789012'
+    pivotal_tracker_api_token: '12345678901234567890123456789012',
+    admin: true
   }.merge(attrs)
 end
 
