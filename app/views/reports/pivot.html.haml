@@ -17,7 +17,10 @@
       %fieldset.well
         %legend Filter
         = label_tag :project_id
-        = select_tag :project_id, project_options
+        = select_tag :project_id, project_options, :id => 'time_log_project', :rel => '/tasks/tasks_by_project'
+        %br/
+        = label_tag :task_id
+        = select_tag :task_id, nil, :id => 'time_log_task'
         %br/
         = label_tag :user_id
         = select_tag :user_id, user_options

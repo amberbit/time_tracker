@@ -7,6 +7,7 @@ module Report
       @to =   DateParser.parse params[:to],   Date.today
       @selected_user = User.find(params[:user_id]) if params[:user_id].present?
       @selected_project = Project.find(params[:project_id]) if params[:project_id].present?
+      @selected_task = Task.find(params[:task_id]) if params[:task_id].present?
       @label = params[:label] if params
     end
 
@@ -40,6 +41,13 @@ module Report
       # one project was selected - remove other projects
       if @selected_project
         conditions.delete_if { |c| c[:project_id] != @selected_project.id }
+      end
+
+      # filter by task
+      if @selected_task.present?
+        conditions.each do |c|
+          c.merge!( _id: { '$in' => @selected_task.time_log_entries.to_a.map { |t| t._id } })
+        end
       end
 
       # user doesn't have any projects - don't let him see whole DB
