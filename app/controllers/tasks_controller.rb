@@ -1,5 +1,5 @@
 class TasksController < AuthenticatedController
-  before_filter :find_project
+  before_filter :find_project, :except => [:tasks_by_project]
   before_filter :find_task, :only => [:start_work, :stop_work]
 
   def welcome
@@ -44,6 +44,17 @@ class TasksController < AuthenticatedController
     redirect_to :back
   end
 
+  def tasks_by_project
+    if params[:id].present?
+      @tasks = Project.find(params[:id]).tasks.to_a
+    else
+      @tasks = []
+    end
+
+    respond_to do |format|
+      format.json { render json: @tasks }
+    end
+  end
 
   protected
 
