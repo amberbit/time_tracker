@@ -1,0 +1,14 @@
+#project
+  %h1= "#{@current_project.name} - project page"
+
+  %section
+    %fieldset.well
+      %legend Developers
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th Email
+        %tbody
+          - @current_project.users.each do |u|
+            %tr
+              %td= u.name

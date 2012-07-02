@@ -15,6 +15,9 @@ class User
   references_many :projects, stored_as: :array, inverse_of: :users
   references_many :time_log_entries
 
+  references_many :client_hourly_rates, stored_as: :array, inverse_of: :user, 
+                                     class_name: 'HourlyRate', :default => []
+
   alias_method :name, :email
 
   def current_time_log_entry
