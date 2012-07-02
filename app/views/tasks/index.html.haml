@@ -21,7 +21,7 @@
   - @tasks.each do |task|
     - project = projects_hash[task.project_id]
     - current = task.id == current_task_id_cache
-    %li.task{class: current && 'current'}
+    %li.task{class: current && 'current', rel: "/time_log_entries/user_task_entries:#{task.id}:#{current_user.id}" }
       %span.task_name
         = link_to "##{task.pivotal_tracker_story_id}", "http://www.pivotaltracker.com/story/show/#{task.pivotal_tracker_story_id}", target: "_blank"
         = task.name
@@ -33,3 +33,4 @@
         = task.iteration_number
       %span.project{title: "Project: #{project.name}", :style => "background-color: #{color_from_number(project.pivotal_tracker_project_id)}"}
         = link_to project.name, [project, :tasks]
+    .task-log-entries{ id: "task-log-entries-#{task.id}" }

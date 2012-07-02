@@ -27,6 +27,7 @@ TimeTracker::Application.routes.draw do
   end
 
   post 'tasks/tasks_by_project'
+  post 'time_log_entries/user_task_entries'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
