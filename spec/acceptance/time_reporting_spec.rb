@@ -61,6 +61,7 @@ feature "Time logging", %q{
       search.click
       within("#entries") { page.should_not have_content("Chore Story") }
 
+      check "chore_checkbox"
       uncheck "release_checkbox"
       search.click
       within("#entries") { page.should_not have_content("Release Story") }
@@ -74,12 +75,11 @@ feature "Time logging", %q{
       within("#entries") { page.should have_content("Space Project") }
 
       uncheck "feature_checkbox"
-      uncheck "bug_checkbox"
       uncheck "chore_checkbox"
       uncheck "release_checkbox"
 
       page.find("input[name=commit]").click
-      within("#entries") { page.should_not have_content("Space Project") }
+      within("#entries") { page.should_not have_content("Series Project") }
     end
 
     scenario "Should only count time spent on tasks of given types" do
@@ -92,6 +92,8 @@ feature "Time logging", %q{
       a=[1, 60, 3600]*2
       time1 = within("#entries tfoot") { all("td")[1].text.split(/[:\.]/).map{|time| time.to_i*a.pop}.inject(&:+) }
 
+      uncheck "feature_checkbox"
+      uncheck "bug_checkbox"
       uncheck "chore_checkbox"
       page.find("input[name=commit]").click
 
