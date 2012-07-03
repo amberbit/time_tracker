@@ -10,7 +10,8 @@ class Project
   references_many :time_log_entries
   references_many :users, stored_as: :array, inverse_of: :projects
 
-  referenced_in :hourly_rate, :class_name => 'HourlyRate', inverse_of: :project, stored_as: :array
+  referenced_in :hourly_rates, stored_as: :array, inverse_of: :project, 
+                            :class_name => 'HourlyRate', :default => []
 
   validates_presence_of :name, :pivotal_tracker_project_id
 

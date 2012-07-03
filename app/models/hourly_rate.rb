@@ -3,12 +3,18 @@ class HourlyRate
   include Mongoid::Timestamps
 
   field :rate, type: Integer, default: 0
-  field :from, type: DateTime, default: DateTime.now
+  field :from, type: DateTime
   field :to,   type: DateTime
 
   referenced_in :user, :class_name => 'User', :autosave => true
-  references_one :project, :class_name => 'Project', inverse_of: :hourly_rate
+  references_one :project, :class_name => 'Project', inverse_of: :hourly_rates
 
-  validates_presence_of :rate, :user, :project
+  before_save :set_from
+
+  private
+
+    def set_from
+      self.from = DateTime.now if self.from.nil?
+    end
     
 end

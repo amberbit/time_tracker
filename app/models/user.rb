@@ -43,4 +43,28 @@ class User
   def tasks
     Task.where(:project_id.in => project_ids)
   end
+
+  def project_client_hourly_rates project
+    HourlyRate.all(conditions: {
+                    id: { '$in' => self.client_hourly_rates.map { |r| r.id } },
+                    project_id: project.id }).to_a
+  end
+
+  def current_project_client_hourly_rate project
+    HourlyRate.all(conditions: {
+                    id: { '$in' => self.client_hourly_rates.map { |r| r.id } }, 
+                    project_id: project.id }).desc(:from).limit(1)[0]
+  end
+
+  def set_client_hourly_rate project, rate
+    current = self.current_project_client_hourly_rate project
+    unless current.nil?
+      current.to = DateTime.now
+      current.save!
+    end
+
+    h = self.client_hourly_rates.build({ rate: rate, project_id: project.id })
+    h.save!
+  end
+
 end
