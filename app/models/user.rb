@@ -59,7 +59,7 @@ class User
   def set_client_hourly_rate project, rate
     current = self.current_project_client_hourly_rate project
     unless current.nil?
-      current.to = DateTime.now
+      current.to = Date.yesterday
       current.save!
     end
 

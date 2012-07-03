@@ -7,7 +7,7 @@
       %table.table.table-striped.table-bordered
         %thead
           %tr
-            %th Email           
+            %th Email
             -if @current_project.owned_by?(current_user) || @current_project.users.include?(current_user)
               %th Client hourly rate (PLN)
         %tbody
@@ -22,3 +22,15 @@
                     = submit_tag 'Set', class: 'btn btn-primary'
                 -elsif current_user == u
                   = current_rate
+  
+  -if @current_project.owned_by?(current_user)
+    %section
+      %fieldset.well
+        %legend Project Budget
+        %table.table.table-striped.table-bordered
+          -total_money = "%.2f" % (@current_project.total_money_spent(current_user)/100)
+          %tbody
+            %tr
+              %td Money spent (PLN)
+              %td= total_money
+
