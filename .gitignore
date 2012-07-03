@@ -8,3 +8,4 @@ config/deploy.rb
 .redcar/*
 config/mongoid.yml
 .sass-cache
+*.swp

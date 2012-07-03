@@ -11,6 +11,7 @@ class Task
   field :iteration_number, type: Integer
   field :estimate, type: Integer
   field :labels, type: Array
+  field :current_state
 
   referenced_in :project
   references_many :time_log_entries, dependent: :nullify
@@ -90,6 +91,7 @@ class Task
             task.iteration_number = iteration
             task.estimate = pivotal_story[:estimate]
             task.labels = pivotal_story[:labels]
+            task.current_state = pivotal_story[:current_state]
             task.save!
           end
         end

@@ -36,6 +36,21 @@
         <accepted_at type="datetime">2008/12/10 00:00:00 UTC</accepted_at>
         <labels>label 1,label 2,label 3</labels>
       </story>
+      <story>
+        <id type="integer">7</id>
+        <project_id type="integer">1</project_id>
+        <story_type>feature</story_type>
+        <url>http://www.pivotaltracker.com/story/show/2</url>
+        <estimate type="integer"></estimate>
+        <current_state>accepted</current_state>
+        <description></description>
+        <name>Story Y</name>
+        <requested_by>William Adama</requested_by>
+        <owned_by>Gaius Baltar</owned_by>
+        <created_at type="datetime">2008/12/10 00:00:00 UTC</created_at>
+        <accepted_at type="datetime">2008/12/10 00:00:00 UTC</accepted_at>
+        <labels>label 1,label 2,label 3</labels>
+      </story>
     </stories>
   </iteration>
 </iterations>

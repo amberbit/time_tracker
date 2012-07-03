@@ -3250,6 +3250,10 @@ footer {
     .task:hover a, .task:hover a:visited, .task:hover a:hover, .time-log-entry:hover a, .time-log-entry:hover a:visited, .time-log-entry:hover a:hover {
       color: inherit; }
 
+.accepted {
+  display: none;
+  background-color: rgba(234, 255, 234, 0.7); }
+
 #content {
   font-size: 12px;
   min-height: 500px;
