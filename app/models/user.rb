@@ -51,9 +51,13 @@ class User
   end
 
   def current_project_client_hourly_rate project
-    HourlyRate.all(conditions: {
+    h = HourlyRate.all(conditions: {
                     id: { '$in' => self.client_hourly_rates.map { |r| r.id } }, 
                     project_id: project.id }).desc(:from).limit(1)[0]
+    if h.nil?
+      h = self.client_hourly_rates.build({ rate: 0, project_id: project.id })
+    end
+    h
   end
 
   def set_client_hourly_rate project, rate
