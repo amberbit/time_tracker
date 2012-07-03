@@ -13,6 +13,7 @@ feature "Time logging", %q{
     visit tasks_list
     click_link "Refresh list of tasks"
     select Project.first.name, from: 'project_id'
+    check "show_accepted"
     click_link "Start work"
     TimeLogEntry.count.should eql(1)
     TimeLogEntry.first.should be_current
