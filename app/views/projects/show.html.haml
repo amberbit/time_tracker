@@ -10,10 +10,11 @@
             %th Email
             %th
         %tbody
-          - @current_project.our_owner_emails.each do |o|
-            %tr
-              %td= o
-              %td= link_to "remove", remove_owner_path(@current_project.id, o), method: :delete
+          -if @current_project.our_owner_emails
+            - @current_project.our_owner_emails.each do |o|
+              %tr
+                %td= o
+                %td= link_to "remove", remove_owner_path(@current_project.id, o), method: :delete
 
       = form_tag add_owner_path, method: :post, class: 'form-inline' do |f|
         = autocomplete_field_tag :email, '', autocomplete_user_email_users_path
