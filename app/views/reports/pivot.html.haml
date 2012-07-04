@@ -5,6 +5,12 @@
     = form_tag nil, method: :get do
       %fieldset.well
         %legend Configuration
+        = label_tag :month
+        = select_tag :month, month_options, class: 'report-month'
+        %br/
+        = label_tag :year
+        = select_tag :year, year_options, class: 'report-year'
+        %br/
         = label_tag :from
         = text_field_tag :from, @from
         %br/
