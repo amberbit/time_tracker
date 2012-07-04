@@ -20,6 +20,27 @@ feature "Time logging", %q{
     TimeLogEntry.first.should_not be_current
   end
 
+  scenario "Selecting month/year" do
+    fake_pivotal_api    
+    sign_in_as "user@amberbit.com"
+
+    visit tasks_list
+    click_link "Refresh list of tasks"
+    select Project.first.name, from: 'project_id'
+    click_link "Start work"
+    TimeLogEntry.count.should eql(1)
+    TimeLogEntry.first.should be_current
+    click_link "Stop work"
+
+    click_link "Reports"
+
+    select 'January', from: 'month'
+    select '2012', from: 'year'
+
+    find_field('from').value.should eql('2012-01-01')
+    find_field('to').value.should eql('2012-01-31')
+  end
+
   scenario "Seeing time spent on my tasks in given project" do
 
   end
