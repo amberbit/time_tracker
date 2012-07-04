@@ -21,9 +21,8 @@ $(".report-year, .report-month").live( "change", function() {
     for(i=1; i<=12; i++)
       if ( i <= current_month )
         $(".report-month").children()[i].style.display = 'block';
-      else {
+      else
         $(".report-month").children()[i].style.display = 'none';
-      }
     
     if(parseInt(month) > current_month) {
       $(".report-month").val(pad2(current_month));
@@ -57,7 +56,7 @@ $(".report-year, .report-month").live( "change", function() {
 
   from_str += '-01';
   if(year == current_year && parseInt(month) == current_month || 
-     year == current_year && month == '' || year == '' && month == '')
+    year == current_year && month == '' || year == '' && month == '')
     to_str += '-'+pad2(current_day);
   else
     to_str += '-'+daysInMonth(year, month);
