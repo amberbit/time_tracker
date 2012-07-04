@@ -12,4 +12,24 @@ module TimeLogEntriesHelper
     user_options.unshift ["Any User", nil]
     options_for_select(user_options, params[:user_id])
   end
+
+  def month_options
+    month_options = []
+    (1..12).each do |n|
+      t = Time.new(0, n) 
+      month_options << [t.strftime("%B"), sprintf("%02d", n)]
+    end
+    default = params[:month] ? params[:month] : Time.now.month
+    month_options.unshift ["Any Month", nil]
+    options_for_select(month_options, default)
+  end
+
+  def year_options
+    first_entry_year = TimeLogEntry.all.asc(:created_at).limit(1)[0].created_at.year
+    current_year = Time.now.year
+    year_options = (first_entry_year..current_year).map { |y| [y, y] }
+    default = params[:year] ? params[:year] : current_year
+    year_options.unshift ["Any Year", nil]
+    options_for_select(year_options, default)
+  end
 end
