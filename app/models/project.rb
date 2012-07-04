@@ -5,6 +5,7 @@ class Project
   field :name
   field :pivotal_tracker_project_id, :type => Integer
   field :owner_emails, :type => Array, :default => []
+  field :budget, :type => Integer, :default => 0
 
   references_many :tasks
   references_many :time_log_entries
@@ -51,4 +52,5 @@ class Project
 
     total
   end
+
 end

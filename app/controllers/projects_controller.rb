@@ -17,4 +17,13 @@ class ProjectsController < AuthenticatedController
     user.set_client_hourly_rate project, rate
     redirect_to :back
   end
+
+  def set_budget
+    project = Project.find(params[:project_id])
+    budget = (params[:budget].to_f*100).to_i
+
+    project.budget = budget
+    project.save!
+    redirect_to :back
+  end
 end
