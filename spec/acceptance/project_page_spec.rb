@@ -43,6 +43,7 @@ feature "Project Page", %q{
 
       scenario "Using autocomplete" do
         fill_in "email", with: "amb" 
+        sleep 1
         page.should have_content("user@amberbit.com")
       end
 
