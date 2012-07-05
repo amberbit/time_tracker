@@ -1,6 +1,9 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+var monthNames = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
+
 $.fn.time_log_project_subselect_with_ajax = function(child) {
   var that = this;
 
@@ -46,9 +49,12 @@ task_log_entries = function(el) {
             for(d in data) {
               var s = data[d].number_of_seconds;
               var date = new Date(Date.parse(data[d].created_at));
-              entries_html += "<li>"+(s/3600).toFixed(0)+"h " + (s/60%60).toFixed(0)+"m " + s%60+"s - "
-                           + date + "</li>\n";
-
+              entries_html += "<li><span class='time'>"+(s/3600).toFixed(0)+"h " + 
+                     (s/60%60).toFixed(0)+"m " + s%60+"s</span> " + 
+                     pad2(date.getDay()+1) + ' ' + monthNames[date.getMonth()] + ' ' +
+                     pad2(date.getHours()) + ':' +pad2(date.getMinutes() ) + 
+                     ' <a href="/projects/'+ data[d].project_id +'/time_log_entries/'+ data[d]._id +
+                     '/edit" class="btn btn-mini">Edit</a></li>' + "\n";
             }
 
             entries_html += "</ul>\n";
@@ -62,3 +68,7 @@ $('.task').each( function() { task_log_entries(this); });
 $(".jump_to_url").live("change", function(event) {
   window.location = $(this).val();
 });
+
+function pad2(number) {
+  return (number < 10 ? '0' : '') + number  
+}
