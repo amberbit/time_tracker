@@ -1,8 +1,7 @@
 class ProjectsController < AuthenticatedController
 
   def index
-    @projects = Project.all.reject { |p| !p.owned_by?(current_user) }
-    @projects = Project.all
+    @projects = Project.all.reject { |p| !p.owned_by?(current_user) && !p.users.include?(current_user) }
   end
 
   def show
