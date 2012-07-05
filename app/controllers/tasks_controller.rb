@@ -44,7 +44,6 @@ class TasksController < AuthenticatedController
     redirect_to :back
   end
 
-
   protected
 
   def stop_current_work
