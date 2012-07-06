@@ -74,19 +74,27 @@ class User
   end
 
   def current_employee_hourly_rate
-    h = HourlyRate.all(conditions: { id: { '$in' => self.employee_hourly_rates.map { |r| r.id },
-                                     from: { '$lte' => Time.now  }}}).desc(:from).limit(1)[0]
-    h = self.employee_hourly_rates.build({ rate: 0 }) if h.nil?
-    h
+    h = HourlyRate.all(conditions: { id: { '$in' => self.employee_hourly_rates.map { |r| r.id }},
+                                     from: { '$lte' => Date.today  }}).desc(:from).limit(1)[0]
+    if h.nil?
+      HourlyRate.new
+    else
+      h
+    end
   end
 
   def set_employee_hourly_rate rate, from
     future = self.employee_hourly_rates.reject { |e| e.from < from }
-    future.each { |f| self.employee_hourly_rates.delete(f) }
-    last = self.employee_hourly_rates.last
-    last.to = from - 1 unless last.nil?
+    future.each { |f| self.employee_hourly_rates.find(f.id).destroy }
+    last = HourlyRate.all(conditions: { 
+                       id: { '$in' => self.employee_hourly_rates.map { |r| r.id }}}).desc(:from).limit(1)[0]
+    unless last.nil?
+      last.to = from - 1
+      last.save!
+    end
 
     h = self.employee_hourly_rates.build({ rate: rate, from: from})
+    h.save!
     save!
   end
 

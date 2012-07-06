@@ -5,7 +5,7 @@ class ProjectsController < AuthenticatedController
   end
 
   def show
-    @current_project = Project.find(params[:id])    
+    @current_project = Project.find(params[:id])
   end
 
   def set_client_hourly_rate
