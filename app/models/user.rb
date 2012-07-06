@@ -63,8 +63,12 @@ class User
   def set_client_hourly_rate project, rate
     current = self.current_project_client_hourly_rate project
     unless current.nil?
-      current.to = Date.yesterday
-      current.save!
+      if current.from == Date.today
+        self.client_hourly_rates.find(current.id).destroy
+      else
+        current.to = Date.yesterday
+        current.save!
+      end
     end
 
     h = self.client_hourly_rates.build({ rate: rate, project_id: project.id })
