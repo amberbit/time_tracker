@@ -14,7 +14,7 @@ class HourlyRate
   private
 
     def set_from
-      self.from = DateTime.now if self.from.nil?
+      self.from = Date.today if self.from.nil?
     end
-    
+
 end

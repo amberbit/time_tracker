@@ -15,7 +15,9 @@ class User
   references_many :projects, stored_as: :array, inverse_of: :users
   references_many :time_log_entries
 
-  references_many :client_hourly_rates, stored_as: :array, inverse_of: :user, 
+  references_many :client_hourly_rates, stored_as: :array, inverse_of: :user,
+                                     class_name: 'HourlyRate', :default => []
+  references_many :employee_hourly_rates, stored_as: :array, inverse_of: :user,
                                      class_name: 'HourlyRate', :default => []
 
   alias_method :name, :email
@@ -52,7 +54,7 @@ class User
 
   def current_project_client_hourly_rate project
     h = HourlyRate.all(conditions: {
-                    id: { '$in' => self.client_hourly_rates.map { |r| r.id } }, 
+                    id: { '$in' => self.client_hourly_rates.map { |r| r.id } },
                     project_id: project.id }).desc(:from).limit(1)[0]
     if h.nil?
       h = self.client_hourly_rates.build({ rate: 0, project_id: project.id })
@@ -69,6 +71,23 @@ class User
 
     h = self.client_hourly_rates.build({ rate: rate, project_id: project.id })
     h.save!
+  end
+
+  def current_employee_hourly_rate
+    h = HourlyRate.all(conditions: { id: { '$in' => self.employee_hourly_rates.map { |r| r.id },
+                                     from: { '$lte' => Time.now  }}}).desc(:from).limit(1)[0]
+    h = self.employee_hourly_rates.build({ rate: 0 }) if h.nil?
+    h
+  end
+
+  def set_employee_hourly_rate rate, from
+    future = self.employee_hourly_rates.reject { |e| e.from < from }
+    future.each { |f| self.employee_hourly_rates.delete(f) }
+    last = self.employee_hourly_rates.last
+    last.to = from - 1 unless last.nil?
+
+    h = self.employee_hourly_rates.build({ rate: rate, from: from})
+    save!
   end
 
 end
