@@ -3,8 +3,8 @@ class HourlyRate
   include Mongoid::Timestamps
 
   field :rate, type: Integer, default: 0
-  field :from, type: DateTime
-  field :to,   type: DateTime
+  field :from, type: Date
+  field :to,   type: Date
 
   referenced_in :user, :class_name => 'User', :autosave => true
   references_one :project, :class_name => 'Project', inverse_of: :hourly_rates
@@ -14,7 +14,7 @@ class HourlyRate
   private
 
     def set_from
-      self.from = DateTime.now if self.from.nil?
+      self.from = Date.today if self.from.nil?
     end
-    
+
 end
