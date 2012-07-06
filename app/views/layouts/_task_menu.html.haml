@@ -4,7 +4,7 @@
     %li#tasksdropdown.dropdown{title: "##{task.pivotal_tracker_story_id} #{task.name}"}
       = link_to '#tasksdropdown', class: "dropdown-toggle #{@current_task && 'current'}", 'data-toggle' => 'dropdown' do
         %b.caret
-        = truncate task.name, length: 70, ommision: '...'
+        = truncate task.name, length: 60, ommision: '...'
       %ul.dropdown-menu
         -@latest_tasks[1..-1].each do |task|
           %li{title: "##{task.pivotal_tracker_story_id} #{task.name}"}
