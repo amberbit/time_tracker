@@ -38,11 +38,11 @@ class Project
     total = 0
     users.each do |u|
       rates = u.project_client_hourly_rates self
-      rates.each do |r|              
+      rates.each do |r|
         from = r.from.strftime("%Y-%m-%d")
         to = r.to.nil? ? Date.today : r.to
         to = to.strftime("%Y-%m-%d")
-        params = {from: from, to: to, current_user: current_user, selected_user: u, selected_project: self}
+        params = {from: from, to: to, current_user: u, selected_user: u, selected_project: self}
         report = Report::Pivot.new(params)
         result = report.run
         entries = result[:entries]
