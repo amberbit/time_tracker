@@ -23,7 +23,7 @@ feature "Project Page", %q{
   end
 
   describe "Client hourly rate" do
-    
+
     describe "Regular user " do
 
       scenario "can view his own rate" do
@@ -49,6 +49,20 @@ feature "Project Page", %q{
         User.first.client_hourly_rates.last.rate.should eql(5000)
       end
     end
+  end
+
+  scenario "See user's earnings" do
+    click_link "My profile"
+    page.should have_content "Money earned: 0.00 PLN"
+  end
+
+  scenario "See current hourly rate" do
+    u = User.first
+    u.set_employee_hourly_rate 4000, Date.today
+    u.save!
+
+    click_link "My profile"
+    page.should have_content "Current hourly rate: 40.00 PLN"
   end
 
 end
