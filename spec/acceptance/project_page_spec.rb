@@ -17,36 +17,28 @@ feature "Project Page", %q{
     click_link "Projects"
   end
 
-  scenario "Viewing list of projects" do
-    page.should have_content("Space Project")
-    page.should have_content("Series Project")
-  end
+  describe "Employee hourly rate" do
 
-  describe "Client hourly rate" do
-    
-    describe "Regular user " do
-
-      scenario "can view his own rate" do
-        click_link "##{Project.first.pivotal_tracker_project_id}"
-        page.should have_content "0.00"
-      end
-    end
-
-    describe "Project owner " do
-
+    describe "Admin " do
       before :each do
         u = User.first
-        p = Project.first
-        p.owner_emails << u.email
-        p.save!
+        u.admin = true
+        u.save!
+
+        click_link 'Projects'
+        click_link 'Users'
+      end
+
+      scenario 'View hourly rates' do
+        rate_field = find_field('rate')
+        rate_field.value.should eql "0.00"
       end
 
       scenario "Set hourly rate" do
-        click_link "##{Project.first.pivotal_tracker_project_id}"
         fill_in 'rate', with: '50.00'
         click_button 'Set'
 
-        User.first.client_hourly_rates.last.rate.should eql(5000)
+        User.first.employee_hourly_rates.last.rate.should eql(5000)
       end
     end
   end
