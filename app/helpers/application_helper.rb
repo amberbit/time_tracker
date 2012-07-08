@@ -12,4 +12,9 @@ module ApplicationHelper
     modulo = some_number % 10
     ["#cc0000", "#0066ff", "#66ff66", "#333333", "#cc0099", "#ffccff", "#ffff99", "#9999cc", "#cccccc", "#ff9999"][modulo]
   end
+
+  def currency_format value, currency = ""
+    v = "%.2f" % (value.to_f/100)
+    "#{v} #{currency}"
+  end
 end

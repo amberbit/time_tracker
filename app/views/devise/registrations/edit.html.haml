@@ -42,11 +42,9 @@
     = text_field_tag :to, Date.today, class: 'input-small'
     = submit_tag 'Get', id: 'get-earnings-button', class: 'btn btn-primary'
   %p
-    -total_earnings = "%.2f" % (session[:total_earnings].to_f/100)
-    = "Money earned: #{total_earnings} PLN"
+    = "Money earned: #{currency_format session[:total_earnings], 'PLN'}"
   %p
-    -current_rate = "%.2f" % (current_user.current_employee_hourly_rate.rate.to_f/100)
-    = "(Current hourly rate: #{current_rate} PLN)"
+    = "(Current hourly rate: #{currency_format current_user.current_employee_hourly_rate.rate, 'PLN'})"
 
 %h3
   Cancel my account
