@@ -80,6 +80,98 @@ feature "Time logging", %q{
     time1.should_not eq(time2)
   end
 
+  describe "Filtering tasks by story type" do
+
+    before(:each) do
+      fake_pivotal_api
+      sign_in_as "user@amberbit.com"
+      visit tasks_list
+      click_link "Refresh list of tasks"
+      select 'Space Project', from: 'project_id'
+      check "show_accepted"
+      click_link 'Start work'
+      select 'Story Types Project', from: 'project_id'
+
+      (0..4).each do |n|
+        all("a.icon-start")[n].click
+        all("a.icon-stop")[0].click
+      end
+    end
+
+    scenario "Should only show tasks with selected type" do
+      click_link "Reports"
+      select "task_id", from: "row_key"
+
+      search = page.find("input[name=commit]")
+      search.click
+
+      within("#entries") do
+        page.should have_content("Feature Story")
+        page.should have_content("Bug Story")
+        page.should have_content("Chore Story")
+        page.should have_content("Release Story")
+      end
+
+      uncheck "feature_checkbox"
+      search.click
+      within("#entries") { page.should_not have_content("Feature Story") }
+
+      uncheck "bug_checkbox"
+      search.click
+      within("#entries") { page.should_not have_content("Bug Story") }
+
+      uncheck "chore_checkbox"
+      search.click
+      within("#entries") { page.should_not have_content("Chore Story") }
+
+      check "chore_checkbox"
+      uncheck "release_checkbox"
+      search.click
+      within("#entries") { page.should_not have_content("Release Story") }
+    end
+
+    scenario "Should only show projects having tasks of given types" do
+      click_link "Reports"
+      select "project_id", from: "row_key"
+
+      page.find("input[name=commit]").click
+      within("#entries") do
+        page.should have_content("Story Types Project")
+      end
+
+      uncheck "feature_checkbox"
+      uncheck "chore_checkbox"
+      uncheck "release_checkbox"
+
+      page.find("input[name=commit]").click
+      within("#entries") do
+        page.should_not have_content("Series Project")
+        page.should_not have_content("Space Project")
+        page.should have_content("Story Types Project")
+      end
+    end
+
+    scenario "Should only count time spent on tasks of given types" do
+      all("a.icon-start")[4].click
+      sleep 2
+
+      click_link "Reports"
+
+      # read total time and convert it to seconds:
+      a=[1, 60, 3600]*2
+      time1 = within("#entries tfoot") { all("td")[1].text.split(/[:\.]/).map{|time| time.to_i*a.pop}.inject(&:+) }
+
+      uncheck "feature_checkbox"
+      uncheck "bug_checkbox"
+      uncheck "chore_checkbox"
+      page.find("input[name=commit]").click
+
+      time2 = within("#entries tfoot") { all("td")[1].text.split(/[:\.]/).map{|time| time.to_i*a.pop}.inject(&:+) }
+
+      time1.should_not eq(time2)
+    end
+  end
+
   scenario "Seeing time spent on my tasks in given project" do
 
   end

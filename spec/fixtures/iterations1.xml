@@ -57,11 +57,8 @@
         <current_state>accepted</current_state>
         <description></description>
         <name>Story Y</name>
-        <requested_by>William Adama</requested_by>
-        <owned_by>Gaius Baltar</owned_by>
-        <created_at type="datetime">2008/12/10 00:00:00 UTC</created_at>
-        <accepted_at type="datetime">2008/12/10 00:00:00 UTC</accepted_at>
-        <labels>label 1,label 2,label 3</labels>
+        <requested_by>James Kirk</requested_by>
+        <owned_by>Montgomery Scott</owned_by>
       </story>
     </stories>
   </iteration>

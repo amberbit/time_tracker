@@ -62,5 +62,7 @@ def fake_pivotal_api
                          body: File.read(File.join(Rails.root, "spec", "fixtures", "iterations1.xml")))
     FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects/2/iterations",
                          body: File.read(File.join(Rails.root, "spec", "fixtures", "iterations2.xml")))
+    FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects/3/iterations",
+                         body: File.read(File.join(Rails.root, "spec", "fixtures", "iterations3.xml")))
 end
 

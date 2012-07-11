@@ -9,6 +9,7 @@ module Report
       @selected_project = Project.find(params[:project_id]) if params[:project_id].present?
       @selected_task = Task.find(params[:task_id]) if params[:task_id].present?
       @label = params[:label] if params
+      @story_types = params[:story_types] if params[:story_types].present?
     end
 
     def conditions
@@ -66,6 +67,13 @@ module Report
       if @label.present?
         conditions.each do |c|
           c.merge!(task_labels: @label)
+        end
+      end
+
+      # filter by story type
+      if @story_types.present?
+        conditions.each do |c|
+          c.merge!(task_story_type: {"$in" => @story_types})
         end
       end
 

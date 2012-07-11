@@ -20,7 +20,7 @@ feature "Downloading Tasks", %q{
     page.should have_content("Series Project")
     page.should have_content("More power to shields")
     page.should_not have_content("Make out with Number Six")
-    select Project.last.name, from: 'project_id'
+    select Project.all[1].name, from: 'project_id'
     page.should have_content("Prepare servers")
   end
 

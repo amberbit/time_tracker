@@ -12,6 +12,7 @@ class Task
   field :estimate, type: Integer
   field :labels, type: Array
   field :current_state
+  field :story_type
 
   referenced_in :project
   references_many :time_log_entries, dependent: :nullify
@@ -74,12 +75,15 @@ class Task
           estimate_tag = s.search("estimate")[0]
           estimate_data = estimate_tag ? estimate_tag.inner_text : nil
           estimate = estimate_data.blank? ? nil : estimate_data.to_i
+
+          story_type = s.at("story_type").inner_text
           {
             id: s.search("id")[0].inner_text.to_i,
             name: s.search("name")[0].inner_text,
             estimate: estimate,
             current_state: s.search("current_state")[0].inner_text,
-            labels: s.at("labels").try(:inner_text).try(:split, ',')
+            labels: s.at("labels").try(:inner_text).try(:split, ','),
+            story_type: story_type
           }
         end
 
@@ -92,6 +96,7 @@ class Task
             task.estimate = pivotal_story[:estimate]
             task.labels = pivotal_story[:labels]
             task.current_state = pivotal_story[:current_state]
+            task.story_type = pivotal_story[:story_type]
             task.save!
           end
         end

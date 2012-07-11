@@ -32,4 +32,8 @@ module TimeLogEntriesHelper
     year_options.unshift ["Any Year", nil]
     options_for_select(year_options, default)
   end
+
+  def story_types
+    %w[feature bug chore release]
+  end
 end
