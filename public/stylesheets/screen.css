@@ -3283,6 +3283,10 @@ footer {
         width: 100px;
         font-size: 16px; }
 
+.accepted {
+  display: none;
+  background-color: rgba(234, 255, 234, 0.7); }
+
 #content {
   font-size: 12px;
   min-height: 500px;

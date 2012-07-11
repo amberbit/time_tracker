@@ -4,6 +4,7 @@
     %title TimeTracker
     = stylesheet_link_tag "reset", "screen"
     = javascript_include_tag "jquery-1.7.1.min"
+    = javascript_include_tag 'jquery.cookie'
     = javascript_include_tag "bootstrap/bootstrap-dropdown"
     = csrf_meta_tag
   %body
@@ -41,4 +42,5 @@
       = yield
     %footer
       Copyright 2010 &copy; Wojciech Piekutowski, Hubert Łępicki
+
 = javascript_include_tag "application"
