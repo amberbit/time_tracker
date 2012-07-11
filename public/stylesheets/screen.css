@@ -3241,7 +3241,8 @@ footer {
   border-radius: 5px 5px 5px 5px;
   behavior: url(/stylesheets/PIE.htc);
   position: relative;
-  border: 1px solid #dddddd; }
+  border: 1px solid #dddddd;
+  z-index: 999; }
   .task:hover, .time-log-entry:hover {
     background-color: #0d4d8d;
     border-color: black;
@@ -3249,6 +3250,38 @@ footer {
     text-shadow: 1px 1px 0 #0a3e71; }
     .task:hover a, .task:hover a:visited, .task:hover a:hover, .time-log-entry:hover a, .time-log-entry:hover a:visited, .time-log-entry:hover a:hover {
       color: inherit; }
+
+.task-log-entries {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.25);
+  -webkit-border-radius: 0px 0px 10px 10px;
+  -moz-border-radius: 0px 0px 10px 10px;
+  -o-border-radius: 0px 0px 10px 10px;
+  -khtml-border-radius: 0px 0px 10px 10px;
+  border-radius: 0px 0px 10px 10px;
+  behavior: url(/stylesheets/PIE.htc);
+  position: relative;
+  margin: -10px 10px 10px 10px;
+  padding: 10px 0 5px 0;
+  list-style: none;
+  border: 1px solid #dddddd;
+  border-top: none;
+  font-size: 12px;
+  color: #555555;
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2); }
+  .task-log-entries ul {
+    list-style: none;
+    margin-right: 20px; }
+    .task-log-entries ul li {
+      padding: 5px 0;
+      border-bottom: 1px solid #e7e7e7; }
+      .task-log-entries ul li .time {
+        display: block;
+        float: left;
+        width: 100px;
+        font-size: 16px; }
 
 #content {
   font-size: 12px;

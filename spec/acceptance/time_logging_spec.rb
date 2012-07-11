@@ -19,4 +19,25 @@ feature "Time logging", %q{
     click_link "Stop work"
     TimeLogEntry.first.should_not be_current
   end
+
+  scenario "Filtering entries by task" do
+    fake_pivotal_api
+    sign_in_as "user@amberbit.com"
+    visit tasks_list
+    click_link "Refresh list of tasks"
+    select Project.first.name, from: 'project_id'
+    click_link "Start work"
+    click_link "Stop work"
+
+    click_link 'Logged Time'
+
+    page.should have_css(".time-log-entry")
+
+    select Project.first.name, from: 'project_id'
+    sleep 1
+    select "Story X", from: 'task_id'
+    page.find("input[name=commit]").click
+
+    page.should_not have_css(".time-log-entry")
+  end
 end
