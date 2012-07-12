@@ -43,6 +43,7 @@ TimeTracker::Application.routes.draw do
 
   post 'tasks/tasks_by_project'
   post 'time_log_entries/user_task_entries'
+  post '/pivotal_web_hook', :to => "webHooks#pivotal_activity_web_hook"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

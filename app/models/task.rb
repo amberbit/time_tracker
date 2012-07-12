@@ -100,6 +100,42 @@ class Task
     end
   end
 
+  def self.parse_activity request_body
+    Hpricot(request_body).search("activity") do |a|
+      event_type = a.at("event_type").inner_text
+      project_id = a.at("project_id").inner_text.to_i
+      our_project = Project.find_or_initialize_by pivotal_tracker_project_id: project_id
+      return if our_project.new_record?
+
+      story = a.at("story")
+      estimate_tag = story.search("estimate")[0]
+      estimate_data = estimate_tag ? estimate_tag.inner_text : nil
+      estimate = estimate_data.blank? ? nil : estimate_data.to_i
+
+      name_tag = story.search("name")[0]
+      name = name_tag ? name_tag.inner_text : nil
+
+      current_state_tag = story.search("current_state")[0]
+      current_state = current_state_tag.blank? ? nil : current_state_tag.inner_text
+
+      story_type_tag = story.search("story_type")[0]
+      story_type = story_type_tag.blank? ? nil : story_type_tag.inner_text
+
+      story_id = story.search("id")[0].inner_text.to_i
+
+      task = Task.find_or_initialize_by(project_id: our_project.id, pivotal_tracker_story_id: story_id)
+
+      task.name = name || task.name
+      task.estimate = estimate || task.estimate
+      task.current_state = current_state || task.current_state
+      task.story_type = story_type || task.story_type
+      task.labels = story.at("labels").try(:inner_text).try(:split, ',') || task.labels
+
+      task.iteration_number = our_project.tasks.where(:iteration_number.ne => nil?).max(:iteration_number) || 1
+      task.save!
+    end
+  end
+
   private
 
   def denormalize_labels_to_time_log_entries
