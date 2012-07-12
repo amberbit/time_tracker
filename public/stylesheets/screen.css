@@ -3219,7 +3219,7 @@ footer {
       margin: 0;
       padding: 0 0 0 8px; }
   .navbar .nav .dropdown-toggle {
-    min-width: 430px; }
+    min-width: 418px; }
     .navbar .nav .dropdown-toggle .caret {
       margin-right: 5px; }
     .navbar .nav .dropdown-toggle.current {
@@ -3370,31 +3370,31 @@ footer {
   .icon-stop:hover {
     opacity: 0.8; }
 
-#report h1 {
+#report h1, #project h1 {
   margin: 0 0 10px 0;
   font-size: 16px; }
-#report form input[type=text] {
+#report form input[type=text], #project form input[type=text] {
   width: 90px; }
-#report form label {
+#report form label, #project form label {
   float: left;
   width: 70px;
   margin-right: 0.5em;
   padding-top: 0.2em;
   text-align: right;
   font-weight: bold; }
-#report fieldset {
+#report fieldset, #project fieldset {
   padding: 4px;
   margin: 4px;
   width: 400px; }
-  #report fieldset legend {
+  #report fieldset legend, #project fieldset legend {
     padding: 3px;
     position: relative;
     top: -6px; }
-#report #entries {
+#report #entries, #project #entries {
   border-collapse: collapse; }
-  #report #entries td {
+  #report #entries td, #project #entries td {
     padding: 3px 4px; }
-  #report #entries tbody td.time {
+  #report #entries tbody td.time, #project #entries tbody td.time {
     text-align: right; }
-  #report #entries tfoot td {
+  #report #entries tfoot td, #project #entries tfoot td {
     border-top: 1px solid black; }

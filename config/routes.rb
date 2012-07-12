@@ -17,6 +17,8 @@ TimeTracker::Application.routes.draw do
       end
     end
     resources :time_log_entries
+
+    put 'client_rate/:user_id', action: 'set_client_hourly_rate', as: 'set_client_hourly_rate'
   end
 
   resources :time_log_entries

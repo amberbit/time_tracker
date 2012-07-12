@@ -1,0 +1,24 @@
+#project
+  %h1= "#{@current_project.name} - project page"
+
+  %section
+    %fieldset.well
+      %legend Developers
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th Email
+            -if @current_project.owned_by?(current_user) || @current_project.users.include?(current_user)
+              %th Client hourly rate (PLN)
+        %tbody
+          - @current_project.users.each do |u|
+            %tr
+              -current_rate = u.current_project_client_hourly_rate(@current_project).rate
+              %td= u.name
+              %td
+                -if @current_project.owned_by?(current_user)
+                  = form_tag project_set_client_hourly_rate_path(@current_project, u), method: :put, class: 'form-inline' do
+                    = text_field_tag :rate, currency_format(current_rate), :class => 'input-small'
+                    = submit_tag 'Set', class: 'btn btn-primary'
+                -elsif current_user == u
+                  = currency_format(current_rate)

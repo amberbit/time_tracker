@@ -4,6 +4,7 @@
 en:
   hello: "Hello world"
   header:
+    projects: "Projects"
     tasks: "Tasks"
     logged_time: "Logged Time"
     reports: "Reports"

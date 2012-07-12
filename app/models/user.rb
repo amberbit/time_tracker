@@ -15,6 +15,9 @@ class User
   references_many :projects, stored_as: :array, inverse_of: :users
   references_many :time_log_entries
 
+  references_many :client_hourly_rates, stored_as: :array, inverse_of: :user, 
+                                     class_name: 'HourlyRate', :default => []
+
   alias_method :name, :email
 
   def current_time_log_entry
@@ -40,4 +43,36 @@ class User
   def tasks
     Task.where(:project_id.in => project_ids)
   end
+
+  def project_client_hourly_rates project
+    HourlyRate.all(conditions: {
+                    id: { '$in' => self.client_hourly_rates.map { |r| r.id } },
+                    project_id: project.id }).to_a
+  end
+
+  def current_project_client_hourly_rate project
+    h = HourlyRate.all(conditions: {
+                    id: { '$in' => self.client_hourly_rates.map { |r| r.id } }, 
+                    project_id: project.id }).desc(:from).limit(1)[0]
+    if h.nil?
+      h = self.client_hourly_rates.build({ rate: 0, project_id: project.id })
+    end
+    h
+  end
+
+  def set_client_hourly_rate project, rate
+    current = self.current_project_client_hourly_rate project
+    unless current.nil?
+      if current.from == Date.today
+        self.client_hourly_rates.find(current.id).destroy
+      else
+        current.to = Date.yesterday
+        current.save!
+      end
+    end
+
+    h = self.client_hourly_rates.build({ rate: rate, project_id: project.id })
+    h.save!
+  end
+
 end
