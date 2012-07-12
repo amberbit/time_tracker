@@ -29,7 +29,22 @@
         %legend Project Budget
         %table.table.table-striped.table-bordered
           -total_money = @current_project.total_money_spent(current_user)
+          -current_budget = @current_project.budget || 0
           %tbody
+            %tr.budget
+              %td Budget (PLN)
+              %td
+                = form_tag project_budget_path(@current_project), method: :put, class: 'form-inline' do
+                  = text_field_tag :budget, currency_format(current_budget), :class => 'input-small'
+                  = submit_tag 'Set', class: 'btn btn-primary'
             %tr
               %td Money spent (PLN)
               %td#total-money= currency_format(total_money)
+              %td= currency_format(total_money)
+
+        -if current_budget.to_f > 0
+          .progress
+            -bar_width = total_money.to_f < current_budget.to_f ? total_money.to_f/current_budget.to_f*100 : 100
+            %div.bar{ :style => "width: #{bar_width}%;" }
+              %span.progress-value
+                = "#{'%.2f' % (total_money.to_f/current_budget.to_f*100)}%"
