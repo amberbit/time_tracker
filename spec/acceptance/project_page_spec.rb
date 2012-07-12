@@ -23,7 +23,7 @@ feature "Project Page", %q{
   end
 
   describe "Client hourly rate" do
-    
+
     describe "Regular user " do
 
       scenario "can view his own rate" do
@@ -51,4 +51,55 @@ feature "Project Page", %q{
     end
   end
 
+  describe "Total amount of money spent on a project" do
+
+    scenario "Regular user can't see it" do
+      click_link "Projects"
+      click_link "##{Project.first.pivotal_tracker_project_id}"
+
+      page.should_not have_content "Money spent"
+    end
+
+    describe "Admin and project owners " do
+
+      before :each do
+        u = User.first
+        u.admin = true
+        u.set_client_hourly_rate Project.first, 100000
+        u.save!
+      end
+
+      scenario "can see it" do
+        click_link "Projects"
+        click_link "##{Project.first.pivotal_tracker_project_id}"
+
+        page.should have_content "Money spent"
+      end
+
+      scenario "value is modified by working" do
+        click_link "Projects"
+        click_link "##{Project.first.pivotal_tracker_project_id}"
+
+        within('#total-money') do
+          page.should have_content '0.00'
+        end
+
+        visit tasks_list
+        click_link "Refresh list of tasks"
+        select Project.first.name, from: 'project_id'
+        check "show_accepted"
+        click_link "Start work"
+        sleep 2
+        click_link "Stop work"
+
+        click_link "Projects"
+        click_link "##{Project.first.pivotal_tracker_project_id}"
+
+        within('#total-money') do
+          page.should_not have_content '0.00'
+        end
+      end
+
+    end
+  end
 end

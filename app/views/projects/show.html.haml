@@ -22,3 +22,14 @@
                     = submit_tag 'Set', class: 'btn btn-primary'
                 -elsif current_user == u
                   = currency_format(current_rate)
+
+  -if @current_project.owned_by?(current_user)
+    %section
+      %fieldset.well
+        %legend Project Budget
+        %table.table.table-striped.table-bordered
+          -total_money = @current_project.total_money_spent(current_user)
+          %tbody
+            %tr
+              %td Money spent (PLN)
+              %td#total-money= currency_format(total_money)

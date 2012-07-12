@@ -64,7 +64,7 @@ class User
     current = self.current_project_client_hourly_rate project
     unless current.nil?
       if current.from == Date.today
-        self.client_hourly_rates.find(current.id).destroy
+        current.destroy
       else
         current.to = Date.yesterday
         current.save!
