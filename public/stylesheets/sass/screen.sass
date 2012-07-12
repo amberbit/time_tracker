@@ -157,7 +157,7 @@ footer
       &:hover
         span.iteration, span.project
           @include box-shadow(2px 1px 3px #222)
-      .icon-start, .icon-stop
+      .icon-start, .icon-stop, .show-task-entries
         float: right
       span.task_name
         width: 750px
@@ -177,7 +177,7 @@ footer
         @include vertical-gradient($dark_blue, $blue)
       span.project
         position: absolute
-        right: 50px
+        right: 66px
         top: 4px
         a, a:visited, a:hover
           color: $blue
@@ -204,6 +204,11 @@ footer
 
 .icon-stop
   @include icon("/images/icons/control_pause_blue.png")
+  &:hover
+    opacity: 0.8
+
+.show-task-entries
+  @include icon("/images/icons/arrow_down_blue.png")
   &:hover
     opacity: 0.8
 

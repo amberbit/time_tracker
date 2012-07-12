@@ -4,10 +4,7 @@
     %title TimeTracker
     = stylesheet_link_tag "reset", "screen", "jquery-ui-1.8.21.custom"
     = javascript_include_tag :defaults
-    = javascript_include_tag "jquery-1.7.2.min"
-    = javascript_include_tag "autocomplete-rails.js", "jquery-ui-1.8.21.custom.min"
-    = javascript_include_tag 'jquery.cookie'
-    = javascript_include_tag "bootstrap/bootstrap-dropdown"
+    = javascript_include_tag "jquery.cookie", "autocomplete-rails", "bootstrap/bootstrap-dropdown"
     = csrf_meta_tag
   %body
     .navbar.navbar-fixed-top
@@ -47,5 +44,3 @@
       = yield
     %footer
       Copyright 2010 &copy; Wojciech Piekutowski, Hubert Łępicki
-
-= javascript_include_tag "application"

@@ -1,23 +1,48 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
-$(".jump_to_url").live("change", function(event) {
-  window.location = $(this).val();
-});
-
 var monthNames = [ "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December" ];
 
+$(".jump_to_url").live("change", function(event) {
+  "use strict";
+  window.location = $(this).val();
+});
+
+$(document).ready( function() {
+  "use strict";
+  $(".report-year").change();
+  $('.show-task-entries').each( function() { task_log_entries(this); });
+
+  $("#time_log_project").time_log_project_subselect_with_ajax($("#time_log_task"));
+  $("#time_log_project").change();
+
+  $("#show_accepted").live("change", function() {
+    show_accepted_changed();
+  });
+
+  if( $.cookie('show_accepted') === 'true' )
+    $('#show_accepted').prop('checked', true);
+  else
+    $('#show_accepted').prop('checked', false);
+
+  show_accepted_changed();
+});
+
 function daysInMonth(y, m) {
+  "use strict";
   return new Date(y,m,0).getDate();
 }
 
 function pad2(number) {
-  return (number < 10 ? '0' : '') + number
+  "use strict";
+  return (number < 10 ? '0' : '') + number;
 }
 
 $.fn.time_log_project_subselect_with_ajax = function(child) {
+  "use strict";
   var that = this;
+  that.toggleClass('expanded');
 
   this.change(function() {
     $.ajax({
@@ -28,19 +53,18 @@ $.fn.time_log_project_subselect_with_ajax = function(child) {
             xhr.setRequestHeader("Accept", "application/json");
           },
           success: function(data) {
-            tasks_html = '<option value="">Any Task</option>';
-            for(task in data)
+            var tasks_html = '<option value="">Any Task</option>';
+            for(var task in data)
               tasks_html += ('<option value="' + data[task]._id + '">' + data[task].name + '</option>\n');
 
             child.html(tasks_html);
           }
     });
   });
-}
-$("#time_log_project").time_log_project_subselect_with_ajax($("#time_log_task"));
-$("#time_log_project").change();
+};
 
-task_log_entries = function(el) {
+function task_log_entries(el) {
+  "use strict";
   var that = $(el);
   var params = el.getAttribute('rel').split(':');
 
@@ -57,8 +81,8 @@ task_log_entries = function(el) {
             xhr.setRequestHeader("Accept", "application/json");
           },
           success: function(data) {
-            entries_html = "<ul>\n"
-            for(d in data) {
+            var entries_html = "<ul>\n";
+            for(var d in data) {
               var s = data[d].number_of_seconds;
               var date = new Date(Date.parse(data[d].created_at));
               entries_html += "<li><span class='time'>"+(s/3600).toFixed(0)+"h " +
@@ -75,12 +99,12 @@ task_log_entries = function(el) {
     });
   });
 }
-$('.task').each( function() { task_log_entries(this); });
 
 $(".report-year, .report-month").live( "change", function() {
+  "use strict";
   var year  = $(".report-year").val(),
       month = $(".report-month").val(),
-      from = $("input[name=from]");
+      from = $("input[name=from]"),
       to = $("input[name=to]"),
       current_date = new Date(),
       current_year = current_date.getFullYear(),
@@ -89,23 +113,23 @@ $(".report-year, .report-month").live( "change", function() {
       from_str = '',
       to_str = '';
 
-  if(year == current_year) {
+  if(parseInt(year, 10) === current_year) {
     for(var i=1; i<=12; i++)
       if (i <= current_month)
         $(".report-month").children()[i].style.display = 'block';
       else
         $(".report-month").children()[i].style.display = 'none';
 
-    if(parseInt(month) > current_month) {
+    if(parseInt(month, 10) > current_month) {
       $(".report-month").val(pad2(current_month));
       month = pad2(current_month);
     }
   }
   else
-    for(var i=1; i<=12; i++)
-      $(".report-month").children()[i].style.display = 'block';
+    for(var j=1; j<=12; j++)
+      $(".report-month").children()[j].style.display = 'block';
 
-  if(year == '') {
+  if(year === '') {
     from_str += $(".report-year").children()[1].text;
     to_str += current_year.toString();
   }
@@ -114,9 +138,9 @@ $(".report-year, .report-month").live( "change", function() {
     to_str += year;
   }
 
-  if(month == '') {
+  if(month === '') {
     from_str += '-01';
-    if(year == '' || year == current_year)
+    if(year === '' || parseInt(year, 10) === current_year)
       to_str += '-' + pad2(current_month);
     else
       to_str += '-12';
@@ -127,8 +151,8 @@ $(".report-year, .report-month").live( "change", function() {
   }
 
   from_str += '-01';
-  if(year == current_year && parseInt(month) == current_month || year == current_year && month == ''
-                                                                        || year == '' && month == '')
+  if(parseInt(year, 10) === current_year && parseInt(month, 10) === current_month ||
+     parseInt(year, 10) === current_year && month === '' || year === '' && month === '')
     to_str += '-'+pad2(current_day);
   else
     to_str += '-'+daysInMonth(year, month);
@@ -137,16 +161,9 @@ $(".report-year, .report-month").live( "change", function() {
   from.val(from_str);
 });
 
-$(document).ready( function() {
-  $(".report-year").change();
-});
-
-if( $.cookie('show_accepted') === 'true' )
-  $('#show_accepted').prop('checked', true);
-else
-  $('#show_accepted').prop('checked', false);
 
 function show_accepted_changed() {
+  "use strict";
   var checked = $('#show_accepted').is(':checked');
   if(checked)
     $('.accepted').show();
@@ -156,8 +173,3 @@ function show_accepted_changed() {
   $.cookie('show_accepted', checked, { path: '/' });
 }
 
-$("#show_accepted").live("change", function() {
-  show_accepted_changed();
-});
-
-show_accepted_changed();

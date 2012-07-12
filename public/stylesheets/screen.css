@@ -3299,7 +3299,7 @@ footer {
       -webkit-box-shadow: 2px 1px 3px #222222;
       -moz-box-shadow: 2px 1px 3px #222222;
       box-shadow: 2px 1px 3px #222222; }
-    #content ul.tasks li .icon-start, #content ul.tasks li .icon-stop {
+    #content ul.tasks li .icon-start, #content ul.tasks li .icon-stop, #content ul.tasks li .show-task-entries {
       float: right; }
     #content ul.tasks li span.task_name {
       width: 750px;
@@ -3328,7 +3328,7 @@ footer {
       background: -webkit-gradient(linear, 0% 0%, 0% 100%, to(#0d4d8d), from(#0a0a2a)); }
     #content ul.tasks li span.project {
       position: absolute;
-      right: 50px;
+      right: 66px;
       top: 4px; }
       #content ul.tasks li span.project a, #content ul.tasks li span.project a:visited, #content ul.tasks li span.project a:hover {
         color: #0d4d8d;
@@ -3368,6 +3368,18 @@ footer {
   .icon-stop span {
     display: none; }
   .icon-stop:hover {
+    opacity: 0.8; }
+
+.show-task-entries {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("/images/icons/arrow_down_blue.png"); }
+  .show-task-entries span {
+    display: none; }
+  .show-task-entries:hover {
     opacity: 0.8; }
 
 #report h1, #project h1 {
