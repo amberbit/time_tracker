@@ -1,0 +1,19 @@
+%h1 Users
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th Email
+      %th Current employee hourly rate
+  %tbody
+    - @users.each do |u|
+      -current_rate = u.current_employee_hourly_rate.rate
+      %tr
+        %td= u.name
+        %td
+          = form_tag user_set_employee_hourly_rate_path(u), method: :put, class: 'form-inline' do
+            = label_tag :rate, 'Rate (PLN) '
+            = text_field_tag :rate, currency_format(current_rate), class: 'input-small'
+            = label_tag :applies_from
+            = text_field_tag :applies_from, Date.today, class: 'input-small', placeholder: 'yyyy-mm-dd'
+            = submit_tag 'Set', class: 'btn btn-primary'

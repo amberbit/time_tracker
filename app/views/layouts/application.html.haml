@@ -13,11 +13,13 @@
         .container
           - if current_user
             %ul.nav
+              - if current_user.admin
+                %li{class: controller_name == 'users' && action_name == 'index' && 'active'}=link_to t('header.users'), users_path
               %li{class: controller_name == 'projects' && 'active'}=link_to t('header.projects'), projects_path
               %li{class: controller_name == 'tasks' && 'active'}=link_to t('header.tasks'), root_path
               %li{class: controller_name == 'time_log_entries' && 'active'}=link_to t('header.logged_time'), [:time_log_entries]
               %li{class: controller_name == 'reports' && 'active'}=link_to t('header.reports'), [:pivot_reports]
-              %li{class: controller_name == 'users' && 'active'}=link_to t('header.my_profile'), [:edit, :user, :registration]
+              %li{class: controller_name == 'users' && action_name == 'edit' && 'active'}=link_to t('header.my_profile'), [:edit, :user, :registration]
               %li.divider-vertical
             %ul.nav.right
               %li= link_to t('header.sign_out'), destroy_user_session_path

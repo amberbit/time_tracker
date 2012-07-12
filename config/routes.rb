@@ -2,6 +2,9 @@ TimeTracker::Application.routes.draw do
   get "welcome/index"
 
   devise_for :users
+  resources :users, only: :index do
+    put 'employee_rate', action: 'set_employee_hourly_rate', as: 'set_employee_hourly_rate'
+  end
 
   resources :tasks do
     collection do

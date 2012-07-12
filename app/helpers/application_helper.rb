@@ -15,6 +15,6 @@ module ApplicationHelper
 
   def currency_format value, currency = ""
     v = "%.2f" % (value.to_f/100)
-    "#{v} #{currency}"
+    "#{v}#{currency}"
   end
 end
