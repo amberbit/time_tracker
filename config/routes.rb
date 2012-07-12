@@ -3,7 +3,8 @@ TimeTracker::Application.routes.draw do
 
   devise_for :users
   resources :users, only: :index do
-    put 'employee_rate', action: 'set_employee_hourly_rate', as: 'set_employee_hourly_rate'
+    put 'set_employee_hourly_rate', action: 'set_employee_hourly_rate'
+    match 'get_total_earnings(/:from(/:to))', action: 'get_total_earnings', as: 'get_total_earnings'
   end
 
   resources :tasks do

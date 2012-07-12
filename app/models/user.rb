@@ -102,4 +102,23 @@ class User
     save!
   end
 
+  def total_earnings from, to
+    total = 0
+    employee_hourly_rates.each do |r|
+      rfrom = r.from
+      rto = r.to.nil? ? Date.today : r.to
+      if rfrom <= to && rto >= from
+        rfrom = rfrom.strftime("%X-%m-%d")
+        rto = rto.strftime("%X-%m-%d")
+        params = {from: rfrom, to: rto, current_user: self, selected_user: self}
+        report = Report::Pivot.new(params)
+        result = report.run
+        entries = result[:entries]
+        entries.each { |e| total += r.rate * e['total_time']/3600 }
+      end
+    end
+
+    total
+  end
+
 end

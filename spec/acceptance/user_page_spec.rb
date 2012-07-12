@@ -35,6 +35,21 @@ feature "User Page", %q{
 
         User.first.employee_hourly_rates.last.rate.should eql(5000)
       end
+
+  scenario "See user's earnings" do
+    click_link "My profile"
+    page.should have_content "Money earned: 0.00PLN"
+  end
+
+  scenario "See current hourly rate" do
+    u = User.first
+    u.set_employee_hourly_rate 4000, Date.today
+    u.save!
+
+    click_link "My profile"
+    page.should have_content "Current hourly rate: 40.00PLN"
+  end
+
     end
   end
 end
