@@ -59,11 +59,19 @@ end
 def fake_pivotal_api
     FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects",
                          body: File.read(File.join(Rails.root, "spec", "fixtures", "projects.xml")))
+
     FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects/1/iterations",
                          body: File.read(File.join(Rails.root, "spec", "fixtures", "iterations1.xml")))
     FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects/2/iterations",
                          body: File.read(File.join(Rails.root, "spec", "fixtures", "iterations2.xml")))
     FakeWeb.register_uri(:get, "https://www.pivotaltracker.com/services/v3/projects/3/iterations",
                          body: File.read(File.join(Rails.root, "spec", "fixtures", "iterations3.xml")))
+
+    FakeWeb.register_uri(:get, %r[\Ahttps:\/\/www.pivotaltracker.com\/services\/v3\/projects\/1\/stories.*],
+                         body: File.read(File.join(Rails.root, "spec", "fixtures", "stories1.xml")))
+    FakeWeb.register_uri(:get, %r[\Ahttps:\/\/www.pivotaltracker.com\/services\/v3\/projects\/2\/stories.*],
+                         body: File.read(File.join(Rails.root, "spec", "fixtures", "stories2.xml")))
+    FakeWeb.register_uri(:get, %r[\Ahttps:\/\/www.pivotaltracker.com\/services\/v3\/projects\/3\/stories.*],
+                         body: File.read(File.join(Rails.root, "spec", "fixtures", "stories3.xml")))
 end
 
