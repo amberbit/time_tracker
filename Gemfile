@@ -8,6 +8,8 @@ gem 'devise', '1.1.3'
 gem 'hpricot'
 gem 'will_paginate'
 gem 'sass'
+gem 'jquery-rails', '>= 1.0.12'
+gem 'rails3-jquery-autocomplete'
 
 group :development do
   gem 'capistrano'

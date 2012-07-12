@@ -6,6 +6,7 @@ class Project
   field :pivotal_tracker_project_id, :type => Integer
   field :owner_emails, :type => Array, :default => []
   field :budget, :type => Integer, :default => 0
+  field :our_owner_emails, :type => Array, :default => []
 
   references_many :tasks
   references_many :time_log_entries
@@ -31,7 +32,7 @@ class Project
   end
 
   def owned_by?(user)
-    user.admin? || owner_emails.include?(user.email)
+    user.admin? || owner_emails.include?(user.email) || our_owner_emails.include?(user.email)
   end
 
   def total_money_spent current_user
@@ -53,4 +54,17 @@ class Project
     total
   end
 
+  def add_owner email
+    if !our_owner_emails.include?(email) && !User.where(email: email).blank?
+      our_owner_emails << email
+      save!
+    else
+      false
+    end
+  end
+
+  def remove_owner email
+    our_owner_emails.delete(URI.unescape(email))
+    save!
+  end
 end

@@ -1,4 +1,5 @@
 class UsersController < AuthenticatedController
+  autocomplete :user, :email, :full => true
 
   def index
     @users = User.all

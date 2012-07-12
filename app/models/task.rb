@@ -53,6 +53,7 @@ class Task
       if pivotal_project[:owner_emails].present?
         our_project.owner_emails = pivotal_project[:owner_emails]
       end
+      our_project.our_owner_emails = our_project.owner_emails.clone if our_project.our_owner_emails.empty?
       our_project.save!
 
       some_user.projects << our_project

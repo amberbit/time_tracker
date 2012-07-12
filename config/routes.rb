@@ -7,6 +7,10 @@ TimeTracker::Application.routes.draw do
     match 'get_total_earnings(/:from(/:to))', action: 'get_total_earnings', as: 'get_total_earnings'
   end
 
+  resources :users do
+    get :autocomplete_user_email, :on => :collection
+  end
+
   resources :tasks do
     collection do
       get :download
@@ -25,6 +29,10 @@ TimeTracker::Application.routes.draw do
     put '/budget', action: 'set_budget'
     put 'client_rate/:user_id', action: 'set_client_hourly_rate', as: 'set_client_hourly_rate'
   end
+
+  post '/add_owner', :to => 'projects#add_owner'
+  match '/projects/:project_id/owners(/:email)', :to => 'projects#remove_owner',
+                                        :as => :remove_owner, :method => :delete
 
   resources :time_log_entries
   resources :reports, only: :index do
