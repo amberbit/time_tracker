@@ -4,7 +4,7 @@
   %legend
     Edit
     = resource_name.to_s.humanize
-  - form_for(resource_name, resource, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+  - form_for(resource, as: resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
     = f.error_messages
     %p
       = f.label :email
@@ -37,12 +37,13 @@
   %legend Earnings
   = form_tag user_get_total_earnings_path(current_user), class: 'form-inline' do |f|
     = label_tag :from
-    = text_field_tag :from, Date.today.at_beginning_of_month, class: 'input-small'
+    = text_field_tag :from, session[:total_earnings_from] || Date.today.at_beginning_of_month, class: 'input-small'
     = label_tag :to
-    = text_field_tag :to, Date.today, class: 'input-small'
+    = text_field_tag :to, session[:total_earnings_to] || Date.today, class: 'input-small'
     = submit_tag 'Get', id: 'get-earnings-button', class: 'btn btn-primary'
   %p
-    = "Money earned: #{currency_format session[:total_earnings], 'PLN'}"
+    -if session[:total_earnings]
+      = "Money earned: #{currency_format session[:total_earnings], 'PLN'}"
   %p
     = "(Current hourly rate: #{currency_format current_user.current_employee_hourly_rate.rate, 'PLN'})"
 

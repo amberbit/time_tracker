@@ -161,7 +161,6 @@ $(".report-year, .report-month").live( "change", function() {
   from.val(from_str);
 });
 
-
 function show_accepted_changed() {
   "use strict";
   var checked = $('#show_accepted').is(':checked');
