@@ -1,4 +1,7 @@
-class UsersController < AuthenticatedController
+class UsersController < AuthorizedController
+
+  before_filter :is_admin?, except: [:get_total_earnings]
+
   autocomplete :user, :email, :full => true
 
   def index

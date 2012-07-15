@@ -1,4 +1,7 @@
-class ProjectsController < AuthenticatedController
+class ProjectsController < AuthorizedController
+
+  before_filter :owns_any_projects?, only: [:index]
+  before_filter :owns_current_project?, except: [:index]
 
   def index
     @projects = Project.all.reject { |p| !p.owned_by?(current_user) && !p.users.include?(current_user) }

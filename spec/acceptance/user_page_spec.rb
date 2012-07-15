@@ -14,13 +14,35 @@ feature "User Page", %q{
 
   describe "Employee hourly rate" do
 
+    describe "Regular user " do
+
+      scenario "can't see users page" do
+        page.should_not have_content "Users"
+      end
+
+      scenario "can see his own earnings" do
+        click_link "My profile"
+        click_button 'Get'
+        page.should have_content "Money earned: 0.00PLN"
+      end
+
+      scenario "can see his current hourly rate" do
+        u = User.first
+        u.set_employee_hourly_rate 4000, Date.today
+        u.save!
+
+        click_link "My profile"
+        page.should have_content "Current hourly rate: 40.00PLN"
+      end
+    end
+
     describe "Admin " do
       before :each do
         u = User.first
         u.admin = true
         u.save!
 
-        click_link 'Projects'
+        visit tasks_list
         click_link 'Users'
       end
 
@@ -35,21 +57,6 @@ feature "User Page", %q{
 
         User.first.employee_hourly_rates.last.rate.should eql(5000)
       end
-
-  scenario "See user's earnings" do
-    click_link "My profile"
-    page.should have_content "Money earned: 0.00PLN"
-  end
-
-  scenario "See current hourly rate" do
-    u = User.first
-    u.set_employee_hourly_rate 4000, Date.today
-    u.save!
-
-    click_link "My profile"
-    page.should have_content "Current hourly rate: 40.00PLN"
-  end
-
     end
   end
 end
