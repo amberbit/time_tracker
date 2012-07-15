@@ -29,6 +29,14 @@ class ProjectsController < AuthorizedController
     redirect_to :back
   end
 
+  def set_currency
+    project = Project.find(params[:project_id])
+    project.currency = params[:currency] unless params[:currency].blank?
+    project.save!
+
+    redirect_to :back
+  end
+
   def add_owner
     project = Project.find(params[:project_id])
     if project.add_owner params[:email]

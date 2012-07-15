@@ -109,6 +109,18 @@ feature "Project Page", %q{
 
         Project.first.budget.should eq(10000)
       end
+
+      scenario "can set currency" do
+        click_link "Projects"
+        click_link "##{Project.first.pivotal_tracker_project_id}"
+
+        select 'EUR', from: 'currency'
+        within('tr.currency') do
+          click_button 'Set'
+        end
+
+        Project.first.currency.should eq('EUR')
+      end
     end
   end
 

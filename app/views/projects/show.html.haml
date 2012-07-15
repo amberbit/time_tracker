@@ -1,3 +1,4 @@
+- currency = @current_project.currency
 #project
   %h1= "#{@current_project.name} - project page"
 
@@ -29,7 +30,7 @@
           %tr
             %th Email
             -if @current_project.owned_by?(current_user) || @current_project.users.include?(current_user)
-              %th Client hourly rate (PLN)
+              %th= "Client hourly rate (#{currency})"
         %tbody
           - @current_project.users.each do |u|
             %tr
@@ -51,14 +52,20 @@
           -total_money = @current_project.total_money_spent(current_user)
           -current_budget = @current_project.budget || 0
           %tbody
+            %tr.currency
+              %td Currency
+              %td
+                = form_tag project_currency_path(@current_project), method: :put, class: 'form-inline' do
+                  = select_tag :currency, currency_options, id: 'currency_options', :class => 'input-small'
+                  = submit_tag 'Set', class: 'btn btn-primary'
             %tr.budget
-              %td Budget (PLN)
+              %td= "Budget (#{currency})"
               %td
                 = form_tag project_budget_path(@current_project), method: :put, class: 'form-inline' do
                   = text_field_tag :budget, currency_format(current_budget), :class => 'input-small'
                   = submit_tag 'Set', class: 'btn btn-primary'
             %tr
-              %td Money spent (PLN)
+              %td= "Money spent (#{currency})"
               %td#total-money= currency_format(total_money)
 
         -if current_budget.to_f > 0

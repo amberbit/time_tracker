@@ -7,6 +7,7 @@ class Project
   field :owner_emails, :type => Array, :default => []
   field :budget, :type => Integer, :default => 0
   field :our_owner_emails, :type => Array, :default => []
+  field :currency, :default => 'PLN'
 
   references_many :tasks
   references_many :time_log_entries

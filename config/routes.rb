@@ -27,6 +27,7 @@ TimeTracker::Application.routes.draw do
     resources :time_log_entries
 
     put '/budget', action: 'set_budget'
+    put '/currency', action: 'set_currency'
     put 'client_rate/:user_id', action: 'set_client_hourly_rate', as: 'set_client_hourly_rate'
   end
 
