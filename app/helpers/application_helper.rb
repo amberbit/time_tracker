@@ -17,4 +17,9 @@ module ApplicationHelper
     v = "%.2f" % (value.to_f/100)
     "#{v}#{currency}"
   end
+  
+  def signup_available
+    !TimeTracker::Application.config.signup_locked
+  end
+  
 end

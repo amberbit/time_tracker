@@ -1,7 +1,8 @@
 TimeTracker::Application.routes.draw do
   get "welcome/index"
 
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => "registrations" }
+  
   resources :users, only: :index do
     put 'set_employee_hourly_rate', action: 'set_employee_hourly_rate'
     match 'get_total_earnings(/:from(/:to))', action: 'get_total_earnings', as: 'get_total_earnings'
