@@ -9,6 +9,9 @@ class User
 
   field :pivotal_tracker_api_token
   field :admin, type: Boolean, default: false
+  field :client_hourly_rate_ids, type: Array, default: []
+  field :employee_hourly_rate_ids, type: Array, default: []
+
   attr_protected :admin
 
   validates_presence_of :pivotal_tracker_api_token
@@ -19,6 +22,7 @@ class User
                                      class_name: 'HourlyRate', :default => []
   references_many :employee_hourly_rates, stored_as: :array, inverse_of: :user,
                                      class_name: 'HourlyRate', :default => []
+
 
   alias_method :name, :email
 
