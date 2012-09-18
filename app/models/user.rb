@@ -52,12 +52,14 @@ class User
   end
 
   def project_client_hourly_rates project
+    self.client_hourly_rate_ids ||= []
     HourlyRate.all(conditions: {
                     id: { '$in' => self.client_hourly_rates.map { |r| r.id } },
                     project_id: project.id }).to_a
   end
 
   def current_project_client_hourly_rate project
+    self.client_hourly_rate_ids ||= []
     h = HourlyRate.all(conditions: {
                     id: { '$in' => self.client_hourly_rates.map { |r| r.id } },
                     project_id: project.id }).desc(:from).limit(1)[0]
