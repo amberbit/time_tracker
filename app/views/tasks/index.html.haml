@@ -32,7 +32,9 @@
         = link_to([:stop_work, project, task], class: "icon-stop", title: "Stop work") { content_tag(:span, "Stop work") }
       - else
         = link_to([:start_work, project, task], class: "icon-start", title: "Start work") { content_tag(:span, "Start work") }
+      %span.show-task-entries{title: "Show time log entries for this task", rel: "/time_log_entries/user_task_entries:#{task.id}:#{current_user.id}"}
       %span.iteration{title: "Iteration #{task.iteration_number}"}
         = task.iteration_number
       %span.project{title: "Project: #{project.name}", :style => "background-color: #{color_from_number(project.pivotal_tracker_project_id)}"}
         = link_to project.name, [project, :tasks]
+    .task-log-entries{ id: "task-log-entries-#{task.id}" }

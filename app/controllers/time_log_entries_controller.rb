@@ -41,6 +41,16 @@ class TimeLogEntriesController < AuthenticatedController
     end
   end
 
+  def user_task_entries
+    user = User.find(params[:user_id])
+    task = Task.find(params[:task_id])
+    @entries = user.time_log_entries.where( _id: { '$in' => task.time_log_entries.to_a.map { |t| t._id } }).desc(:created_at).to_a
+
+    respond_to do |format|
+      format.json { render json: @entries }
+    end
+  end
+
   private
 
   def find_project
