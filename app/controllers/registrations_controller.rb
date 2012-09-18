@@ -24,12 +24,13 @@ class RegistrationsController < Devise::RegistrationsController
       @user = User.create(params[:user])
       @user.admin = params[:user][:admin] == "1"
       @user.mark_as_confirmed!
-      if @user.save!
+      if @user.save
+        @user.confirm!
         flash[:info] = 'User created'
         redirect_to :users
       else
         clean_up_passwords @user
-        render
+        render :admin_new_user
       end
     else
       render text: "Access denied", status: 403
