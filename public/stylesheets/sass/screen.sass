@@ -87,7 +87,7 @@ footer
           margin: 0
           padding: 0 0 0 8px
     .dropdown-toggle
-      min-width: 430px
+      min-width: 363px
       .caret
         margin-right: 5px
       &.current
@@ -108,6 +108,7 @@ footer
   background-color: rgba(255, 255, 255, 0.7)
   @include round-corners(5px, 5px, 5px, 5px)
   border: 1px solid #ddd
+  z-index: 999
   &:hover
     background-color: $blue
     border-color: darken($blue, 50%)
@@ -115,6 +116,34 @@ footer
     text-shadow: 1px 1px 0 darken($blue, 6%)
     a, a:visited, a:hover
       color: inherit
+
+.task-log-entries
+  display: none
+  background-color: rgba(255, 255, 255, 0.25)
+  @include round-corners(0px, 0px, 10px, 10px)
+  margin: -10px 10px 10px 10px
+  padding: 10px 0 5px 0
+  list-style: none
+  border: 1px solid #ddd
+  border-top: none
+  font-size: 12px
+  color: #555
+  @include box-shadow(0px 2px 2px rgba(0, 0, 0, 0.2))
+  ul
+    list-style: none
+    margin-right: 20px
+    li
+      padding: 5px 0
+      border-bottom: 1px solid #e7e7e7
+      .time
+        display: block
+        float: left
+        width: 100px
+        font-size: 16px
+
+.accepted
+  display: none
+  background-color: rgba(234, 255, 234, 0.7)
 
 #content
   font-size: 12px
@@ -128,7 +157,7 @@ footer
       &:hover
         span.iteration, span.project
           @include box-shadow(2px 1px 3px #222)
-      .icon-start, .icon-stop
+      .icon-start, .icon-stop, .show-task-entries
         float: right
       span.task_name
         width: 750px
@@ -148,7 +177,7 @@ footer
         @include vertical-gradient($dark_blue, $blue)
       span.project
         position: absolute
-        right: 50px
+        right: 66px
         top: 4px
         a, a:visited, a:hover
           color: $blue
@@ -178,7 +207,12 @@ footer
   &:hover
     opacity: 0.8
 
-#report
+.show-task-entries
+  @include icon("/images/icons/arrow_down_blue.png")
+  &:hover
+    opacity: 0.8
+
+#report, #project
   h1
     margin: 0 0 10px 0
     font-size: 16px
@@ -212,3 +246,6 @@ footer
     tfoot
       td
         border-top: 1px solid black
+
+.progress-value
+  text-shadow: -1px 0 #555, 0 1px #555, 1px 0 #555, 0 -1px #555

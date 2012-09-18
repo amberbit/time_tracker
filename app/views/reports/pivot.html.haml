@@ -5,6 +5,12 @@
     = form_tag nil, method: :get do
       %fieldset.well
         %legend Configuration
+        = label_tag :month
+        = select_tag :month, month_options, class: 'report-month'
+        %br/
+        = label_tag :year
+        = select_tag :year, year_options, class: 'report-year'
+        %br/
         = label_tag :from
         = text_field_tag :from, @from
         %br/
@@ -17,7 +23,10 @@
       %fieldset.well
         %legend Filter
         = label_tag :project_id
-        = select_tag :project_id, project_options
+        = select_tag :project_id, project_options, :id => 'time_log_project', :rel => '/tasks/tasks_by_project'
+        %br/
+        = label_tag :task_id
+        = select_tag :task_id, nil, :id => 'time_log_task'
         %br/
         = label_tag :user_id
         = select_tag :user_id, user_options
@@ -25,6 +34,11 @@
         = label_tag :label
         = text_field_tag :label, params[:label]
         %br/
+        = label_tag :story_type
+        - story_types.each do |value|
+          %input{:type=>"checkbox", :id => "#{value}_checkbox", :name=>"story_type[]", :value=>"#{value}",
+            :checked=>(@story_type.blank? ? true : @story_type.include?(value) )}
+          =value
 
       = submit_tag 'Show', class: 'btn btn-primary'
 

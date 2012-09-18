@@ -2,6 +2,14 @@ TimeTracker::Application.routes.draw do
   get "welcome/index"
 
   devise_for :users
+  resources :users, only: :index do
+    put 'set_employee_hourly_rate', action: 'set_employee_hourly_rate'
+    match 'get_total_earnings(/:from(/:to))', action: 'get_total_earnings', as: 'get_total_earnings'
+  end
+
+  resources :users do
+    get :autocomplete_user_email, :on => :collection
+  end
 
   resources :tasks do
     collection do
@@ -17,7 +25,14 @@ TimeTracker::Application.routes.draw do
       end
     end
     resources :time_log_entries
+
+    put '/budget', action: 'set_budget'
+    put 'client_rate/:user_id', action: 'set_client_hourly_rate', as: 'set_client_hourly_rate'
   end
+
+  post '/add_owner', :to => 'projects#add_owner'
+  match '/projects/:project_id/owners(/:email)', :to => 'projects#remove_owner',
+                                        :as => :remove_owner, :method => :delete
 
   resources :time_log_entries
   resources :reports, only: :index do
@@ -25,6 +40,10 @@ TimeTracker::Application.routes.draw do
       get :pivot
     end
   end
+
+  post 'tasks/tasks_by_project'
+  post 'time_log_entries/user_task_entries'
+  post '/pivotal_web_hook', :to => "webHooks#pivotal_activity_web_hook"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

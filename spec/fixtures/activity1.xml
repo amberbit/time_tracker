@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity>
+  <id type="integer">206058927</id>
+  <version type="integer">10</version>
+  <event_type>story_create</event_type>
+  <occurred_at type="datetime">2012/06/08 14:19:21 UTC</occurred_at>
+  <author>Jenny Doe</author>
+  <project_id type="integer">2</project_id>
+  <description>Jenny Doe added &quot;d&quot;</description>
+  <stories type="array">
+    <story>
+      <id type="integer">30912545</id>
+      <url>http://www.pivotaltracker.com/services/v3/projects/569617/stories/30912545</url> 
+      <name>Conquer the Universe!</name>
+      <story_type>feature</story_type>
+      <current_state>unscheduled</current_state>
+      <requested_by>Jenny Doe</requested_by>
+    </story>
+  </stories>
+</activity>

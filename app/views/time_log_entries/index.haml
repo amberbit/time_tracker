@@ -1,8 +1,9 @@
 %h2 Time log entries
 
 = form_tag time_log_entries_path, method: :get, class: 'form-inline' do
-  = select_tag :project_id, project_options
-  = select_tag :user_id, user_options
+  = select_tag :project_id, project_options, :id => 'time_log_project', :rel => '/tasks/tasks_by_project'
+  = select_tag :task_id, nil, :id => 'time_log_task'
+  = select_tag :user_id, user_options, class: 'input-medium'
   = text_field_tag :from, @from, class: 'input-small'
   \-
   = text_field_tag :to, @to, class: 'input-small'

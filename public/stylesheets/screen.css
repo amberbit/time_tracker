@@ -3219,7 +3219,7 @@ footer {
       margin: 0;
       padding: 0 0 0 8px; }
   .navbar .nav .dropdown-toggle {
-    min-width: 430px; }
+    min-width: 363px; }
     .navbar .nav .dropdown-toggle .caret {
       margin-right: 5px; }
     .navbar .nav .dropdown-toggle.current {
@@ -3241,7 +3241,8 @@ footer {
   border-radius: 5px 5px 5px 5px;
   behavior: url(/stylesheets/PIE.htc);
   position: relative;
-  border: 1px solid #dddddd; }
+  border: 1px solid #dddddd;
+  z-index: 999; }
   .task:hover, .time-log-entry:hover {
     background-color: #0d4d8d;
     border-color: black;
@@ -3249,6 +3250,42 @@ footer {
     text-shadow: 1px 1px 0 #0a3e71; }
     .task:hover a, .task:hover a:visited, .task:hover a:hover, .time-log-entry:hover a, .time-log-entry:hover a:visited, .time-log-entry:hover a:hover {
       color: inherit; }
+
+.task-log-entries {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.25);
+  -webkit-border-radius: 0px 0px 10px 10px;
+  -moz-border-radius: 0px 0px 10px 10px;
+  -o-border-radius: 0px 0px 10px 10px;
+  -khtml-border-radius: 0px 0px 10px 10px;
+  border-radius: 0px 0px 10px 10px;
+  behavior: url(/stylesheets/PIE.htc);
+  position: relative;
+  margin: -10px 10px 10px 10px;
+  padding: 10px 0 5px 0;
+  list-style: none;
+  border: 1px solid #dddddd;
+  border-top: none;
+  font-size: 12px;
+  color: #555555;
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2); }
+  .task-log-entries ul {
+    list-style: none;
+    margin-right: 20px; }
+    .task-log-entries ul li {
+      padding: 5px 0;
+      border-bottom: 1px solid #e7e7e7; }
+      .task-log-entries ul li .time {
+        display: block;
+        float: left;
+        width: 100px;
+        font-size: 16px; }
+
+.accepted {
+  display: none;
+  background-color: rgba(234, 255, 234, 0.7); }
 
 #content {
   font-size: 12px;
@@ -3262,7 +3299,7 @@ footer {
       -webkit-box-shadow: 2px 1px 3px #222222;
       -moz-box-shadow: 2px 1px 3px #222222;
       box-shadow: 2px 1px 3px #222222; }
-    #content ul.tasks li .icon-start, #content ul.tasks li .icon-stop {
+    #content ul.tasks li .icon-start, #content ul.tasks li .icon-stop, #content ul.tasks li .show-task-entries {
       float: right; }
     #content ul.tasks li span.task_name {
       width: 750px;
@@ -3291,7 +3328,7 @@ footer {
       background: -webkit-gradient(linear, 0% 0%, 0% 100%, to(#0d4d8d), from(#0a0a2a)); }
     #content ul.tasks li span.project {
       position: absolute;
-      right: 50px;
+      right: 66px;
       top: 4px; }
       #content ul.tasks li span.project a, #content ul.tasks li span.project a:visited, #content ul.tasks li span.project a:hover {
         color: #0d4d8d;
@@ -3333,31 +3370,46 @@ footer {
   .icon-stop:hover {
     opacity: 0.8; }
 
-#report h1 {
+.show-task-entries {
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("/images/icons/arrow_down_blue.png"); }
+  .show-task-entries span {
+    display: none; }
+  .show-task-entries:hover {
+    opacity: 0.8; }
+
+#report h1, #project h1 {
   margin: 0 0 10px 0;
   font-size: 16px; }
-#report form input[type=text] {
+#report form input[type=text], #project form input[type=text] {
   width: 90px; }
-#report form label {
+#report form label, #project form label {
   float: left;
   width: 70px;
   margin-right: 0.5em;
   padding-top: 0.2em;
   text-align: right;
   font-weight: bold; }
-#report fieldset {
+#report fieldset, #project fieldset {
   padding: 4px;
   margin: 4px;
   width: 400px; }
-  #report fieldset legend {
+  #report fieldset legend, #project fieldset legend {
     padding: 3px;
     position: relative;
     top: -6px; }
-#report #entries {
+#report #entries, #project #entries {
   border-collapse: collapse; }
-  #report #entries td {
+  #report #entries td, #project #entries td {
     padding: 3px 4px; }
-  #report #entries tbody td.time {
+  #report #entries tbody td.time, #project #entries tbody td.time {
     text-align: right; }
-  #report #entries tfoot td {
+  #report #entries tfoot td, #project #entries tfoot td {
     border-top: 1px solid black; }
+
+.progress-value {
+  text-shadow: -1px 0 #555555, 0 1px #555555, 1px 0 #555555, 0 -1px #555555; }
