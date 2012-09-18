@@ -27,4 +27,5 @@ group :development, :test do
   gem 'fakeweb', '1.3.0', require: false
   gem 'timecop'
   gem 'wirble'
+  gem 'factory_girl_rails', '1.0'
 end

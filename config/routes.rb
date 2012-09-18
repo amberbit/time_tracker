@@ -2,6 +2,10 @@ TimeTracker::Application.routes.draw do
   get "welcome/index"
 
   devise_for :users, :controllers => { :registrations => "registrations" }
+  devise_scope :user do
+    get 'users/create_user' => 'registrations#admin_new_user'
+    post 'users/create_user' => 'registrations#admin_create_user'
+  end
   
   resources :users, only: :index do
     put 'set_employee_hourly_rate', action: 'set_employee_hourly_rate'

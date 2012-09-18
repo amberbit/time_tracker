@@ -126,5 +126,9 @@ class User
     total
   end
   
+  def mark_as_confirmed!
+    self.confirmation_token = nil
+    self.confirmed_at = Time.now
+  end
 
 end
