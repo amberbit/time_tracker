@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include ApplicationHelper
   
   protect_from_forgery
   before_filter :worked_today, :find_current_task, :find_latest_tasks

@@ -11,6 +11,11 @@
           = link_to "##{p.pivotal_tracker_project_id}", project_path(p)
           = p.name
         %td
-          %strong Co-workers:
-          = (p.users - [current_user]).collect{|u| u.email }.join(', ')
+          - if is_admin?
+            %strong Workers:
+            = p.users.collect{|u| u.email }.join(', ')
+          - else
+            %strong Co-workers:
+            = (p.users - [current_user]).collect{|u| u.email }.join(', ')
+          
           

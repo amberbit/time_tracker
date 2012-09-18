@@ -22,4 +22,7 @@ module ApplicationHelper
     !TimeTracker::Application.config.signup_locked
   end
   
+  def is_admin?
+    current_user && current_user.admin
+  end
 end
