@@ -55,7 +55,7 @@ class Task
         unless owner_emails.nil?
           our_project.owner_emails = owner_emails
         end
-        our_project.our_owner_emails = our_project.owner_emails.clone if our_project.our_owner_emails.try(:empty?)
+        our_project.our_owner_emails = our_project.owner_emails.clone unless our_project.our_owner_emails.try(:present?)
 
         iteration_tag = p.search("current_iteration_number")[0]
         iteration = iteration_tag ? iteration_tag.inner_text.to_i : nil
