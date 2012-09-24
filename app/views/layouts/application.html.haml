@@ -13,7 +13,7 @@
           - if current_user
             %ul.nav
               - if current_user.admin
-                %li{class: controller_name == 'users' && action_name == 'index' && 'active'}=link_to t('header.users'), users_path
+                %li{class: controller_name == 'admin/users' && action_name == 'index' && 'active'}=link_to t('header.users'), admin_users_path
               %li{class: controller_name == 'projects' && 'active'}=link_to t('header.projects'), projects_path
               %li{class: controller_name == 'tasks' && 'active'}=link_to t('header.tasks'), root_path
               %li{class: controller_name == 'time_log_entries' && 'active'}=link_to t('header.logged_time'), [:time_log_entries]

@@ -1,10 +1,6 @@
 class UsersController < AuthenticatedController
   autocomplete :user, :email, :full => true
 
-  def index
-    @users = User.all
-  end
-
   def set_employee_hourly_rate
     rate = (params[:rate].to_f*100).to_i
     user = User.find(params[:user_id])
