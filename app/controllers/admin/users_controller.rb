@@ -33,13 +33,24 @@ class Admin::UsersController < AuthenticatedController
   # PUT admin/users/[:id]
   def update
     @user = User.find(params[:id])
-
+    params[:user][:password] = params[:user][:password_confirmation] = nil if params[:user][:password].blank?
+    params[:user][:encrypted_password] = @user.encrypted_password unless params[:user][:password].nil?
+    params[:user][:admin] = params[:user][:admin] == '1'
+    params[:user][:confirmed_at] = params[:confirm] == '1' ? Time.now : nil
+    if @user.update_attributes!(params[:user])
+      flash[:info] = 'User modified'
+      redirect_to :admin_users
+    else
+      clean_up_passwords @user
+      render :edit_admin_user
+    end
   end
   
   # DELETE admin/users/[:id]
   def destroy
-    @user = User.find(params["id"])
-    User.delete(@user)
+    user = User.find(params["id"])
+    user.destroy
+    redirect_to :admin_users
   end
   
   private

@@ -1,6 +1,6 @@
 %h2
   Create new user
-= form_for @user, :url => {:action => :create } do |f|   
+= form_for( @user, :url => {:action => :create }, :html => { :method => :post }) do |f|   
   = error_messages_for @user
   %p
     = f.label :email

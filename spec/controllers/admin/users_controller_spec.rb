@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Admin::UsersController do
   include Devise::TestHelpers
+  render_views
   
   describe 'on Admin creating new user' do
     login_admin
@@ -35,6 +36,7 @@ describe Admin::UsersController do
       end
     end
   end
+  
   describe 'on non-Admin trying to create new user' do
     login_user 
     
@@ -48,5 +50,133 @@ describe Admin::UsersController do
       assert_equal count, User.count
       assert_response 403
     end
+  end
+  
+  describe 'on Admin editing existing user' do
+    login_admin
+    
+    describe 'user edit view' do
+      let(:user) { Factory.create :user }
+      it 'should appear' do
+        get :edit, :id => user.id
+        assert_response :success
+        assert_template 'edit'
+      end
+      it 'should be filled with user data' do
+        get :edit, :id => user.id  
+        assert_tag 'input', :attributes => {:id =>'user_email', :value => user.email }
+        assert_tag 'input',:attributes => {:id =>'user_password'}
+        assert_tag 'input',:attributes => {:id =>'user_pivotal_tracker_api_token', :value => user.pivotal_tracker_api_token}
+        assert_tag 'input', :attributes => {:id => 'user_admin', :type=>'checkbox', :checked => user.admin}
+        assert_tag 'input',  :attributes => {:id => 'confirm', :type=>'checkbox', :checked => !user.confirmed_at.nil?}
+      end
+    end
+    
+    describe 'when saved' do
+      let(:user) do
+         u = Factory.attributes_for(:user)
+         user = User.create(u)
+         user.save!
+         user
+      end
+      let(:params) do
+        attrs = Factory.attributes_for :user
+        attrs[:id] = user.id.to_s
+        attrs
+      end
+      
+      it 'should update user email' do
+        params[:email] = 'xxx@xxx.xx'
+        put :update, :id => params[:id], :user => params
+        u = User.find(user.id)
+        assert_equal u.email, user.email
+      end
+      it 'should update user password' do
+        params[:password] = 'trolololo'
+        put :update,:id => params[:id],  :user => params
+        u = User.find(user.id)
+        assert_equal u.encrypted_password, user.encrypted_password
+      end
+      
+      describe 'should not fail' do
+        it 'when password is nil' do
+          params[:password] = nil
+          params[:password_confirmation] = nil
+          assert_nothing_raised do
+            put :update,:id => params[:id], :user => params
+            u = User.find(user.id)
+            assert_equal u.encrypted_password, user.encrypted_password
+          end
+        end
+        it 'when password is empty' do
+          params[:password] = ''
+          params[:password_confirmation] = ''
+          assert_nothing_raised do
+            put :update,:id => params[:id], :user => params
+            u = User.find(user.id)
+            assert_equal u.encrypted_password, user.encrypted_password
+          end
+        end
+        it 'when password confirmation is empty' do
+          params[:password] = nil
+          params[:password_confirmation] = ''
+          assert_nothing_raised do
+            put :update,:id => params[:id], :user => params
+            u = User.find(user.id)
+            assert_equal u.encrypted_password, user.encrypted_password
+          end
+        end
+      end
+      
+      describe 'should update user admin privileges' do
+        it 'when set on false' do
+          params[:admin] = '1'
+          put :update,:id => params[:id], :user => params
+          u = User.find(user.id)
+          assert_equal u.admin, user.admin
+        end
+        it 'when set on true' do
+          params[:admin] = '0'
+          put :update,:id => params[:id], :user => params
+          u = User.find(user.id)
+          assert_equal u.admin, user.admin
+        end
+      end
+      
+      describe 'should update user confirmation' do
+        it 'when set on false' do
+          params[:confirm] = '0'
+          put :update, :id => params[:id], :user => params
+          u = User.find(user.id)
+          assert_equal u.admin, user.admin
+        end
+        it 'when set on true' do
+          params[:confirm] = '1'
+          put :update,:id => params[:id], :user => params
+          u = User.find(user.id)
+          assert_equal u.admin, user.admin
+        end
+      end
+    end    
+  end
+  
+  describe 'on Admin deleting existing user' do
+    login_admin
+    
+    let(:user) do
+       u = Factory.attributes_for(:user)
+       user = User.create(u)
+       user.save!
+       user
+    end
+    
+    it 'should remove user from database' do
+      id = user.id
+      delete :destroy, :id => id.to_s
+      assert_raise (Mongoid::Errors::DocumentNotFound) do
+        assert_nil User.find(id)
+      end
+    end
+    
   end
 end
