@@ -4,8 +4,9 @@ class User
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, :lockable and :timeoutable
+
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable
+       :recoverable, :rememberable, :trackable, :validatable
 
   field :pivotal_tracker_api_token
   field :admin, type: Boolean, default: false
@@ -22,7 +23,6 @@ class User
                                      class_name: 'HourlyRate', :default => []
   references_many :employee_hourly_rates, stored_as: :array, inverse_of: :user,
                                      class_name: 'HourlyRate', :default => []
-
 
   alias_method :name, :email
 
@@ -51,12 +51,14 @@ class User
   end
 
   def project_client_hourly_rates project
+    self.client_hourly_rate_ids ||= []
     HourlyRate.all(conditions: {
                     id: { '$in' => self.client_hourly_rates.map { |r| r.id } },
                     project_id: project.id }).to_a
   end
 
   def current_project_client_hourly_rate project
+    self.client_hourly_rate_ids ||= []
     h = HourlyRate.all(conditions: {
                     id: { '$in' => self.client_hourly_rates.map { |r| r.id } },
                     project_id: project.id }).desc(:from).limit(1)[0]
@@ -123,6 +125,11 @@ class User
     end
 
     total
+  end
+  
+  def mark_as_confirmed!
+    self.confirmation_token = nil
+    self.confirmed_at = Time.now
   end
 
 end

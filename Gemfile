@@ -2,7 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.1'
 gem 'mongoid', '2.0.0.beta.19'
-gem 'bson_ext', '1.1.1'
+gem 'bson_ext', '>= 1.3.0'
+gem 'bson', '1.3'
 gem 'haml', '3.0.22'
 gem 'devise', '1.1.3'
 gem 'hpricot'
@@ -26,4 +27,5 @@ group :development, :test do
   gem 'fakeweb', '1.3.0', require: false
   gem 'timecop'
   gem 'wirble'
+  gem 'factory_girl_rails', '1.0'
 end

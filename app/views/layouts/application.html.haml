@@ -25,7 +25,7 @@
               %li= link_to t('header.sign_out'), destroy_user_session_path
           - else
             %ul.nav.right
-              %li= link_to "Sign up", new_user_registration_path
+              %li= link_to "Sign up", new_user_registration_path, :id=>"signup" if signup_available 
               %li= link_to "Sign in", new_user_session_path
 
           = render 'layouts/task_menu'

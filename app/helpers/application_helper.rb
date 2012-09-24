@@ -23,4 +23,12 @@ module ApplicationHelper
     currency_options = currencies.map { |c| [c, c] }
     options_for_select(currency_options, @current_project.currency || 'PLN')
   end
+
+  def signup_available
+    !TimeTracker::Application.config.signup_locked
+  end
+
+  def is_admin?
+    current_user && current_user.admin
+  end
 end

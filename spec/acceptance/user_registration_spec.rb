@@ -18,7 +18,7 @@ feature "User Registration", %q{
     page.should have_content("You have signed up successfully")
     User.count.should eql(1)
   end
-
+  
   scenario "unsuccessful" do
     visit homepage
     click_link 'Sign up'
