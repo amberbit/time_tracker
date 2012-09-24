@@ -1,4 +1,7 @@
-class ProjectsController < AuthenticatedController
+class ProjectsController < AuthorizedController
+
+  before_filter :owns_any_projects?, only: [:index]
+  before_filter :owns_current_project?, except: [:index]
 
   def index
     @projects = Project.all.reject { |p| !p.owned_by?(current_user) && !p.users.include?(current_user) }
@@ -21,6 +24,14 @@ class ProjectsController < AuthenticatedController
     budget = (params[:budget].to_f*100).to_i
     project = Project.find(params[:project_id])
     project.budget = budget
+    project.save!
+
+    redirect_to :back
+  end
+
+  def set_currency
+    project = Project.find(params[:project_id])
+    project.currency = params[:currency] unless params[:currency].blank?
     project.save!
 
     redirect_to :back

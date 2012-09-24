@@ -1,25 +1,26 @@
+- currency = @current_project.currency
 #project
   %h1= "#{@current_project.name} - project page"
 
-  %section
-    %fieldset.well
-      %legend Owners
-      %table.table.table-striped.table-bordered
-        %thead
-          %tr
-            %th Email
-            %th
-        %tbody
-          -if @current_project.our_owner_emails
-            - @current_project.our_owner_emails.each do |o|
-              %tr
-                %td= o
-                %td= link_to "remove", remove_owner_path(@current_project.id, o), method: :delete
-
-      = form_tag add_owner_path, method: :post, class: 'form-inline' do |f|
-        = autocomplete_field_tag :email, '', autocomplete_user_email_users_path
-        = hidden_field_tag :project_id, @current_project.id
-        = submit_tag 'Add user', class: 'btn btn-primary'
+  - if current_user.admin
+    %section
+      %fieldset.well
+        %legend Owners
+        %table.table.table-striped.table-bordered
+          %thead
+            %tr
+              %th Email
+              %th
+          %tbody
+            -if @current_project.our_owner_emails
+              - @current_project.our_owner_emails.each do |o|
+                %tr
+                  %td= o
+                  %td= link_to "remove", remove_owner_path(@current_project.id, o), method: :delete
+        = form_tag add_owner_path, method: :post, class: 'form-inline' do |f|
+          = autocomplete_field_tag :email, '', autocomplete_user_email_users_path
+          = hidden_field_tag :project_id, @current_project.id
+          = submit_tag 'Add user', class: 'btn btn-primary'
 
   %section
     %fieldset.well
@@ -29,7 +30,7 @@
           %tr
             %th Email
             -if @current_project.owned_by?(current_user) || @current_project.users.include?(current_user)
-              %th Client hourly rate (PLN)
+              %th= "Client hourly rate (#{currency})"
         %tbody
           - @current_project.users.each do |u|
             %tr
@@ -38,7 +39,7 @@
               %td
                 -if @current_project.owned_by?(current_user)
                   = form_tag project_set_client_hourly_rate_path(@current_project, u), method: :put, class: 'form-inline' do
-                    = text_field_tag :rate, currency_format(current_rate), :class => 'input-small'
+                    = text_field_tag :rate, currency_format(current_rate), class: 'input-small'
                     = submit_tag 'Set', class: 'btn btn-primary'
                 -elsif current_user == u
                   = currency_format(current_rate)
@@ -48,17 +49,23 @@
       %fieldset.well
         %legend Project Budget
         %table.table.table-striped.table-bordered
-          -total_money = @current_project.total_money_spent(current_user)
+          -total_money = @current_project.total_money_spent
           -current_budget = @current_project.budget || 0
           %tbody
+            %tr.currency
+              %td Currency
+              %td
+                = form_tag project_currency_path(@current_project), method: :put, class: 'form-inline' do
+                  = select_tag :currency, currency_options, id: 'currency_options', class: 'input-small'
+                  = submit_tag 'Set', class: 'btn btn-primary'
             %tr.budget
-              %td Budget (PLN)
+              %td= "Budget (#{currency})"
               %td
                 = form_tag project_budget_path(@current_project), method: :put, class: 'form-inline' do
-                  = text_field_tag :budget, currency_format(current_budget), :class => 'input-small'
+                  = text_field_tag :budget, currency_format(current_budget), class: 'input-small'
                   = submit_tag 'Set', class: 'btn btn-primary'
             %tr
-              %td Money spent (PLN)
+              %td= "Money spent (#{currency})"
               %td#total-money= currency_format(total_money)
 
         -if current_budget.to_f > 0

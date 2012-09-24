@@ -7,6 +7,7 @@ class Project
   field :owner_emails, :type => Array, :default => []
   field :budget, :type => Integer, :default => 0
   field :our_owner_emails, :type => Array, :default => []
+  field :currency, :default => 'PLN'
 
   references_many :tasks
   references_many :time_log_entries
@@ -35,7 +36,7 @@ class Project
     user.admin? || owner_emails.include?(user.email) || our_owner_emails.include?(user.email)
   end
 
-  def total_money_spent current_user
+  def total_money_spent
     total = 0
     users.each do |u|
       rates = u.project_client_hourly_rates self

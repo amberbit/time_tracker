@@ -39,7 +39,7 @@ class User
   end
 
   def owned_projects
-    admin? ? projects : projects.where(:owner_emails => email)
+    admin? ? projects : projects.where(:our_owner_emails => email)
   end
 
   def not_owned_projects

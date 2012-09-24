@@ -1,4 +1,7 @@
-class UsersController < AuthenticatedController
+class UsersController < AuthorizedController
+
+  before_filter :is_admin?, except: [:get_total_earnings]
+
   autocomplete :user, :email, :full => true
 
   def index
@@ -15,6 +18,8 @@ class UsersController < AuthenticatedController
   def get_total_earnings
     user = User.find(params[:user_id])
     session[:total_earnings] = user.total_earnings Date.parse(params[:from]), Date.parse(params[:to])
+    session[:total_earnings_from] = params[:from]
+    session[:total_earnings_to] = params[:to]
     redirect_to :back
   end
 end

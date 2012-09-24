@@ -16,6 +16,7 @@ describe Report::Helper do
     @project1.users << @current_user
     @project1.users << @other_user
     @project1.owner_emails << @current_user.email
+    @project1.our_owner_emails << @current_user.email
     @project1.save!
     @owner_project = @project1
     @project2 = Project.create! project_attributes

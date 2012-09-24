@@ -35,7 +35,7 @@ describe TimeLogEntry do
     task.time_log_entries.should include(entry)
   end
 
-  it "shoul be nullified when removing associated task" do
+  it "should be nullified when removing associated task" do
     entry = TimeLogEntry.create!(user: @user, project: @project)
     entry.close
     task = Task.create!(task_attributes(user: @user))
