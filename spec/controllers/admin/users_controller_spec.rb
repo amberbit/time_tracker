@@ -87,15 +87,20 @@ describe Admin::UsersController do
       
       it 'should update user email' do
         params[:email] = 'xxx@xxx.xx'
-        put :update, :id => params[:id], :user => params
+        put :update, :id => user.id, :user => params
         u = User.find(user.id)
-        assert_equal u.email, user.email
+        assert_equal u.email, 'xxx@xxx.xx'
       end
       it 'should update user password' do
-        params[:password] = 'trolololo'
-        put :update,:id => params[:id],  :user => params
+        pass = 'trolololo'
+        params[:password] = pass
+        params[:password_confirmation] = pass
+        put :update, :id => user.id, :user => params
         u = User.find(user.id)
-        assert_equal u.encrypted_password, user.encrypted_password
+        assert_not_equal u.encrypted_password, user.encrypted_password
+        user.password = pass
+        sign_in user
+        assert_no_tag 'div',:attributes => {:class =>'alert alert-error'}
       end
       
       describe 'should not fail' do
@@ -130,31 +135,29 @@ describe Admin::UsersController do
       
       describe 'should update user admin privileges' do
         it 'when set on false' do
-          params[:admin] = '1'
-          put :update,:id => params[:id], :user => params
+          params[:admin] = '0'
+          put :update,:id => user.id, :user => params
           u = User.find(user.id)
-          assert_equal u.admin, user.admin
+          assert_equal u.admin, false
         end
         it 'when set on true' do
-          params[:admin] = '0'
-          put :update,:id => params[:id], :user => params
+          params[:admin] = '1'
+          put :update,:id => user.id, :user => params
           u = User.find(user.id)
-          assert_equal u.admin, user.admin
+          assert_equal u.admin, true
         end
       end
       
       describe 'should update user confirmation' do
         it 'when set on false' do
-          params[:confirm] = '0'
-          put :update, :id => params[:id], :user => params
+          put :update, :id => params[:id], :confirm => '0', :user => params
           u = User.find(user.id)
-          assert_equal u.admin, user.admin
+          assert_nil  u.confirmed_at
         end
         it 'when set on true' do
-          params[:confirm] = '1'
-          put :update,:id => params[:id], :user => params
+          put :update,:id => params[:id], :confirm => '1', :user => params
           u = User.find(user.id)
-          assert_equal u.admin, user.admin
+          assert_not_nil u.confirmed_at
         end
       end
     end    
