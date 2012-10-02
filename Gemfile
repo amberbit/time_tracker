@@ -11,6 +11,7 @@ gem 'will_paginate'
 gem 'sass'
 gem 'jquery-rails', '>= 1.0.12'
 gem 'rails3-jquery-autocomplete'
+gem 'whenever'
 
 group :development do
   gem 'capistrano'
