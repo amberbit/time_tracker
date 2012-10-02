@@ -27,7 +27,11 @@
     %li.task{class: current && 'current', class: task.current_state }
       %span.task_name
         = link_to "##{task.pivotal_tracker_story_id}", "http://www.pivotaltracker.com/story/show/#{task.pivotal_tracker_story_id}", target: "_blank"
-        = task.name
+        - if current
+          %strong
+            = task.name
+        -else
+          = task.name
       - if current
         = link_to([:stop_work, project, task], class: "icon-stop", title: "Stop work") { content_tag(:span, "Stop work") }
       - else

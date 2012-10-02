@@ -1,4 +1,5 @@
 class TasksController < AuthenticatedController
+  include TasksHelper
   before_filter :find_project, :except => [:tasks_by_project]
   before_filter :find_task, :only => [:start_work, :stop_work]
 
