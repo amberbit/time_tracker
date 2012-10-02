@@ -1,3 +1,4 @@
+= javascript_include_tag "projects"
 %h1 Projects
 
 %table.table.table-striped.table-bordered
@@ -16,9 +17,11 @@
               
           - p.users.each do |user|
             - if user.now_working_on? p
-              %strong
-                = user.email + ','
+              %strong.working-on{:data => {:placement=>"top", :title => "#{user.name} is currently working on '#{user.current_task.name}'"}}
+                = user.email
+              ,
             - else
-              = user.email + ','
+              = user.email
+              ,
                 
           
