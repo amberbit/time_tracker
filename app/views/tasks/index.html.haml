@@ -21,7 +21,7 @@
     =link_to "refresh list of tasks", download_tasks_path
 
 %ul.tasks
-  - @tasks.each do |task|
+  - sort_by_accepted(@tasks).each do |task|
     - project = projects_hash[task.project_id]
     - current = task.id == current_task_id_cache
     %li.task{class: current && 'current', class: task.current_state }
