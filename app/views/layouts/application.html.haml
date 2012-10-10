@@ -21,10 +21,10 @@
               %li{class: controller_name == 'users' && action_name == 'edit' && 'active'}=link_to t('header.my_profile'), [:edit, :user, :registration]
               %li.divider-vertical
             %ul.nav.right
+              = render 'layouts/task_menu'
               %li= link_to t('header.sign_out'), destroy_user_session_path
           - else
             %ul.nav.right
-              = render 'layouts/task_menu'
               %li= link_to "Sign up", new_user_registration_path, :id=>"signup" if signup_available 
               %li= link_to "Sign in", new_user_session_path
 
