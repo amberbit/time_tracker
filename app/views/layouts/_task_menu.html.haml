@@ -1,18 +1,17 @@
 - if current_user && @latest_tasks.present?
   - task = @current_task ? @current_task : @latest_tasks[0]
-  %ul.nav
-    %li#tasksdropdown.dropdown{title: "##{task.pivotal_tracker_story_id} #{task.name}"}
-      = link_to '#tasksdropdown', class: "dropdown-toggle #{@current_task && 'current'}", 'data-toggle' => 'dropdown' do
-        %b.caret
-        = truncate task.name, length: 60, ommision: '...'
-      %ul.dropdown-menu
-        -@latest_tasks[1..-1].each do |task|
-          %li{title: "##{task.pivotal_tracker_story_id} #{task.name}"}
-            = truncate task.name, length: 70, ommision: '...'
-            = link_to '', [:start_work, task.project, task], class: 'icon-start'
-    %li
-      -if @current_task.present?
-        = link_to '', [:stop_work, @current_task.project, @current_task], class: 'icon-stop'
-      -else
-        = link_to '', [:start_work, @latest_tasks[0].project, @latest_tasks[0]], class: 'icon-start'
-    %li.divider-vertical
+  %li#tasksdropdown.dropdown{title: "##{task.pivotal_tracker_story_id} #{task.name}"}
+    = link_to '#tasksdropdown', class: "dropdown-toggle #{@current_task && 'current'}", 'data-toggle' => 'dropdown' do
+      %b.caret
+      = truncate task.name, length: 60, ommision: '...'
+    %ul.dropdown-menu
+      -@latest_tasks[1..-1].each do |task|
+        %li{title: "##{task.pivotal_tracker_story_id} #{task.name}"}
+          = truncate task.name, length: 70, ommision: '...'
+          = link_to '', [:start_work, task.project, task], class: 'icon-start'
+  %li
+    -if @current_task.present?
+      = link_to '', [:stop_work, @current_task.project, @current_task], class: 'icon-stop'
+    -else
+      = link_to '', [:start_work, @latest_tasks[0].project, @latest_tasks[0]], class: 'icon-start'
+  %li.divider-vertical
