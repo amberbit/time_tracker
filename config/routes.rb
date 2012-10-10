@@ -2,9 +2,9 @@ TimeTracker::Application.routes.draw do
   get "welcome/index"
 
   devise_for :users, :controllers => { :registrations => "registrations" }
-  devise_scope :user do
-    get 'users/create_user' => 'registrations#admin_new_user'
-    post 'users/create_user' => 'registrations#admin_create_user'
+  
+  namespace :admin do
+    resources :users
   end
   
   resources :users, only: :index do

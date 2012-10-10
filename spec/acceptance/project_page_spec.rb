@@ -16,9 +16,8 @@ feature "Project Page", %q{
   end
 
   describe "Regular user " do
-
-    scenario "can't see project page" do
-      page.should_not have_content "Projects"
+    scenario "can also see project page" do
+      page.should have_content "Projects"
     end
   end
 

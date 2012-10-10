@@ -135,6 +135,10 @@ class Task
       task.save!
     end
   end
+  
+  def is_current?
+    time_log_entries.any? { |e|}
+  end
 
   private
 

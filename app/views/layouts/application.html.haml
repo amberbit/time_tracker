@@ -4,7 +4,7 @@
     %title TimeTracker
     = stylesheet_link_tag "reset", "screen", "jquery-ui-1.8.21.custom"
     = javascript_include_tag :defaults
-    = javascript_include_tag "jquery.cookie", "autocomplete-rails", "bootstrap/bootstrap-dropdown"
+    = javascript_include_tag "jquery.cookie", "autocomplete-rails", "bootstrap/bootstrap-dropdown", "bootstrap/bootstrap-tooltip"
     = csrf_meta_tag
   %body
     .navbar.navbar-fixed-top
@@ -13,9 +13,8 @@
           - if current_user
             %ul.nav
               - if current_user.admin
-                %li{class: controller_name == 'users' && action_name == 'index' && 'active'}=link_to t('header.users'), users_path
-              - if current_user.owned_projects.size > 0
-                %li{class: controller_name == 'projects' && 'active'}=link_to t('header.projects'), projects_path
+                %li{class: controller_name == 'admin/users' && action_name == 'index' && 'active'}=link_to t('header.users'), admin_users_path
+              %li{class: controller_name == 'projects' && 'active'}=link_to t('header.projects'), projects_path
               %li{class: controller_name == 'tasks' && 'active'}=link_to t('header.tasks'), root_path
               %li{class: controller_name == 'time_log_entries' && 'active'}=link_to t('header.logged_time'), [:time_log_entries]
               %li{class: controller_name == 'reports' && 'active'}=link_to t('header.reports'), [:pivot_reports]

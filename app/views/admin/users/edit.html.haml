@@ -1,0 +1,48 @@
+%h2
+  = "#{@user.name} profile"
+.well
+  %legend
+    Edit
+    = User.to_s.humanize
+  - form_for(@user, :url => {:action => :update }, :html => { :method => :put }) do |f|
+    = f.error_messages
+    %p
+      = f.label :email
+    %p
+      = f.text_field :email
+    %p
+      = f.label :password, 'Change password'
+      %i
+        (leave blank if you don't want to change it)
+    %p
+      = f.password_field :password
+    %p
+      = f.label :password_confirmation, 'Change password confirm'
+    %p
+      = f.password_field :password_confirmation
+    %p
+      = f.label :pivotal_tracker_api_token, "Pivotal Tracker API token"
+    %p
+      = f.text_field :pivotal_tracker_api_token
+    %p
+      %label.checkbox
+        = f.check_box :admin
+        Admin account
+    %p
+      %label.checkbox
+        = check_box_tag :confirm, '1', !@user.confirmed_at.nil? 
+        Confirm account
+    %p
+      = f.submit "Update", class: 'btn btn-primary'
+
+.well
+  %legend Earnings
+  = form_tag user_get_total_earnings_path(@user), class: 'form-inline' do |f|
+    = label_tag :from
+    = text_field_tag :from, Date.today.at_beginning_of_month, class: 'input-small'
+    = label_tag :to
+    = text_field_tag :to, Date.today, class: 'input-small'
+  %p
+    = "Money earned: #{currency_format session[:total_earnings], 'PLN'}"
+  %p
+    = "(Current hourly rate: #{currency_format @user.current_employee_hourly_rate.rate, 'PLN'})"

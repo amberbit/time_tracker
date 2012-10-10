@@ -90,12 +90,19 @@ feature "Time logging", %q{
       select 'Space Project', from: 'project_id'
       check "show_accepted"
       click_link 'Start work'
-      select 'Story Types Project', from: 'project_id'
 
-      (0..4).each do |n|
-        all("a.icon-start")[n].click
-        all("a.icon-stop")[0].click
+      project = Project.where(name: "Story Types Project").first
+      user = User.where(email: "user@amberbit.com").first
+      project.tasks.each do |task|
+        user.current_time_log_entry.close
+        e = TimeLogEntry.create!(user: user, project: project, task: task)
       end
+      user.current_time_log_entry.close
+      TimeLogEntry.all.each_with_index do |e, i|
+        e.update_attributes number_of_seconds: i+1
+      end
+
+      select 'Story Types Project', from: 'project_id'
     end
 
     scenario "Should only show tasks with selected type" do
@@ -152,13 +159,11 @@ feature "Time logging", %q{
     end
 
     scenario "Should only count time spent on tasks of given types" do
-      all("a.icon-start")[4].click
-      sleep 2
-
       click_link "Reports"
 
       # read total time and convert it to seconds:
       a=[1, 60, 3600]*2
+
       time1 = within("#entries tfoot") { all("td")[1].text.split(/[:\.]/).map{|time| time.to_i*a.pop}.inject(&:+) }
 
       uncheck "feature_checkbox"

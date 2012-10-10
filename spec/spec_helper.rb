@@ -9,6 +9,8 @@ require 'fakeweb'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
+  config.include Devise::TestHelpers, :type => :controller
+  config.extend ControllerMacros, :type => :controller
   # == Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -17,11 +19,9 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
   config.mock_with :rspec
-
   config.before(:each) do
     Mongoid.database.collections.each {|col| begin col.drop; rescue; end }
   end
-
 #  config.after(:each) do
 #    Timecop.return
 #  end

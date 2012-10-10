@@ -1,15 +1,16 @@
 %h1 Users
 
 %p
-  = link_to "Create user", :users_create_user, :class => 'btn'
+  = link_to "Create user", :new_admin_user, :class => 'btn'
 %table.table.table-striped.table-bordered
   %thead
     %tr
       %th Email
       %th Current employee hourly rate
+      %th
   %tbody
     - @users.each do |u|
-      -current_rate = u.current_employee_hourly_rate.rate
+      - current_rate = u.current_employee_hourly_rate.rate
       %tr
         %td= u.name
         %td
@@ -19,3 +20,6 @@
             = label_tag :applies_from
             = text_field_tag :applies_from, Date.today, class: 'input-small', placeholder: 'yyyy-mm-dd'
             = submit_tag 'Set', class: 'btn btn-primary'
+        %td
+          = link_to "Edit", edit_admin_user_path(u), :class => 'btn'
+          = link_to 'Delete', admin_user_path(u), :method => :delete, :confirm=>"You want to delete #{u.name}?", :class => 'btn'

@@ -132,4 +132,13 @@ class User
     self.confirmed_at = Time.now
   end
 
+  def now_working_on? project
+    time_log_entries.any? { |t| t.current && t.project == project }
+  end
+  
+  def current_task
+    entry = current_time_log_entry
+    entry.nil? ? nil : entry.task
+  end
+
 end

@@ -11,6 +11,7 @@ gem 'will_paginate'
 gem 'sass'
 gem 'jquery-rails', '>= 1.0.12'
 gem 'rails3-jquery-autocomplete'
+gem 'whenever'
 
 group :development do
   gem 'capistrano'
@@ -28,4 +29,6 @@ group :development, :test do
   gem 'timecop'
   gem 'wirble'
   gem 'factory_girl_rails', '1.0'
+  gem 'selenium-webdriver', '>= 2.25.0'
+  gem 'pry'
 end
