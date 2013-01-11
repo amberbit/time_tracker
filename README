@@ -7,3 +7,5 @@ User sees a list of task in all his projects. He can click play/stop to start/fi
 Project owners can see detailed reports about all the work done in their projects. Regular users have access only to their own work.
 
 It's tracked here: https://www.pivotaltracker.com/projects/132571
+
+Version: 1.6.1

@@ -5,10 +5,16 @@ class Project
   field :name
   field :pivotal_tracker_project_id, :type => Integer
   field :owner_emails, :type => Array, :default => []
+  field :budget, :type => Integer, :default => 0
+  field :our_owner_emails, :type => Array, :default => []
+  field :currency, :default => 'PLN'
 
   references_many :tasks
   references_many :time_log_entries
   references_many :users, stored_as: :array, inverse_of: :projects
+
+  referenced_in :hourly_rates, stored_as: :array, inverse_of: :project, 
+                            :class_name => 'HourlyRate', :default => []
 
   validates_presence_of :name, :pivotal_tracker_project_id
 
@@ -27,6 +33,32 @@ class Project
   end
 
   def owned_by?(user)
-    owner_emails.include? user.email
+    user.admin? || owner_emails.include?(user.email) || our_owner_emails.include?(user.email)
+  end
+
+  def total_money_spent
+    total = 0
+    users.each do |u|
+      rates = u.project_client_hourly_rates self
+      rates.each do |r|
+        to = r.to.nil? ? Date.today : r.to
+        total += r.rate * worked_time(r.from, to.end_of_day, u.id)/3600
+      end
+    end
+    total
+  end
+
+  def add_owner email
+    unless our_owner_emails.include?(email) || User.where(email: email).blank?
+      our_owner_emails << email
+      save!
+    else
+      false
+    end
+  end
+
+  def remove_owner email
+    our_owner_emails.delete(URI.unescape(email))
+    save!
   end
 end

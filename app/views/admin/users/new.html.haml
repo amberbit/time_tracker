@@ -1,0 +1,26 @@
+%h2
+  Create new user
+= form_for( @user, :url => {:action => :create }, :html => { :method => :post }) do |f|   
+  = error_messages_for @user
+  %p
+    = f.label :email
+  %p
+    = f.text_field :email
+  %p
+    = f.label :password
+  %p
+    = f.password_field :password
+  %p
+    = f.label :pivotal_tracker_api_token, "Pivotal Tracker API token"
+  %p
+    = f.text_field :pivotal_tracker_api_token
+  %p
+    %label.checkbox
+      = f.check_box :admin
+      Admin account
+  %p
+    %label.checkbox
+      = check_box_tag :confirm
+      Confirm account
+  %p
+    = f.submit "Create", id:'create', class: 'btn btn-primary'

@@ -3,3 +3,11 @@
 
 en:
   hello: "Hello world"
+  header:
+    users: "Users"
+    projects: "Projects"
+    tasks: "Tasks"
+    logged_time: "Logged Time"
+    reports: "Reports"
+    my_profile: "My profile"
+    sign_out: "Sign out"
