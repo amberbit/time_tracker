@@ -29,6 +29,6 @@ group :development, :test do
   gem 'timecop'
   gem 'wirble'
   gem 'factory_girl_rails', '1.0'
-  gem 'selenium-webdriver', '>= 2.25.0'
+  gem 'selenium-webdriver'
   gem 'pry'
 end
