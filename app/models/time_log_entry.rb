@@ -17,6 +17,11 @@ class TimeLogEntry
 
   scope :newest, order_by(["created_at", "desc"])
 
+  index :created_at
+  index :user_id
+  index :project_id
+  index [[:user_id, 1], [:project_id, 1], [:created_at, 1]]
+
   def can_edit?(user)
     self.user == user || user.role_in_project(project) == :scrum_master
   end

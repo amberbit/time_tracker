@@ -1,4 +1,4 @@
-- raw_projects = current_user.projects.asc(:name)
+- raw_projects = current_user.projects
 - projects = raw_projects.collect{ |p| [p.name, project_tasks_path(p)] }
 - projects_hash = {}
 - raw_projects.each { |p| projects_hash[p.id] = p }
@@ -21,7 +21,7 @@
     =link_to "refresh list of tasks", download_tasks_path
 
 %ul.tasks
-  - sort_by_accepted(@tasks).each do |task|
+  - @tasks.each do |task|
     - project = projects_hash[task.project_id]
     - current = task.id == current_task_id_cache
     %li.task{class: current && 'current', class: task.current_state }

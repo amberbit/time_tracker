@@ -74,7 +74,7 @@ class Task
     projects.each do |pivotal_project|
       our_project = pivotal_project[:our_project]
       our_project.save!
-      some_user.projects << our_project
+      some_user.projects << our_project unless some_user.projects.include?(our_project)
 
       recent_str = pivotal_project[:recent].strftime("%m/%d/%Y")
       tasks_response = http.get("/services/v3/projects/#{pivotal_project[:id]}/stories"\
